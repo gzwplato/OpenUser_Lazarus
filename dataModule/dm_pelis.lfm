@@ -1,0 +1,29 @@
+object DataModule_Pelis: TDataModule_Pelis
+  OldCreateOrder = False
+  Height = 307
+  HorizontalOffset = 535
+  VerticalOffset = 321
+  Width = 648
+  object SQLConnector: TSQLConnector
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = 'socger'
+    KeepConnection = False
+    Transaction = SQLTransaction
+    UserName = 'root'
+    CharSet = 'utf8'
+    HostName = '127.0.0.1'
+    OnLog = SQLConnectorLog
+    LogEvents = [detCustom, detCommit]
+    ConnectorType = 'MySQL 5.5'
+    left = 104
+    top = 112
+  end
+  object SQLTransaction: TSQLTransaction
+    Active = False
+    Action = caCommit
+    Database = SQLConnector
+    left = 104
+    top = 40
+  end
+end

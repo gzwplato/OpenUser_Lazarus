@@ -1,0 +1,63 @@
+object Form_medios_001: TForm_medios_001
+  Left = 269
+  Height = 136
+  Top = 157
+  Width = 631
+  Caption = 'Ficha'
+  ClientHeight = 136
+  ClientWidth = 631
+  Color = 10921727
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '1.2.6.0'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 37
+    Top = 6
+    Width = 619
+    Align = alTop
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object Label1: TLabel
+    AnchorSideLeft.Control = DBEdit_Descripcion
+    AnchorSideBottom.Control = DBEdit_Descripcion
+    Left = 24
+    Height = 22
+    Top = 48
+    Width = 112
+    Anchors = [akLeft, akBottom]
+    Caption = 'Descripción'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -19
+    Font.Name = 'Arial'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object DBEdit_Descripcion: TDBEdit
+    Left = 24
+    Height = 27
+    Top = 70
+    Width = 583
+    DataField = 'descripcion'
+    DataSource = form_medios_000.DataSource_Medios
+    CharCase = ecNormal
+    MaxLength = 0
+    TabOrder = 1
+  end
+end

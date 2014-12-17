@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="65">
+      <Unit0>
+        <Filename Value="socger_FILMS.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="socger_FILMS"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="201"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="form\peliculas_000.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_peliculas_000"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="peliculas_000"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="514"/>
+        <CursorPos X="66" Y="550"/>
+        <UsageCount Value="201"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="dataModule\dm_pelis.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_Pelis"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_pelis"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="35"/>
+        <CursorPos X="49" Y="54"/>
+        <UsageCount Value="201"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="Unit\utilidades_bd.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_bd"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="475"/>
+        <CursorPos X="61" Y="502"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <WindowIndex Value="0"/>
+          <TopLine Value="488"/>
+          <CursorPos X="1" Y="496"/>
+        </ExtraEditor1>
+        <UsageCount Value="202"/>
+        <Bookmarks Count="1">
+          <Item0 X="53" Y="473" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="Unit\utilidades_usuarios.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_usuarios"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="23" Y="10"/>
+        <UsageCount Value="201"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Unit\utilidades_general.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_general"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="176"/>
+        <CursorPos X="40" Y="181"/>
+        <UsageCount Value="201"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="form\avisos.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Avisos"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="avisos"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="51"/>
+        <CursorPos X="1" Y="74"/>
+        <UsageCount Value="201"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="form\peliculas_001.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_peliculas_001"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="peliculas_001"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="159"/>
+        <CursorPos X="25" Y="178"/>
+        <UsageCount Value="201"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="form\menu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Menu"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="menu"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="120"/>
+        <CursorPos X="97" Y="127"/>
+        <UsageCount Value="204"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="form\estado_registro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Estado_Registro"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="estado_registro"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="399"/>
+        <CursorPos X="80" Y="411"/>
+        <UsageCount Value="204"/>
+        <Bookmarks Count="1">
+          <Item0 X="1" Y="286" ID="5"/>
+        </Bookmarks>
+      </Unit9>
+      <Unit10>
+        <Filename Value="dataModule\dm_medios.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_Medios"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_medios"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="91" Y="16"/>
+        <UsageCount Value="201"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Filtrar_Registros"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="filtrar_registros"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="651"/>
+        <CursorPos X="8" Y="669"/>
+        <UsageCount Value="200"/>
+        <Bookmarks Count="1">
+          <Item0 X="56" Y="490" ID="0"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="Unit\utilidades_rgtro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_rgtro"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="425"/>
+        <CursorPos X="12" Y="410"/>
+        <UsageCount Value="201"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="Unit\utilidades_forms_filtrar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_forms_Filtrar"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="218"/>
+        <CursorPos X="47" Y="236"/>
+        <UsageCount Value="202"/>
+        <Bookmarks Count="1">
+          <Item0 X="34" Y="229" ID="2"/>
+        </Bookmarks>
+      </Unit13>
+      <Unit14>
+        <Filename Value="form\medios_000.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_medios_000"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="medios_000"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="102"/>
+        <CursorPos X="1" Y="132"/>
+        <UsageCount Value="202"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="form\informe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_Informe"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="informe"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="40"/>
+        <CursorPos X="13" Y="52"/>
+        <UsageCount Value="200"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="form\medios_001.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_medios_001"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="medios_001"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="114"/>
+        <CursorPos X="25" Y="129"/>
+        <UsageCount Value="203"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="form\users_000.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_users_000"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_000"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="871"/>
+        <CursorPos X="1" Y="881"/>
+        <UsageCount Value="200"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="dataModule\dm_users.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_Users"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_users"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="43" Y="9"/>
+        <UsageCount Value="200"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="form\users_001.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_users_001"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_001"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="622"/>
+        <CursorPos X="7" Y="624"/>
+        <UsageCount Value="200"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="form\arrancar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Arrancar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="arrancar"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="5"/>
+        <CursorPos X="1" Y="38"/>
+        <UsageCount Value="203"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="form\users_002.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_users_002"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_002"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="246"/>
+        <CursorPos X="47" Y="282"/>
+        <UsageCount Value="200"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="form\users_003.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_users_003"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_003"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="145"/>
+        <CursorPos X="12" Y="172"/>
+        <UsageCount Value="169"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="form\users_004.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_users_004"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_004"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="95"/>
+        <CursorPos X="77" Y="98"/>
+        <UsageCount Value="145"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="dataModule\dm_menus.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_Menus"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_menus"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="132"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="form\menus_000.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_menus_000"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="menus_000"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="110"/>
+        <CursorPos X="105" Y="114"/>
+        <UsageCount Value="132"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="form\menus_001.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_menus_001"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="menus_001"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="117"/>
+        <CursorPos X="25" Y="137"/>
+        <UsageCount Value="129"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="dataModule\dm_historico_registros.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_historico_registros"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_historico_registros"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="104" Y="7"/>
+        <UsageCount Value="64"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="form\historico_registros.pas"/>
+        <ComponentName Value="form_historico_registros"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="historico_registros"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="49" Y="9"/>
+        <UsageCount Value="21"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="form\ordenado_por.pas"/>
+        <ComponentName Value="Form_ordenado_por"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ordenado_por"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="28"/>
+        <CursorPos X="9" Y="53"/>
+        <UsageCount Value="20"/>
+        <Bookmarks Count="1">
+          <Item0 X="1" Y="55" ID="1"/>
+        </Bookmarks>
+      </Unit29>
+      <Unit30>
+        <Filename Value="Unit\utilidades_registro.pas"/>
+        <UnitName Value="utilidades_registro"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="13"/>
+        <UsageCount Value="24"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="C:\lazarus\components\lazutils\fileutil.pas"/>
+        <UnitName Value="FileUtil"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="86"/>
+        <CursorPos X="20" Y="104"/>
+        <UsageCount Value="10"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\fcl-base\src\inifiles.pp"/>
+        <UnitName Value="IniFiles"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3037"/>
+        <CursorPos X="1" Y="3055"/>
+        <UsageCount Value="10"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="C:\lazarus\lcl\include\application.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="966"/>
+        <CursorPos X="1" Y="989"/>
+        <UsageCount Value="10"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="C:\lazarus\lcl\lclclasses.pp"/>
+        <UnitName Value="LCLClasses"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="118"/>
+        <CursorPos X="1" Y="137"/>
+        <UsageCount Value="10"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="C:\lazarus\lcl\include\scrollingwincontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="177"/>
+        <CursorPos X="1" Y="195"/>
+        <UsageCount Value="10"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="C:\lazarus\lcl\include\customcontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="73"/>
+        <CursorPos X="1" Y="91"/>
+        <UsageCount Value="10"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="C:\lazarus\lcl\include\wincontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="6109"/>
+        <CursorPos X="1" Y="6127"/>
+        <UsageCount Value="10"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="C:\lazarus\lcl\include\control.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3975"/>
+        <CursorPos X="1" Y="3994"/>
+        <UsageCount Value="10"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="C:\lazarus\lcl\widgetset\wscontrols.pp"/>
+        <UnitName Value="WSControls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="427"/>
+        <CursorPos X="1" Y="457"/>
+        <UsageCount Value="2"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32memostrings.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="46"/>
+        <CursorPos X="1" Y="64"/>
+        <UsageCount Value="10"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="C:\lazarus\components\lazutils\lazmethodlist.pas"/>
+        <UnitName Value="LazMethodList"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="48"/>
+        <CursorPos X="1" Y="73"/>
+        <UsageCount Value="10"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="C:\lazarus\lcl\textstrings.pas"/>
+        <UnitName Value="TextStrings"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="74"/>
+        <CursorPos X="1" Y="96"/>
+        <UsageCount Value="10"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32proc.pp"/>
+        <UnitName Value="win32proc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1026"/>
+        <CursorPos X="1" Y="1053"/>
+        <UsageCount Value="10"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="C:\lazarus\lcl\lclproc.pas"/>
+        <UnitName Value="LCLProc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2923"/>
+        <CursorPos X="1" Y="2941"/>
+        <UsageCount Value="10"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="C:\lazarus\lcl\lresources.pp"/>
+        <UnitName Value="LResources"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="670"/>
+        <CursorPos X="1" Y="688"/>
+        <UsageCount Value="2"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="C:\lazarus\lcl\include\screen.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="838"/>
+        <CursorPos X="1" Y="856"/>
+        <UsageCount Value="10"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32object.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="470"/>
+        <CursorPos X="1" Y="495"/>
+        <UsageCount Value="10"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32wscontrols.pp"/>
+        <UnitName Value="Win32WSControls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="552"/>
+        <CursorPos X="1" Y="575"/>
+        <UsageCount Value="10"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="C:\lazarus\lcl\include\winapi.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="793"/>
+        <CursorPos X="1" Y="806"/>
+        <UsageCount Value="10"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32winapi.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2842"/>
+        <CursorPos X="1" Y="2855"/>
+        <UsageCount Value="10"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="C:\lazarus\lcl\include\controlcanvas.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="102"/>
+        <CursorPos X="1" Y="121"/>
+        <UsageCount Value="2"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="C:\lazarus\lcl\include\canvas.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1333"/>
+        <CursorPos X="1" Y="1346"/>
+        <UsageCount Value="2"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="C:\lazarus\lcl\include\graphiccontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="85"/>
+        <CursorPos X="1" Y="106"/>
+        <UsageCount Value="2"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="C:\lazarus\components\lazreport\source\lr_class.pas"/>
+        <UnitName Value="LR_Class"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="10080"/>
+        <CursorPos X="61" Y="10099"/>
+        <UsageCount Value="3"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="C:\lazarus\lcl\include\menuitem.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="263"/>
+        <CursorPos X="1" Y="271"/>
+        <UsageCount Value="1"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32callback.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2600"/>
+        <CursorPos X="1" Y="2634"/>
+        <UsageCount Value="1"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32wsforms.pp"/>
+        <UnitName Value="Win32WSForms"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="294"/>
+        <CursorPos X="68" Y="320"/>
+        <UsageCount Value="1"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="C:\lazarus\lcl\buttonpanel.pas"/>
+        <UnitName Value="ButtonPanel"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="390"/>
+        <CursorPos X="1" Y="402"/>
+        <UsageCount Value="10"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="form\ordenado_por.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="C:\lazarus\lcl\include\radiogroup.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="419"/>
+        <CursorPos X="1" Y="438"/>
+        <UsageCount Value="11"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="C:\lazarus\components\ideintf\idewindowintf.pas"/>
+        <UnitName Value="IDEWindowIntf"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1405"/>
+        <CursorPos X="1" Y="1423"/>
+        <UsageCount Value="10"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="C:\lazarus\components\lazutils\winlazfileutils.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="18"/>
+        <CursorPos X="1" Y="36"/>
+        <UsageCount Value="10"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="C:\lazarus\components\lazutils\lazutf8.pas"/>
+        <UnitName Value="LazUTF8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3154"/>
+        <CursorPos X="1" Y="3173"/>
+        <UsageCount Value="10"/>
+      </Unit64>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="Unit\utilidades_bd.pas"/>
+        <Caret Line="473" Column="1" TopLine="454"/>
+      </Position1>
+      <Position2>
+        <Filename Value="Unit\utilidades_bd.pas"/>
+        <Caret Line="475" Column="1" TopLine="454"/>
+      </Position2>
+      <Position3>
+        <Filename Value="Unit\utilidades_bd.pas"/>
+        <Caret Line="478" Column="1" TopLine="454"/>
+      </Position3>
+      <Position4>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="71" Column="35" TopLine="54"/>
+      </Position4>
+      <Position5>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="657" Column="44" TopLine="634"/>
+      </Position5>
+      <Position6>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="659" Column="52" TopLine="634"/>
+      </Position6>
+      <Position7>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="92" Column="26" TopLine="63"/>
+      </Position8>
+      <Position9>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="657" Column="53" TopLine="627"/>
+      </Position9>
+      <Position10>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="659" Column="52" TopLine="629"/>
+      </Position10>
+      <Position11>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="665" Column="38" TopLine="642"/>
+      </Position11>
+      <Position12>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="67" Column="1" TopLine="50"/>
+      </Position12>
+      <Position13>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="664" Column="1" TopLine="630"/>
+      </Position13>
+      <Position14>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="677" Column="1" TopLine="641"/>
+      </Position14>
+      <Position15>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="8" Column="59" TopLine="1"/>
+      </Position15>
+      <Position16>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="656" Column="42" TopLine="638"/>
+      </Position16>
+      <Position17>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="658" Column="52" TopLine="638"/>
+      </Position17>
+      <Position18>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="673" Column="51" TopLine="641"/>
+      </Position18>
+      <Position19>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="91" Column="26" TopLine="74"/>
+      </Position19>
+      <Position20>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="648" Column="40" TopLine="626"/>
+      </Position20>
+      <Position21>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="70" Column="1" TopLine="53"/>
+      </Position21>
+      <Position22>
+        <Filename Value="Unit\utilidades_bd.pas"/>
+        <Caret Line="486" Column="51" TopLine="472"/>
+      </Position22>
+      <Position23>
+        <Filename Value="Unit\utilidades_bd.pas"/>
+        <Caret Line="485" Column="48" TopLine="472"/>
+      </Position23>
+      <Position24>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="648" Column="1" TopLine="632"/>
+      </Position24>
+      <Position25>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position25>
+      <Position26>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="58" Column="18" TopLine="30"/>
+      </Position26>
+      <Position27>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="70" Column="19" TopLine="40"/>
+      </Position27>
+      <Position28>
+        <Filename Value="Unit\utilidades_bd.pas"/>
+        <Caret Line="463" Column="1" TopLine="444"/>
+      </Position28>
+      <Position29>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="71" Column="19" TopLine="40"/>
+      </Position29>
+      <Position30>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <Caret Line="142" Column="1" TopLine="141"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="3">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="Unit\utilidades_usuarios.pas"/>
+        <Line Value="52"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="form\principio.pas"/>
+        <Line Value="111"/>
+      </Item2>
+      <Item3>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="Unit\utilidades_rgtro.pas"/>
+        <Line Value="410"/>
+      </Item3>
+    </BreakPoints>
+    <Watches Count="5">
+      <Item1>
+        <Expression Value="public_Campos.Items[var_posicion].DataType"/>
+      </Item1>
+      <Item2>
+        <Expression Value="public_Campos.Items[var_posicion].DataType"/>
+      </Item2>
+      <Item3>
+        <Expression Value="var_posicion"/>
+      </Item3>
+      <Item4>
+        <Expression Value="ComboBox_Campo"/>
+      </Item4>
+      <Item5>
+        <Expression Value="public_Campos.Items[var_posicion].DataType"/>
+      </Item5>
+    </Watches>
+  </Debugging>
+  <EditorMacros Count="0"/>
+</CONFIG>

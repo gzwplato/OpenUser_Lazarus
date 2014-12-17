@@ -1,0 +1,49 @@
+object Form_Avisos: TForm_Avisos
+  Left = 509
+  Height = 297
+  Top = 246
+  Width = 599
+  HorzScrollBar.Visible = False
+  VertScrollBar.Visible = False
+  BorderIcons = [biMaximize]
+  Caption = 'Avisos'
+  ClientHeight = 297
+  ClientWidth = 599
+  Color = 9221227
+  FormStyle = fsStayOnTop
+  OnClose = FormClose
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '1.2.6.0'
+  object Memo_Aviso: TMemo
+    Left = 0
+    Height = 248
+    Top = 49
+    Width = 599
+    Align = alClient
+    Color = 9221227
+    OnMouseMove = Memo_AvisoMouseMove
+    ReadOnly = True
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+  end
+  object ButtonPanel_Avisos: TButtonPanel
+    Left = 6
+    Height = 37
+    Top = 6
+    Width = 587
+    Align = alTop
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+  end
+end

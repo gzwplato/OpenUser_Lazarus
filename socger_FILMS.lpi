@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="socger_FILMS"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="5">
+      <Item1>
+        <PackageName Value="Printer4Lazarus"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="lazreport"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="SQLDBLaz"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
+    </RequiredPackages>
+    <Units Count="28">
+      <Unit0>
+        <Filename Value="socger_FILMS.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="socger_FILMS"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="form\peliculas_000.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_peliculas_000"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="peliculas_000"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="dataModule\dm_pelis.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_Pelis"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_pelis"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="Unit\utilidades_bd.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_bd"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="Unit\utilidades_usuarios.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_usuarios"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Unit\utilidades_general.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_general"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="form\avisos.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Avisos"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="avisos"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="form\peliculas_001.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_peliculas_001"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="peliculas_001"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="form\menu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Menu"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="menu"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="form\estado_registro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Estado_Registro"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="estado_registro"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="dataModule\dm_medios.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_Medios"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_medios"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="form\filtrar_registros.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Filtrar_Registros"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="filtrar_registros"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="Unit\utilidades_rgtro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_rgtro"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="Unit\utilidades_forms_filtrar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utilidades_forms_Filtrar"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="form\medios_000.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_medios_000"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="medios_000"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="form\informe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_Informe"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="informe"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="form\medios_001.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_medios_001"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="medios_001"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="form\users_000.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_users_000"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_000"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="dataModule\dm_users.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_Users"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_users"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="form\users_001.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_users_001"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_001"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="form\arrancar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_Arrancar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="arrancar"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="form\users_002.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_users_002"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_002"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="form\users_003.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_users_003"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_003"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="form\users_004.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_users_004"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="users_004"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="dataModule\dm_menus.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_Menus"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_menus"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="form\menus_000.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_menus_000"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="menus_000"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="form\menus_001.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form_menus_001"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="menus_001"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="dataModule\dm_historico_registros.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DataModule_historico_registros"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dm_historico_registros"/>
+      </Unit27>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="socger_FILMS"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="form;dataModule;Unit"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <MsgFileName Value=""/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

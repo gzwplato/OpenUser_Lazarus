@@ -1,0 +1,9 @@
+object Form_Arrancar: TForm_Arrancar
+  Left = 1171
+  Height = 240
+  Top = 51
+  Width = 320
+  Caption = 'Form_Arrancar'
+  OnCreate = FormCreate
+  LCLVersion = '1.2.6.0'
+end

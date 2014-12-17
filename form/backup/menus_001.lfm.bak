@@ -1,0 +1,94 @@
+object Form_menus_001: TForm_menus_001
+  Left = 348
+  Height = 128
+  Top = 125
+  Width = 633
+  ActiveControl = DBEdit_Codigo
+  Caption = 'Ficha'
+  ClientHeight = 128
+  ClientWidth = 633
+  Color = 9221227
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '1.2.6.0'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 37
+    Top = 6
+    Width = 621
+    Align = alTop
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object Label1: TLabel
+    AnchorSideLeft.Control = DBEdit_Codigo
+    AnchorSideBottom.Control = DBEdit_Codigo
+    Left = 28
+    Height = 22
+    Top = 48
+    Width = 67
+    Anchors = [akLeft, akBottom]
+    Caption = 'Código'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -19
+    Font.Name = 'Arial'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object DBEdit_Codigo: TDBEdit
+    Left = 28
+    Height = 27
+    Top = 70
+    Width = 71
+    DataField = 'id'
+    DataSource = form_menus_000.DataSource_Menus
+    CharCase = ecNormal
+    MaxLength = 0
+    TabOrder = 1
+  end
+  object Label2: TLabel
+    AnchorSideLeft.Control = DBEdit_Descripcion
+    AnchorSideBottom.Control = DBEdit_Descripcion
+    Left = 106
+    Height = 22
+    Top = 48
+    Width = 112
+    Anchors = [akLeft, akBottom]
+    Caption = 'Descripción'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -19
+    Font.Name = 'Arial'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object DBEdit_Descripcion: TDBEdit
+    Left = 106
+    Height = 27
+    Top = 70
+    Width = 500
+    DataField = 'Descripcion'
+    DataSource = form_menus_000.DataSource_Menus
+    CharCase = ecNormal
+    MaxLength = 0
+    TabOrder = 2
+  end
+end
