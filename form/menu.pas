@@ -137,6 +137,8 @@ end.
 
 JEROFA
 
+tambien ver el codigo de errores para copiar y enviar por correo pues lleva un detalle de como ver el valor de cada campo
+
 Creo que voy a tener que cambiar todos los FreeAndNil() por Destroy ... a la vuelta de llamar a una funcion en la que hice
 varios freeandnil, el programa seguia sobre la linea de comandos y el que me daba problemas era un FreeAndNil(form) de un form
 Lo resolvi quitando todos los freeandnil de la funcion y convirtiendolos en Destroy
@@ -145,5 +147,4 @@ Las llamadas a los diferentes módulos deberían de construir diferentes record 
 un record tan sumamente grande como diferentes tablas se hubieran creado
 
 
-tambien ver el codigo de errores para copiar y enviar por correo pues lleva un detalle de como ver el valor de cada campo
 
