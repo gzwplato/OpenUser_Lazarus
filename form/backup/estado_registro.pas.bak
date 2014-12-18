@@ -182,10 +182,10 @@ begin
   { ****************************************************************************
     Preparamos los diferentes tipos de orden preconfigurados
     **************************************************************************** }
-    SetLength(private_Order_By, 1);
+    SetLength(private_Order_By_fields, 1);
 
-    private_Order_By[0].Titulo       := 'Por rgtro.cambiado'; // El índice 0 siempre será por el que empezará la aplicación y los filtros
-    private_Order_By[0].Memo_OrderBy := 'rf.tb ASC, rf.id ASC, rf.Momento ASC, rf.Id_Users ASC, rf.Campo_Nombre ASC';
+    private_Order_By_fields[0].Titulo       := 'Por rgtro.cambiado'; // El índice 0 siempre será por el que empezará la aplicación y los filtros
+    private_Order_By_fields[0].Memo_OrderBy := 'rf.tb ASC, rf.id ASC, rf.Momento ASC, rf.Id_Users ASC, rf.Campo_Nombre ASC';
 end;
 
 procedure TForm_Estado_Registro.BitBtn_FiltrarClick(Sender: TObject);
@@ -401,7 +401,7 @@ begin
     // VAR_SQL_ORDER_BY := 'ORDER BY up.Id_Users ASC, up.Password ASC';
     if Trim(param_Lineas_OrderBy.Text) = '' then
     begin
-         param_Lineas_OrderBy.Text := 'rf.tb ASC, rf.id ASC, rf.Momento ASC, rf.Id_Users ASC, rf.Campo_Nombre ASC';
+         param_Lineas_OrderBy.Text := private_Order_By_fields[0].Memo_OrderBy;;
     end;
 
     Result := UTI_TB_Filtrar( private_Order_By_fields,
@@ -427,6 +427,7 @@ begin
                               param_Cambiamos_Filtro );
 
     UTI_GEN_Borrar_Imagen_Orden_Grid(param_Last_Column);
+    UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(SQLQuery_users_row_changes_fields); //ensure index defs are up to date
 end;
 
 function TForm_Estado_Registro.Filtrar_users_row_changes( param_Last_Column : TColumn;

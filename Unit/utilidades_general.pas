@@ -5,7 +5,7 @@ unit utilidades_general;
 interface
 
 uses
-    Forms, Controls, Classes, SysUtils, ButtonPanel, DBGrids, sqldb, db;
+    Dialogs, Forms, Controls, Classes, SysUtils, ButtonPanel, DBGrids, sqldb, db;
 
 function  UTI_GEN_Format_Fecha_Hora( param_Fecha_Str : ShortString ) : ShortString;
 function  UTI_GEN_Form_Abierto_Ya(param_Form : string) : boolean;
@@ -17,81 +17,10 @@ implementation
 
 uses Avisos, utilidades_bd;
 
-function UTI_GEN_Ordenar_dbGrid( param_Last_Column : TColumn;
-                             param_Column : TColumn;
-                             param_SQLQuery : TSQLQuery ) : TColumn;
-const const_ImageArrowUp   = 0; //should match image in imagelist
-      const_ImageArrowDown = 1; //should match image in imagelist
-
-var var_ASC_IndexName, var_DESC_IndexName : string;
-
-    procedure UpdateIndexes;
-    begin
-         // Ensure index defs are up to date
-         param_SQLQuery.IndexDefs.Updated:=false; { <<<--This line is critical. IndexDefs.Update
-                                                    will not update if already true, which will
-                                                    happen on the first column sorted.}
-         param_SQLQuery.IndexDefs.Update;
-    end;
-
-begin
-     var_ASC_IndexName  := 'ASC_'  + param_Column.FieldName;
-     var_DESC_IndexName := 'DESC_' + param_Column.FieldName;
-
-     // indexes can't sort binary types such as ftMemo, ftBLOB
-     if (param_Column.Field.DataType in [ftBLOB,ftMemo,ftWideMemo]) then Exit;
-
-     // check if an ascending index already exists for this column.
-     // if not, create one
-     if param_SQLQuery.IndexDefs.IndexOf(var_ASC_IndexName) = -1 then
-     begin
-          param_SQLQuery.AddIndex(var_ASC_IndexName,param_Column.FieldName,[]);
-          UpdateIndexes; //ensure index defs are up to date
-     end;
-
-     // Check if a descending index already exists for this column
-     // if not, create one
-     if param_SQLQuery.IndexDefs.IndexOf(var_DESC_IndexName) = -1 then
-     begin
-         param_SQLQuery.AddIndex(var_DESC_IndexName,param_Column.FieldName,[ixDescending]);
-         UpdateIndexes; //ensure index defs are up to date
-     end;
-
-     // Use the column tag to toggle ASC/DESC
-     param_Column.tag := not param_Column.tag;
-
-     if boolean(param_Column.tag) then
-          begin
-               param_Column.Title.ImageIndex:=const_ImageArrowUp;
-               param_SQLQuery.IndexName:=var_ASC_IndexName;
-          end
-     else
-         begin
-              param_Column.Title.ImageIndex:=const_ImageArrowDown;
-              param_SQLQuery.IndexName:=var_DESC_IndexName;
-     end;
-
-     // Remove the sort arrow from the previous column we sorted
-     if (param_Last_Column <> nil) and (param_Last_Column <> param_Column) then
-     begin
-          UTI_GEN_Borrar_Imagen_Orden_Grid(param_Last_Column);
-     end;
-
-     Result := param_Column;
-end;
-
-procedure UTI_GEN_Borrar_Imagen_Orden_Grid( param_Last_Column : TColumn );
-begin
-     if param_Last_Column <> nil then
-     begin
-          param_Last_Column.Title.ImageIndex := -1;
-     end;
-end;
-
 function UTI_GEN_Aviso( param_Mensaje : TStrings;
-                    param_Titulo : String;
-                    param_BitBtn_Aceptar,
-                    param_BitBtn_Cancelar : Boolean ) : Boolean;
+                        param_Titulo : String;
+                        param_BitBtn_Aceptar,
+                        param_BitBtn_Cancelar : Boolean ) : Boolean;
 begin
   { ****************************************************************************
     Ejemplos:
@@ -206,6 +135,84 @@ begin
               Result := param_Fecha_Str;
         end;
     end;
+end;
+
+function UTI_GEN_Ordenar_dbGrid( param_Last_Column : TColumn;
+                                 param_Column : TColumn;
+                                 param_SQLQuery : TSQLQuery ) : TColumn;
+const const_ImageArrowUp   = 0; //should match image in imagelist
+      const_ImageArrowDown = 1; //should match image in imagelist
+
+var var_ASC_IndexName, var_DESC_IndexName : string;
+
+    procedure UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(param_SQLQuery : TSQLQuery);
+    begin
+         // Ensure index defs are up to date
+         param_SQLQuery.IndexDefs.Updated := false; { <<<--This line is critical. IndexDefs.Update
+                                                      will not update if already true, which will
+                                                      happen on the first column sorted.}
+         param_SQLQuery.IndexDefs.Update;
+    end;
+
+begin
+
+     // Clean all persistent index
+     param_SQLQuery.IndexDefs.Clear;
+
+     var_ASC_IndexName  := 'ASC_'  + param_Column.FieldName;
+     var_DESC_IndexName := 'DESC_' + param_Column.FieldName;
+
+     // indexes can't sort binary types such as ftMemo, ftBLOB
+     if (param_Column.Field.DataType in [ftBLOB,ftMemo,ftWideMemo]) then Exit;
+
+   { Esto falla asi que lo quito, ocurre cuando vuelvo a filtrar la tabla, y me pasa aún refrescando
+     los índices creados. Así que paso de esto y los creo siempre que se pulsa en onTitle del Grid
+
+     Check if a descending index already exists for this column
+     if not, create one
+
+     if param_SQLQuery.IndexDefs.IndexOf(var_DESC_IndexName) = -1 then
+     begin
+         param_SQLQuery.AddIndex(var_DESC_IndexName,param_Column.FieldName,[ixDescending]);
+         UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(param_SQLQuery); //ensure index defs are up to date
+     end; }
+
+     param_SQLQuery.AddIndex(var_ASC_IndexName,param_Column.FieldName,[]);
+     UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(param_SQLQuery); //ensure index defs are up to date
+
+     param_SQLQuery.AddIndex(var_DESC_IndexName,param_Column.FieldName,[ixDescending]);
+     UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(param_SQLQuery); //ensure index defs are up to date
+
+
+     // Use the column tag to toggle ASC/DESC
+     param_Column.tag := not param_Column.tag;
+
+     if boolean(param_Column.tag) then
+          begin
+               param_Column.Title.ImageIndex:=const_ImageArrowUp;
+               param_SQLQuery.IndexName:=var_ASC_IndexName;
+          end
+     else
+         begin
+              param_Column.Title.ImageIndex:=const_ImageArrowDown;
+              param_SQLQuery.IndexName:=var_DESC_IndexName;
+     end;
+
+     // Remove the sort arrow from the previous column we sorted
+     if (param_Last_Column <> nil) and (param_Last_Column <> param_Column) then
+     begin
+          UTI_GEN_Borrar_Imagen_Orden_Grid(param_Last_Column);
+     end;
+
+     Result := param_Column;
+end;
+
+procedure UTI_GEN_Borrar_Imagen_Orden_Grid( param_Last_Column : TColumn );
+begin
+     if param_Last_Column <> nil then
+     begin
+          param_Last_Column.Title.ImageIndex := -1;
+     end;
 end;
 
 end.

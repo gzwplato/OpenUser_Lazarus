@@ -137,9 +137,6 @@ end.
 
 JEROFA
 
-dESPUÉS DE pulsar el boton filtrar si le doy a una de las columnas para cambiar el orden por ella
-da un error
-
 Creo que voy a tener que cambiar todos los FreeAndNil() por Destroy ... a la vuelta de llamar a una funcion en la que hice
 varios freeandnil, el programa seguia sobre la linea de comandos y el que me daba problemas era un FreeAndNil(form) de un form
 Lo resolvi quitando todos los freeandnil de la funcion y convirtiendolos en Destroy

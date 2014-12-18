@@ -593,8 +593,6 @@ begin
 
     // var_SQL_ORDER_BY :=  'ORDER BY ' + Trim(Memo_OrderBy.Lines.Text);
 
-    HACER IGUAL QUE EN menus_000 usar private_Order_By
-
     Result := UTI_TB_Filtrar( private_Order_By,
 
                               var_DeleteSQL,
@@ -618,6 +616,7 @@ begin
                               param_Cambiamos_Filtro );
 
     UTI_GEN_Borrar_Imagen_Orden_Grid(private_Last_Column);
+    UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(SQLQuery_Pelis); //ensure index defs are up to date
 
     //Filtrar_tablas_ligadas;
 end;

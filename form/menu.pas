@@ -137,16 +137,9 @@ end.
 
 JEROFA
 
-dESPUÉS DE pulsar el boton filtrar si cambio el tipo de ordenar por uno de los predefenidos y le pulso a ok
-si despues le doy a una de las columnas del dbgrid para cambiar el orden por ella da un error
-
 Creo que voy a tener que cambiar todos los FreeAndNil() por Destroy ... a la vuelta de llamar a una funcion en la que hice
 varios freeandnil, el programa seguia sobre la linea de comandos y el que me daba problemas era un FreeAndNil(form) de un form
 Lo resolvi quitando todos los freeandnil de la funcion y convirtiendolos en Destroy
-
-QUE EL ORDER BY YA PUDIERA TENER PRECONFIGURADOS SUS PROPIOS TIPOS DE ORDEN, A LOS CUALES SOLO TENDRIA QUE ELEGIRLOS
-ES DECIR, TENER COMO UN COMBOBOX CON ELLOS HYA PRECONFIGURADOS (POR DECIRLO DE ALGUNA MANERA)
-
 
 Las llamadas a los diferentes módulos deberían de construir diferentes record asi no tendriamos
 un record tan sumamente grande como diferentes tablas se hubieran creado
