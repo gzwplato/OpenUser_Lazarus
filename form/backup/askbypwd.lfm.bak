@@ -6242,4 +6242,17 @@ object form_AskByPwd: Tform_AskByPwd
     Spacing = 3
     TabOrder = 3
   end
+  object Label_Intentos: TLabel
+    Left = 19
+    Height = 20
+    Top = 95
+    Width = 149
+    Caption = 'Intentos: xx de xx'
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold, fsItalic]
+    ParentColor = False
+    ParentFont = False
+  end
 end

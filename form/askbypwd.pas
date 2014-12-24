@@ -20,9 +20,11 @@ type
         Image1: TImage;
         Label1: TLabel;
         Label2: TLabel;
+        Label_Intentos: TLabel;
         Label_Nombre_Usuario: TLabel;
         Label_Ultimo_USuario: TLabel;
 
+        procedure RecogerParametros( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt );
         procedure Presentar_Datos;
         procedure Comprobar_PWD( param_msg_Por_No_Encontrarla : String; param_msg : TStrings );
         procedure AceptarClick(Sender: TObject);
@@ -31,7 +33,9 @@ type
         procedure FormCreate(Sender: TObject);
     private
         { private declarations }
-        private_Salir_OK : Boolean;
+        private_Salir_OK            : Boolean;
+        private_Ctdad_Intentos_Tope : ShortInt;
+        private_Ctdad_Veces         : ShortInt;
     public
         { public declarations }
         public_Pulso_Aceptar : Boolean;
@@ -80,6 +84,16 @@ begin
              Label_Ultimo_USuario.Visible := False;
              Label_Nombre_Usuario.Caption := '';
         end;
+end;
+
+procedure Tform_AskByPwd.RecogerParametros( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt );
+begin
+    private_Ctdad_Intentos_Tope := param_Ctdad_Intentos_Tope;
+    private_Ctdad_Veces         := param_ctdad_veces;
+
+    Label_Intentos.Caption := 'INTENTO ... ' +
+                              Trim(IntToStr(private_Ctdad_Veces + 1)) +
+                              ' DE ' + Trim(IntToStr(private_Ctdad_Intentos_Tope));
 end;
 
 procedure Tform_AskByPwd.FormClose(Sender: TObject; var CloseAction: TCloseAction);

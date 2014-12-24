@@ -18,7 +18,7 @@ function  UTI_usr_Traer_Nombre_Usuario_2(param_id : Integer) : ShortString;
 function  UTI_usr_Obligado_WHY_Delete_SN( param_Menu : ShortInt ) : Boolean;
 function  UTI_usr_Obligado_WHY_Delete_SN_2( param_Menu : ShortInt ) : Boolean;
 
-function  UTI_usr_AskByPwd : ShortInt;
+function  UTI_usr_AskByPwd( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt ) : ShortInt;
 function  UTI_usr_WhoIs( param_password : String ) : ShortString;
 
 implementation
@@ -367,7 +367,7 @@ begin
 
     if Trim(param_Tipo_CRUD) <> '' then
          var_SQL.Add(  ' AND Tipo_CRUD  = ' + QuotedStr(Trim(param_Tipo_CRUD)) )
-    else var_SQL.Add(  ' AND Permiso_SN  = ' + QuotedStr('S') + ' ' );
+    else var_SQL.Add(  ' AND PermisoSN  = ' + QuotedStr('S') + ' ' );
 
     var_SQL.Add(' ORDER BY Id_Users, Id_Menus, Tipo_CRUD ' );
 
@@ -476,9 +476,9 @@ begin
                   { ************************************************************
                     El tipo de opción solicitada('A', 'M', 'B', 'I' o 'O') fué
                     creado como permiso para el menú solicitado, así que devol-
-                    vemos si tiene permiso, según valor del campo (Permiso_SN)
+                    vemos si tiene permiso, según valor del campo (PermisoSN)
                     ************************************************************ }
-                    if AnsiUpperCase(param_SQLQuery.FieldByName('Permiso_SN').Value) = 'S' then
+                    if AnsiUpperCase(param_SQLQuery.FieldByName('PermisoSN').Value) = 'S' then
                     begin
                         Result := True; { tiene permiso }
                     end;
@@ -491,11 +491,13 @@ begin
     var_msg.Free;
 end;
 
-function UTI_usr_AskByPwd : ShortInt;
+function UTI_usr_AskByPwd( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt ) : ShortInt;
 begin
     if UTI_GEN_Form_Abierto_Ya('form_AskByPwd') = False then
     begin
         Application.CreateForm(Tform_AskByPwd, form_AskByPwd);
+
+        form_AskByPwd.RecogerParametros( param_Ctdad_Intentos_Tope, param_ctdad_veces );
 
         // 0 = Pulsó salir de la aplicación, 1 = Contraseña correcta, 2 = Contraseña incorrecta
         Result := 0; // No pulsó el OK

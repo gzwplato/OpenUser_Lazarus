@@ -85,7 +85,6 @@ var var_Valor_Minuto : Extended;
 begin
     ShortDateFormat {%H-} := 'dd/mm/yyyy';
     DateSeparator {%H-}   := '/';
-    public_User_Super     := 'OrJe';
 
   { ****************************************************************************
     Obligado en cada formulario para no olvidarlo
@@ -106,20 +105,26 @@ begin
     Y para que la pregunte nada mas empezar, le quitamos a ahora los minutos de
     pausa para que obligue a preguntar por ella
     **************************************************************************** }
-    // public_User := -1; // Así todavía no se eligió ningun usuario
+  { Esta es la pwd para el SUPERUSUARIO }
+    public_User_Super := '1234abcd';
 
+  { Así todavía no se eligió ningun usuario }
+    public_User                  := 0;
+    public_User_Descripcion_Nick := '';
+
+  { Traemos el tiempo que se necesita para volver a preguntar por la contraseña }
     var_CN_Conexion := UTI_CN_Traer_Configuracion;
-    if var_CN_Conexion.con_Exito = False then
-    begin
-        Application.Terminate;
-    end;
+    if var_CN_Conexion.con_Exito = False then Salir;
 
     var_Valor_Minuto            := StrToTime('00:02:00') - StrToTime('00:01:00');
-    public_When_Last_Permission := DateTimeToStr( Now -
-                                                 (var_Valor_Minuto * StrToFloat(var_CN_Conexion.min_no_Work )) );
+    public_When_Last_Permission := DateTimeToStr(  Now -
+                                                   ( var_Valor_Minuto *
+                                                     StrToFloat(var_CN_Conexion.min_no_Work ))  );
 
-    Timer_Sin_Usar.Interval     := 100;
-    Timer_Sin_Usar.Enabled      := true;
+  { Ponemos el temporizador a una milesima de segundo para que pregunte nada mas empezar por la
+    contraseña. Despues activamos el temporizador }
+    Timer_Sin_Usar.Interval := 100;
+    Timer_Sin_Usar.Enabled  := true;
 end;
 
 procedure Tform_Menu.MenuItem_UsuariosClick(Sender: TObject);
@@ -141,15 +146,11 @@ end;
 procedure Tform_Menu.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
 {
-if MessageDlg('Desea Realmente Salir ...?', mtConfirmation,
-   [mbOK, mbCancel],0) =mrCancel then
-   begin
-        CanClose := False;
-   end
-   else
-   begin
-        Application.Terminate;
-   end;
+    if MessageDlg('Desea Realmente Salir ...?', mtConfirmation, [mbOK, mbCancel],0) =mrCancel then
+       begin
+            CanClose := False;
+       end
+    else Salir;
 }
 end;
 
@@ -186,10 +187,10 @@ begin
 end;
 
 procedure Tform_Menu.Timer_Sin_UsarTimer(Sender: TObject);
-var var_Tiempo_Transcurrido   : Extended;
-    var_Se_Sale               : Boolean;
-    var_Valor_Minuto          : Extended;
-    var_CN_Conexion           : Trecord_CN_Conexion;
+var var_Tiempo_Transcurrido : Extended;
+    var_Valor_Minuto        : Extended;
+    var_CN_Conexion         : Trecord_CN_Conexion;
+    var_Se_Sale             : Boolean;
 begin
     if UTI_GEN_Form_Abierto_Ya('form_AskByPwd') = true then
     begin
@@ -198,10 +199,7 @@ begin
     end;
 
     var_CN_Conexion := UTI_CN_Traer_Configuracion;
-    if var_CN_Conexion.con_Exito = False then
-    begin
-        Application.Terminate;
-    end;
+    if var_CN_Conexion.con_Exito = False then Salir;
 
     var_Valor_Minuto := StrToTime('00:02:00') - StrToTime('00:01:00');
 
@@ -213,6 +211,12 @@ begin
         // if var_Tiempo_Transcurrido >= (var_Valor_Minuto * 9) then // Tiempo de espera ... 9 minutos
         if var_Tiempo_Transcurrido >= (var_Valor_Minuto * StrToFloat(var_CN_Conexion.min_no_Work)) then // Tiempo de espera ... 9 minutos
         begin
+          { Si el programa lleva mucho tiempo sin usarse, controlará que es el momento de volver
+            a preguntar por la contraseña, pero sólo si es un superusuario o el usuario tiene
+            permisos totales. Porque si no el programa se cerrará. Así evitaremos que usuarios mal
+            intencionados usen el programa con la contraseña de usuario de otros.
+            Es necesario ver el tiempo de margen para volver a preguntar otra vez por la contraseña.
+            Esto se configura en el fichero INI de la aplicación }
             var_Se_Sale := True;
             if (public_User = 0) { Usuario = 0 es el superusuario }        or
                (UTI_usr_Permiso_SN_conPermisoTotal_SN(public_User) = True) then
@@ -221,10 +225,7 @@ begin
             end;
 
             if var_Se_Sale = True then
-                begin
-                    // Mucho tiempo sin usar el programa
-                    Salir;
-                end
+                 Salir { Mucho tiempo sin usar el programa }
             else Preguntar_pwd;
         end;
     end;
@@ -237,6 +238,7 @@ var var_ctdad_veces           : Integer;
     var_User_Last_Empresa     : Integer;
     var_Se_Sale               : Boolean;
     var_la_pwd                : ShortInt;
+    var_Ctdad_Intentos_Tope   : ShortInt;
 begin
     // Es el superusuario o es un usuario con todos los permisos
     // asi que pregunto por su contraseña
@@ -247,10 +249,14 @@ begin
     var_User_Last_Empresa     := public_User_Last_Empresa;
 
     var_Se_Sale               := True;
-    While var_ctdad_veces < 3 do
+    var_Ctdad_Intentos_Tope   := 3;
+    While var_ctdad_veces < var_Ctdad_Intentos_Tope do
     begin
-        var_la_pwd := UTI_usr_AskByPwd; // 0 = Pulsó salir de la aplicación, 1 = Contraseña correcta, 2 = Contraseña incorrecta
+        var_la_pwd := UTI_usr_AskByPwd( var_Ctdad_Intentos_Tope, var_ctdad_veces );
 
+      { 0 = Pulsó salir de la aplicación,
+        1 = Contraseña correcta,
+        2 = Contraseña incorrecta }
         if var_la_pwd = 0 then Break; // Quiso salir de la aplicación
 
         if var_la_pwd = 2 then
@@ -266,7 +272,7 @@ begin
 
         if var_la_pwd = 1 then // la contraseña introducida corresponde a la de un usuario
         begin
-            if Trim(public_User_Descripcion_Nick) = '' then
+            if Trim(var_User_Descripcion_Nick) <> '' then
                 begin
                     // LA PRIMERA VEZ SE IDENTIFICO UN USUARIO, ASI QUE VAMOS A COMPROBAR QUE EL QUE
                     // INTRODUJO LA CONTRASEÑA ES EL MISMO
@@ -322,5 +328,10 @@ Lo resolvi quitando todos los freeandnil de la funcion y convirtiendolos en Dest
 Las llamadas a los diferentes módulos deberían de construir diferentes record asi no tendriamos
 un record tan sumamente grande como diferentes tablas se hubieran creado
 
+
+ARREGLADO
+---------
+
+LA SEGUNDA VEZ QUE LE TOCA PREGUNTAR EL USUARIO SE SALE DE LA APLICACION
 
 

@@ -6019,11 +6019,11 @@ object form_AskByPwd: Tform_AskByPwd
     Stretch = True
   end
   object Label_Ultimo_USuario: TLabel
-    Left = 19
+    Left = 64
     Height = 24
-    Top = 2
+    Top = 56
     Width = 173
-    Caption = 'ÜLTIMO USUARIO'
+    Caption = 'ULTIMO USUARIO'
     Font.Color = clWhite
     Font.Height = -19
     Font.Name = 'MS Sans Serif'
@@ -6032,9 +6032,9 @@ object form_AskByPwd: Tform_AskByPwd
     ParentFont = False
   end
   object Label_Nombre_Usuario: TLabel
-    Left = 19
+    Left = 64
     Height = 37
-    Top = 25
+    Top = 79
     Width = 301
     Caption = 'FULANICO DE TAL'
     Font.Color = clWhite
@@ -6241,5 +6241,21 @@ object form_AskByPwd: Tform_AskByPwd
     ParentFont = False
     Spacing = 3
     TabOrder = 3
+  end
+  object Label_Intentos: TLabel
+    Left = 64
+    Height = 24
+    Top = 16
+    Width = 166
+    Caption = 'Intentos: xx de xx'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'MS Sans Serif'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
   end
 end
