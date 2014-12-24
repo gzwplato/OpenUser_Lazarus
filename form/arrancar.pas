@@ -34,7 +34,16 @@ procedure TForm_Arrancar.FormCreate(Sender: TObject);
 begin
     Application.CreateForm(TForm_Menu, Form_Menu);
     Form_Menu.ShowModal;
-    FreeAndNil(Form_Menu);
+    try
+       FreeAndNil(Form_Menu);
+       Application.Terminate;
+    Except
+      on E: Exception do
+      begin
+         ShowMessage('Error! '+E.Message);
+         raise;
+      end;
+    end;
 end;
 
 end.

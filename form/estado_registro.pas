@@ -192,7 +192,7 @@ procedure TForm_Estado_Registro.BitBtn_FiltrarClick(Sender: TObject);
 begin
     Filtrar_users_row_changes( public_Last_Column,
                                0,
-                               false,
+                               true,
                                Memo_Filtros.Lines,
                                Memo_OrderBy.Lines );
 end;

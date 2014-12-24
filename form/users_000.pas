@@ -294,7 +294,19 @@ begin
         Application.Terminate;
     end;
 
-    //jerofa faltan tablas por cerrar
+    if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Menus,
+                      DataModule_Users.SQLTransaction_Users_Menus,
+                      SQLQuery_Users_Menus ) = false then
+    begin
+        Application.Terminate;
+    end;
+
+    if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Menus_Permisos,
+                      DataModule_Users.SQLTransaction_Users_Menus_Permisos,
+                      SQLQuery_Users_Menus_Permisos ) = false then
+    begin
+        Application.Terminate;
+    end;
 end;
 
 procedure Tform_users_000.FormDestroy(Sender: TObject);

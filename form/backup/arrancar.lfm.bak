@@ -1,7 +1,7 @@
 object Form_Arrancar: TForm_Arrancar
-  Left = 952
+  Left = 1171
   Height = 240
-  Top = 37
+  Top = 51
   Width = 320
   Caption = 'Form_Arrancar'
   OnCreate = FormCreate

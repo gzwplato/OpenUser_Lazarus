@@ -294,7 +294,13 @@ begin
         Application.Terminate;
     end;
 
-    //jerofa faltan tablas por cerrar
+    if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Menus,
+                      DataModule_Users.SQLTransaction_Users_Menus,
+                      SQLQuery_Users_Menus ) = false then
+    begin
+        Application.Terminate;
+    end;
+
 end;
 
 procedure Tform_users_000.FormDestroy(Sender: TObject);
@@ -1090,7 +1096,7 @@ begin
     // VAR_SQL_ORDER_BY := 'ORDER BY um.Id_Users ASC, um.Id_Menus ASC';
     if Trim(param_Lineas_OrderBy.Text) = '' then
     begin
-         param_Lineas_OrderBy.Text := 'upe.Id_Users ASC, upe.Id_Menus ASC, upe.Tipo_CRUD ASC';
+         param_Lineas_OrderBy.Text := private_Order_By_permisos[0].Memo_OrderBy; ;
     end;
 
     Result := UTI_TB_Filtrar( private_Order_By_permisos,

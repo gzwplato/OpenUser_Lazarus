@@ -1,10 +1,10 @@
-object Form_Menu: TForm_Menu
+object form_Menu: Tform_Menu
   Left = 1108
   Height = 240
   Top = 468
   Width = 320
   BorderStyle = bsSingle
-  Caption = 'Form_Menu'
+  Caption = 'form_Menu'
   Menu = MainMenu1
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
@@ -107,5 +107,12 @@ object Form_Menu: TForm_Menu
       FF00044906FF055B09FF066C0CFF066C0CFF055E0AFF044C06FFFF00FF00FF00
       FF00FF00FF00FF00FF00FF00FF00
     }
+  end
+  object Timer_Sin_Usar: TTimer
+    Enabled = False
+    Interval = 5000
+    OnTimer = Timer_Sin_UsarTimer
+    left = 40
+    top = 16
   end
 end

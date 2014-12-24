@@ -616,7 +616,6 @@ begin
                               param_Cambiamos_Filtro );
 
     UTI_GEN_Borrar_Imagen_Orden_Grid(private_Last_Column);
-    UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(SQLQuery_Pelis); //ensure index defs are up to date
 
     //Filtrar_tablas_ligadas;
 end;

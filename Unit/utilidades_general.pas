@@ -21,6 +21,7 @@ function UTI_GEN_Aviso( param_Mensaje : TStrings;
                         param_Titulo : String;
                         param_BitBtn_Aceptar,
                         param_BitBtn_Cancelar : Boolean ) : Boolean;
+// var var_Formito : tform_Avisos;
 begin
   { ****************************************************************************
     Ejemplos:
@@ -53,6 +54,7 @@ begin
         form_Avisos.Destroy;
     **************************************************************************** }
 
+    // var_Formito := tform_Avisos.Create(nil);
     Application.CreateForm(tform_Avisos, form_Avisos);
 
     with form_Avisos do

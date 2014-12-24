@@ -1116,12 +1116,15 @@ begin
                                             Post;
                                        end
                                     else Cancel;
+                                    FreeAndNil(var_Form);
                                 end
                             else
                                 begin
+                                    FreeAndNil(var_Form);
                                     Cancel;
                                     var_msg.Clear;
-                                    var_msg.Add('Contraseña repetida, pertenece al usuario ' + Trim(var_record_Existe.OT_Descripcion_Nick) + '.');
+                                    var_msg.Add( 'Contraseña repetida, pertenece al usuario ' +
+                                                 Trim(var_record_Existe.OT_Descripcion_Nick) + '.');
 
                                     if UpperCase(var_record_Existe.deBaja) = 'S' then
                                     begin
@@ -1130,8 +1133,6 @@ begin
 
                                     UTI_GEN_Aviso(var_msg, 'YA EXISTE.-', True, False);
                                 end;
-
-                            FreeAndNil(var_Form);
                         end
                     else
                         begin
@@ -1152,7 +1153,7 @@ end;
 
 procedure Tform_users_001.Editar_Registro_Menus;
 var var_msg           : TStrings;
-    var_Form          : TForm_users_003;
+    // var_Formito       : TForm_users_003;
     var_record_Existe : Trecord_Existe;
 begin
     with form_users_000.SQLQuery_Users_Menus do
@@ -1169,35 +1170,39 @@ begin
                     // ***************************************************************************** //
                     Edit;
 
-                    var_Form := TForm_users_003.Create(nil);
+                    Application.CreateForm(TForm_users_003, Form_users_003);
+                    //var_Formito := TForm_users_003.Create(nil);
 
-                    var_Form.public_Menu_Worked := public_Menu_Worked;
+                    Form_users_003.public_Menu_Worked := public_Menu_Worked;
 
                     if public_Solo_Ver = true then
                     begin
-                        var_Form.public_Solo_Ver := true;
+                        Form_users_003.public_Solo_Ver := true;
                     end;
 
-                    var_Form.ShowModal;
-                    if var_Form.public_Pulso_Aceptar = true then
+                    Form_users_003.ShowModal;
+                    if Form_users_003.public_Pulso_Aceptar = true then
                         begin
                             var_record_Existe := Existe_Menu_Ya( FieldByName('Id').AsString, // estoy en modificacion por lo que le paso el campo id para que compruebe que no existe ya fuera de él mismo
                                                                  FieldByName('Id_Users').AsString,
                                                                  FieldByName('Id_Menus').AsString );
                             if var_record_Existe.Existe = false then
                                 begin
-                                    if ( Trim(var_Form.public_Record_Rgtro.USERS_MENUS_Id_Users)               <> Trim(FieldByName('Id_Users').AsString) )           or
-                                       ( Trim(var_Form.public_Record_Rgtro.USERS_MENUS_Id_Menus)               <> Trim(FieldByName('Id_Menus').AsString) )           or
-                                       ( Trim(var_Form.public_Record_Rgtro.USERS_MENUS_Forcing_Why_Delete)     <> Trim(FieldByName('Forcing_Why_Delete').AsString) ) then
+                                    if ( Trim(Form_users_003.public_Record_Rgtro.USERS_MENUS_Id_Users)           <> Trim(FieldByName('Id_Users').AsString) )           or
+                                       ( Trim(Form_users_003.public_Record_Rgtro.USERS_MENUS_Id_Menus)           <> Trim(FieldByName('Id_Menus').AsString) )           or
+                                       ( Trim(Form_users_003.public_Record_Rgtro.USERS_MENUS_Forcing_Why_Delete) <> Trim(FieldByName('Forcing_Why_Delete').AsString) ) then
                                        begin
                                             FieldByName('Change_WHEN').Value    := UTI_CN_Fecha_Hora;
                                             FieldByName('Change_Id_User').Value := Form_Menu.public_User;
                                             Post;
                                        end
                                     else Cancel;
+
+                                    Form_users_003.Destroy;
                                 end
                             else
                                 begin
+                                    Form_users_003.Destroy;
                                     Cancel;
                                     var_msg.Clear;
                                     var_msg.Add('Menu repetido.');
@@ -1210,11 +1215,11 @@ begin
                                     UTI_GEN_Aviso(var_msg, 'YA EXISTE.-', True, False);
                                 end;
 
-                            FreeAndNil(var_Form);
+                            // Form_users_003.Destroy; falla aqui
                         end
                     else
                         begin
-                            FreeAndNil(var_Form);
+                            Form_users_003.Destroy;
                             Cancel;
                         end;
                 end;
@@ -1276,9 +1281,11 @@ begin
                                             Post;
                                        end
                                     else Cancel;
+                                    FreeAndNil(var_Form);
                                 end
                             else
                                 begin
+                                    FreeAndNil(var_Form);
                                     Cancel;
                                     var_msg.Clear;
                                     var_msg.Add('Permiso repetido para el menú elegido.');
@@ -1290,8 +1297,6 @@ begin
 
                                     UTI_GEN_Aviso(var_msg, 'YA EXISTE.-', True, False);
                                 end;
-
-                            FreeAndNil(var_Form);
                         end
                     else
                         begin

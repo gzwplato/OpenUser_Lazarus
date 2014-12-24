@@ -12,6 +12,7 @@ function  UTI_GEN_Form_Abierto_Ya(param_Form : string) : boolean;
 function  UTI_GEN_Aviso( param_Mensaje : TStrings; param_Titulo : String; param_BitBtn_Aceptar, param_BitBtn_Cancelar : Boolean ) : Boolean;
 function  UTI_GEN_Ordenar_dbGrid( param_Last_Column : TColumn; param_Column : TColumn; param_SQLQuery : TSQLQuery ) : TColumn;
 procedure UTI_GEN_Borrar_Imagen_Orden_Grid( param_Last_Column : TColumn );
+procedure UTI_GEN_Comillas_Decimales;
 
 implementation
 
@@ -21,6 +22,7 @@ function UTI_GEN_Aviso( param_Mensaje : TStrings;
                         param_Titulo : String;
                         param_BitBtn_Aceptar,
                         param_BitBtn_Cancelar : Boolean ) : Boolean;
+// var var_Formito : tform_Avisos;
 begin
   { ****************************************************************************
     Ejemplos:
@@ -53,6 +55,7 @@ begin
         form_Avisos.Destroy;
     **************************************************************************** }
 
+    // var_Formito := tform_Avisos.Create(nil);
     Application.CreateForm(tform_Avisos, form_Avisos);
 
     with form_Avisos do
@@ -156,9 +159,8 @@ var var_ASC_IndexName, var_DESC_IndexName : string;
 
 begin
 
-    param_SQLQuery.IndexDefs.Clear;
-
-    Showmessage(IntToStr(param_SQLQuery.IndexDefs.Count));
+     // Clean all persistent index
+     param_SQLQuery.IndexDefs.Clear;
 
      var_ASC_IndexName  := 'ASC_'  + param_Column.FieldName;
      var_DESC_IndexName := 'DESC_' + param_Column.FieldName;
@@ -166,16 +168,24 @@ begin
      // indexes can't sort binary types such as ftMemo, ftBLOB
      if (param_Column.Field.DataType in [ftBLOB,ftMemo,ftWideMemo]) then Exit;
 
-          param_SQLQuery.AddIndex(var_ASC_IndexName,param_Column.FieldName,[]);
-          UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(param_SQLQuery); //ensure index defs are up to date
+   { Esto falla asi que lo quito, ocurre cuando vuelvo a filtrar la tabla, y me pasa aún refrescando
+     los índices creados. Así que paso de esto y los creo siempre que se pulsa en onTitle del Grid
 
-     // Check if a descending index already exists for this column
-     // if not, create one
-//     if param_SQLQuery.IndexDefs.IndexOf(var_DESC_IndexName) = -1 then
-//     begin
+     Check if a descending index already exists for this column
+     if not, create one
+
+     if param_SQLQuery.IndexDefs.IndexOf(var_DESC_IndexName) = -1 then
+     begin
          param_SQLQuery.AddIndex(var_DESC_IndexName,param_Column.FieldName,[ixDescending]);
          UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(param_SQLQuery); //ensure index defs are up to date
-//     end;
+     end; }
+
+     param_SQLQuery.AddIndex(var_ASC_IndexName,param_Column.FieldName,[]);
+     UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(param_SQLQuery); //ensure index defs are up to date
+
+     param_SQLQuery.AddIndex(var_DESC_IndexName,param_Column.FieldName,[ixDescending]);
+     UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(param_SQLQuery); //ensure index defs are up to date
+
 
      // Use the column tag to toggle ASC/DESC
      param_Column.tag := not param_Column.tag;
@@ -206,6 +216,19 @@ begin
      begin
           param_Last_Column.Title.ImageIndex := -1;
      end;
+end;
+
+procedure UTI_GEN_Comillas_Decimales;
+var var_CN_Conexion : Trecord_CN_Conexion;
+begin
+    var_CN_Conexion := UTI_CN_Traer_Configuracion;
+    if var_CN_Conexion.con_Exito = False then
+    begin
+        Application.Terminate;
+    end;
+
+    DecimalSeparator  := QuotedStr(Trim(var_CN_Conexion.decimalSeparator));
+    ThousandSeparator := Trim(var_CN_Conexion.thousandSeparator);
 end;
 
 end.

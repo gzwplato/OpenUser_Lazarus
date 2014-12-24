@@ -11,7 +11,7 @@ uses
   utilidades_general, avisos, peliculas_001, menu, estado_registro, dm_medios, filtrar_registros,
   utilidades_rgtro, utilidades_forms_Filtrar, medios_000, informe, medios_001, users_000, dm_users,
   users_001, arrancar, users_002, users_003, users_004, dm_menus, menus_000, menus_001, 
-  dm_historico_registros;
+  dm_historico_registros, AskByPwd;
 
 {$R *.res}
 

@@ -20,12 +20,15 @@ type
   end;
 
   Trecord_CN_Conexion = record
-      con_Exito: boolean;
-      ConnectorType: string;
-      DatabaseName: string;
-      HostName: string;
-      Password: string;
-      UserName: string;
+      con_Exito         : boolean;
+      ConnectorType     : string;
+      DatabaseName      : string;
+      HostName          : string;
+      Password          : string;
+      UserName          : string;
+      min_no_Work       : string;
+      decimalSeparator  : ShortString;
+      thousandSeparator : ShortString;
   end;
 
   Trecord_Cambiar_Filtros_Devuelve = record
@@ -36,7 +39,7 @@ type
 
 function  UTI_CN_Abrir(param_SQLTransaction: TSQLTransaction; param_SQLConnector: TSQLConnector): boolean;
 function  UTI_CN_Cerrar(param_SQLTransaction: TSQLTransaction; param_SQLConnector: TSQLConnector): boolean;
-function  UTI_CN_Fecha_Hora: TDateTime;
+function  UTI_CN_Fecha_Hora : TDateTime;
 function  UTI_CN_Traer_Configuracion: Trecord_CN_Conexion;
 
 function  UTI_TB_Quitar_AndOr_Principio(param_SQL: string): string;
@@ -50,26 +53,6 @@ procedure UTI_TB_Quitar_Filtro(param_Frase: string; param_SQL: TStrings);
 implementation
 
 uses filtrar_registros, estado_registro, menu;
-
-function UTI_CN_Traer_Configuracion : Trecord_CN_Conexion;
-var var_fichero_ini: TIniFile;
-begin
-    if (FileExists(GetCurrentDirUTF8 + '\socger.ini')) then
-    begin
-        try
-            var_fichero_ini      := TIniFile.Create(GetCurrentDirUTF8 + '\socger.ini');
-            Result.con_Exito     := True;
-            Result.ConnectorType := var_fichero_ini.ReadString('HowConnectBD', 'ConnectorType', '');
-            Result.DatabaseName  := var_fichero_ini.ReadString('HowConnectBD', 'DatabaseName', '');
-            Result.HostName      := var_fichero_ini.ReadString('HowConnectBD', 'HostName', '');
-            Result.Password      := var_fichero_ini.ReadString('HowConnectBD', 'Password', '');
-            Result.UserName      := var_fichero_ini.ReadString('HowConnectBD', 'UserName', '');
-            var_fichero_ini.Free;
-        except
-              Result.con_Exito := False;
-        end;
-    end;
-end;
 
 function UTI_TB_Cerrar( param_SQLConnector: TSQLConnector;
                         param_SQLTransaction: TSQLTransaction;
@@ -175,7 +158,7 @@ begin
     end;
 end;
 
-function UTI_CN_Fecha_Hora: TDateTime;
+function UTI_CN_Fecha_Hora : TDateTime;
 var var_SQL            : TStrings;
     var_SQLTransaction : TSQLTransaction;
     var_SQLConnector   : TSQLConnector;
@@ -498,7 +481,9 @@ begin
     if var_Form_Filtrar_Registros.public_Pulso_Aceptar = true then
     begin
         param_SQL_WHERE.Assign(var_Form_Filtrar_Registros.Memo_Filtros.Lines);
-        param_SQL_ORDER_BY.Assign(var_Form_Filtrar_Registros.Memo_OrderBy.Lines);
+        if var_Form_Filtrar_Registros.ComboBox_Filtros.ItemIndex = 0 then
+             param_SQL_ORDER_BY.Assign(var_Form_Filtrar_Registros.Memo_OrderBy.Lines)
+        else param_SQL_ORDER_BY.Text := param_Order_By[var_Form_Filtrar_Registros.ComboBox_Filtros.ItemIndex - 1].Memo_OrderBy;
 
         Result.Ok    := true;
         Result.bajas := var_Form_Filtrar_Registros.RadioGroup_Bajas.ItemIndex;
@@ -584,6 +569,31 @@ begin
                      var_SQL ) = False then
     begin
         Application.Terminate;
+    end;
+end;
+
+function UTI_CN_Traer_Configuracion : Trecord_CN_Conexion;
+var var_fichero_ini: TIniFile;
+begin
+    if (FileExists(GetCurrentDirUTF8 + '\ini\socger.ini')) then
+    begin
+        try
+            var_fichero_ini          := TIniFile.Create(GetCurrentDirUTF8 + '\ini\socger.ini');
+            Result.con_Exito         := True;
+            Result.ConnectorType     := var_fichero_ini.ReadString('HowConnectBD', 'ConnectorType', '');
+            Result.DatabaseName      := var_fichero_ini.ReadString('HowConnectBD', 'DatabaseName', '');
+            Result.HostName          := var_fichero_ini.ReadString('HowConnectBD', 'HostName', '');
+            Result.Password          := var_fichero_ini.ReadString('HowConnectBD', 'Password', '');
+            Result.UserName          := var_fichero_ini.ReadString('HowConnectBD', 'UserName', '');
+
+            Result.min_no_Work       := var_fichero_ini.ReadString('Config', 'min_no_Work', '');
+            Result.decimalSeparator  := var_fichero_ini.ReadString('Config', 'decimalSeparator', '');
+            Result.thousandSeparator := var_fichero_ini.ReadString('Config', 'thousandSeparator', '');
+
+            var_fichero_ini.Free;
+        except
+              Result.con_Exito := False;
+        end;
     end;
 end;
 

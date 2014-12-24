@@ -427,7 +427,6 @@ begin
                               param_Cambiamos_Filtro );
 
     UTI_GEN_Borrar_Imagen_Orden_Grid(param_Last_Column);
-    UTI_GEN_Ordenar_dbGrid_Actualizar_Indices(SQLQuery_users_row_changes_fields); //ensure index defs are up to date
 end;
 
 function TForm_Estado_Registro.Filtrar_users_row_changes( param_Last_Column : TColumn;

@@ -45,7 +45,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="28">
+    <Units Count="29">
       <Unit0>
         <Filename Value="socger_FILMS.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -101,7 +101,7 @@
       <Unit8>
         <Filename Value="form\menu.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form_Menu"/>
+        <ComponentName Value="form_Menu"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="menu"/>
@@ -252,6 +252,14 @@
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dm_historico_registros"/>
       </Unit27>
+      <Unit28>
+        <Filename Value="form\askbypwd.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="form_AskByPwd"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="AskByPwd"/>
+      </Unit28>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
