@@ -67,7 +67,6 @@ type
         procedure SQLQuery_MenusAfterPost(DataSet: TDataSet);
         procedure SQLQuery_MenusAfterScroll(DataSet: TDataSet);
         procedure SQLQuery_MenusBeforePost(DataSet: TDataSet);
-        procedure SQLQuery_MenusFilterRecord(DataSet: TDataSet; var Accept: Boolean);
 
     private
         { private declarations }
@@ -168,17 +167,6 @@ end;
 procedure Tform_menus_000.SQLQuery_MenusBeforePost(DataSet: TDataSet);
 begin
     UTI_RGTRO_param_assign_value( SQLQuery_Menus );
-end;
-
-procedure Tform_menus_000.SQLQuery_MenusFilterRecord(DataSet: TDataSet; var Accept: Boolean);
-begin
-    with SQLQuery_Menus do
-    begin
-         if RadioGroup_Bajas.ItemIndex = 1 then
-         begin
-              Accept := (FieldByName('Del_WHEN').IsNull);
-         end;
-    end;
 end;
 
 procedure Tform_menus_000.BitBtn_FiltrarClick(Sender: TObject);
@@ -422,6 +410,10 @@ begin
 
                     var_Form := TForm_menus_001.Create(nil);
 
+                    var_Form.DBEdit_Codigo.Color      := $006AD3D7;
+                    var_Form.DBEdit_Codigo.Font.Color := clRed;
+                    var_Form.DBEdit_Codigo.ReadOnly   := true;
+
                     var_Form.public_Menu_Worked := public_Menu_Worked;
 
                     if public_Solo_Ver = true then
@@ -432,7 +424,9 @@ begin
                     var_Form.ShowModal;
                     if var_Form.public_Pulso_Aceptar = true then
                         begin
-                            if ( Trim(var_Form.public_Record_Rgtro.MENUS_Descripcion) <> Trim(FieldByName('descripcion').AsString) ) or
+
+                            if ( Trim(var_Form.public_Record_Rgtro.Id)                <> Trim(FieldByName('id').AsString) )          or
+                               ( Trim(var_Form.public_Record_Rgtro.MENUS_Descripcion) <> Trim(FieldByName('descripcion').AsString) ) or
                                ( Trim(var_Form.public_Record_Rgtro.MENUS_Id_Menus)    <> Trim(FieldByName('Id_Menus').AsString) )    then
                                begin
                                     FieldByName('Change_WHEN').Value    := UTI_CN_Fecha_Hora;
@@ -512,9 +506,13 @@ begin
     if private_Salir_OK = False then
         begin
           { ********************************************************************
-            Intento BitBtn_SALIR de la aplicación de un modo no permitido
+            Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+            ********************************************************************
+            Pero si desde el menu principal está a true la variable
+            public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+            cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            CloseAction := caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
         end
     else
         begin
@@ -601,27 +599,27 @@ begin
 
     // var_SQL_ORDER_BY :=  'ORDER BY m.descripcion ASC';
 
-    Result := UTI_TB_Filtrar_2( private_Order_By,
+    Result := UTI_TB_Filtrar( private_Order_By,
 
-                                var_DeleteSQL,
-                                var_UpdateSQL,
-                                var_InsertSQL,
+                              var_DeleteSQL,
+                              var_UpdateSQL,
+                              var_InsertSQL,
 
-                                var_ctdad_Rgtros,
-                                DataModule_Menus.SQLTransaction,
-                                DataModule_Menus.SQLConnector,
-                                SQLQuery_Menus,
+                              var_ctdad_Rgtros,
+                              DataModule_Menus.SQLTransaction,
+                              DataModule_Menus.SQLConnector,
+                              SQLQuery_Menus,
 
-                                var_nombre_tabla,
-                                RadioGroup_Bajas.ItemIndex,
+                              var_nombre_tabla,
+                              RadioGroup_Bajas.ItemIndex,
 
-                                VAR_SQL_SELECT,
-                                // var_SQL_ORDER_BY,
+                              VAR_SQL_SELECT,
+                              // var_SQL_ORDER_BY,
 
-                                Memo_Filtros.Lines,
-                                Memo_OrderBy.Lines,
+                              Memo_Filtros.Lines,
+                              Memo_OrderBy.Lines,
 
-                                param_Cambiamos_Filtro );
+                              param_Cambiamos_Filtro );
 
     UTI_GEN_Borrar_Imagen_Orden_Grid(private_Last_Column);
 

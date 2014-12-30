@@ -490,7 +490,7 @@ begin
   { ****************************************************************************
     Destruimos el formulario para Filtrar_Registros
     **************************************************************************** }
-    var_Form_Filtrar_Registros.Destroy;
+    var_Form_Filtrar_Registros.Free;
 end;
 
 function UTI_TB_Filtrar( param_Order_By : array of TOrder_By;

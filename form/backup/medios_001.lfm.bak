@@ -1,7 +1,7 @@
 object Form_medios_001: TForm_medios_001
-  Left = 269
+  Left = 331
   Height = 136
-  Top = 157
+  Top = 215
   Width = 631
   Caption = 'Ficha'
   ClientHeight = 136

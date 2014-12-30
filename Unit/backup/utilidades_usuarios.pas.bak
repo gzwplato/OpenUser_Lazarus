@@ -18,7 +18,7 @@ function  UTI_usr_Traer_Nombre_Usuario_2(param_id : Integer) : ShortString;
 function  UTI_usr_Obligado_WHY_Delete_SN( param_Menu : ShortInt ) : Boolean;
 function  UTI_usr_Obligado_WHY_Delete_SN_2( param_Menu : ShortInt ) : Boolean;
 
-function  UTI_usr_AskByPwd( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt );
+function  UTI_usr_AskByPwd( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt ) : ShortInt;
 function  UTI_usr_WhoIs( param_password : String ) : ShortString;
 
 implementation
@@ -491,7 +491,7 @@ begin
     var_msg.Free;
 end;
 
-function UTI_usr_AskByPwd( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt );
+function UTI_usr_AskByPwd( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt ) : ShortInt;
 begin
     if UTI_GEN_Form_Abierto_Ya('form_AskByPwd') = False then
     begin

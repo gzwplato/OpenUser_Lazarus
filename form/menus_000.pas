@@ -67,7 +67,6 @@ type
         procedure SQLQuery_MenusAfterPost(DataSet: TDataSet);
         procedure SQLQuery_MenusAfterScroll(DataSet: TDataSet);
         procedure SQLQuery_MenusBeforePost(DataSet: TDataSet);
-        procedure SQLQuery_MenusFilterRecord(DataSet: TDataSet; var Accept: Boolean);
 
     private
         { private declarations }
@@ -162,23 +161,12 @@ begin
 
     // Filtrar_users_passwords( RadioGroup_Bajas.ItemIndex, false, var_Lineas );
 
-    FreeAndNil(var_Lineas);
+    var_Lineas.Free;
 end;
 
 procedure Tform_menus_000.SQLQuery_MenusBeforePost(DataSet: TDataSet);
 begin
     UTI_RGTRO_param_assign_value( SQLQuery_Menus );
-end;
-
-procedure Tform_menus_000.SQLQuery_MenusFilterRecord(DataSet: TDataSet; var Accept: Boolean);
-begin
-    with SQLQuery_Menus do
-    begin
-         if RadioGroup_Bajas.ItemIndex = 1 then
-         begin
-              Accept := (FieldByName('Del_WHEN').IsNull);
-         end;
-    end;
 end;
 
 procedure Tform_menus_000.BitBtn_FiltrarClick(Sender: TObject);
@@ -383,7 +371,7 @@ begin
             var_msg := TStringList.Create;
             var_msg.Add('Sólo se puede visualizar.');
             UTI_GEN_Aviso(var_msg, 'SOLO PARA OBSERVAR', True, False);
-            FreeAndNil(var_msg);
+            var_msg.Free;
             Exit;
         end;
 
@@ -392,7 +380,7 @@ begin
         var_form_Informe.public_Menu_Worked      := public_Menu_Worked;
         var_form_Informe.public_informe          := 'informes/menus.lrf';
         var_form_Informe.ShowModal;
-        FreeAndNil(var_form_Informe);
+        var_form_Informe.Free;
     end;
 end;
 
@@ -422,6 +410,10 @@ begin
 
                     var_Form := TForm_menus_001.Create(nil);
 
+                    var_Form.DBEdit_Codigo.Color      := $006AD3D7;
+                    var_Form.DBEdit_Codigo.Font.Color := clRed;
+                    var_Form.DBEdit_Codigo.ReadOnly   := true;
+
                     var_Form.public_Menu_Worked := public_Menu_Worked;
 
                     if public_Solo_Ver = true then
@@ -432,7 +424,9 @@ begin
                     var_Form.ShowModal;
                     if var_Form.public_Pulso_Aceptar = true then
                         begin
-                            if ( Trim(var_Form.public_Record_Rgtro.MENUS_Descripcion) <> Trim(FieldByName('descripcion').AsString) ) or
+
+                            if ( Trim(var_Form.public_Record_Rgtro.Id)                <> Trim(FieldByName('id').AsString) )          or
+                               ( Trim(var_Form.public_Record_Rgtro.MENUS_Descripcion) <> Trim(FieldByName('descripcion').AsString) ) or
                                ( Trim(var_Form.public_Record_Rgtro.MENUS_Id_Menus)    <> Trim(FieldByName('Id_Menus').AsString) )    then
                                begin
                                     FieldByName('Change_WHEN').Value    := UTI_CN_Fecha_Hora;
@@ -443,7 +437,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(var_Form);
+                    var_Form.Free;
                 end;
             end
         else
@@ -485,7 +479,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(var_Form);
+                    var_Form.Free;
                 end;
         end;
 
@@ -512,9 +506,13 @@ begin
     if private_Salir_OK = False then
         begin
           { ********************************************************************
-            Intento BitBtn_SALIR de la aplicación de un modo no permitido
+            Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+            ********************************************************************
+            Pero si desde el menu principal está a true la variable
+            public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+            cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            CloseAction := caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
         end
     else
         begin
@@ -533,7 +531,7 @@ begin
         Application.Terminate;
     end;
 
-    FreeAndNil(DataModule_Menus);
+    DataModule_Menus.Free;
 end;
 
 procedure Tform_menus_000.FormDestroy(Sender: TObject);

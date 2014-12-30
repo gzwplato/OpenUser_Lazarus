@@ -510,7 +510,7 @@ begin
             else Result := 2; // CONTRASEÑA INCORRECTA
         end;
 
-        form_AskByPwd.Destroy;
+        form_AskByPwd.Free;
     end;
 end;
 

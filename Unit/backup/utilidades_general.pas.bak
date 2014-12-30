@@ -12,7 +12,6 @@ function  UTI_GEN_Form_Abierto_Ya(param_Form : string) : boolean;
 function  UTI_GEN_Aviso( param_Mensaje : TStrings; param_Titulo : String; param_BitBtn_Aceptar, param_BitBtn_Cancelar : Boolean ) : Boolean;
 function  UTI_GEN_Ordenar_dbGrid( param_Last_Column : TColumn; param_Column : TColumn; param_SQLQuery : TSQLQuery ) : TColumn;
 procedure UTI_GEN_Borrar_Imagen_Orden_Grid( param_Last_Column : TColumn );
-procedure UTI_GEN_Comillas_Decimales;
 
 implementation
 
@@ -52,7 +51,7 @@ begin
         begin
             // Contador de tiempo //
         end;
-        form_Avisos.Destroy;
+        form_Avisos.Free;
     **************************************************************************** }
 
     // var_Formito := tform_Avisos.Create(nil);
@@ -216,19 +215,6 @@ begin
      begin
           param_Last_Column.Title.ImageIndex := -1;
      end;
-end;
-
-procedure UTI_GEN_Comillas_Decimales;
-var var_CN_Conexion : Trecord_CN_Conexion;
-begin
-    var_CN_Conexion := UTI_CN_Traer_Configuracion;
-    if var_CN_Conexion.con_Exito = False then
-    begin
-        Application.Terminate;
-    end;
-
-    DecimalSeparator  := QuotedStr(Trim(var_CN_Conexion.decimalSeparator));
-    ThousandSeparator := Trim(var_CN_Conexion.thousandSeparator);
 end;
 
 end.

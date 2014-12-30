@@ -44,7 +44,7 @@ implementation
 
 {$R *.lfm}
 
-uses menus_000;
+uses menu, menus_000;
 
 { TForm_menus_001 }
 
@@ -120,9 +120,13 @@ begin
     if private_Salir_OK = False then
         begin
           { ********************************************************************
-            Intento salir de la aplicación de un modo no permitido
+            Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+            ********************************************************************
+            Pero si desde el menu principal está a true la variable
+            public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+            cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            CloseAction := caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
         end
     else
         begin

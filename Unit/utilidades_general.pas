@@ -51,7 +51,7 @@ begin
         begin
             // Contador de tiempo //
         end;
-        form_Avisos.Destroy;
+        form_Avisos.Free;
     **************************************************************************** }
 
     // var_Formito := tform_Avisos.Create(nil);
@@ -99,7 +99,7 @@ begin
              Result := True
         else Result := False;
 
-        Destroy;
+        Free;
     end;
 end;
 

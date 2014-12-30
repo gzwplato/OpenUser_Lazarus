@@ -27,8 +27,6 @@ type
       Password          : string;
       UserName          : string;
       min_no_Work       : string;
-      decimalSeparator  : ShortString;
-      thousandSeparator : ShortString;
   end;
 
   Trecord_Cambiar_Filtros_Devuelve = record
@@ -587,8 +585,6 @@ begin
             Result.UserName          := var_fichero_ini.ReadString('HowConnectBD', 'UserName', '');
 
             Result.min_no_Work       := var_fichero_ini.ReadString('Config', 'min_no_Work', '');
-            Result.decimalSeparator  := var_fichero_ini.ReadString('Config', 'decimalSeparator', '');
-            Result.thousandSeparator := var_fichero_ini.ReadString('Config', 'thousandSeparator', '');
 
             var_fichero_ini.Free;
         except

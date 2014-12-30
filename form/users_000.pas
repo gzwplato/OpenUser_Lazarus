@@ -259,9 +259,13 @@ begin
     if private_Salir_OK = False then
         begin
           { ********************************************************************
-            Intento BitBtn_SALIR de la aplicación de un modo no permitido
+            Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+            ********************************************************************
+            Pero si desde el menu principal está a true la variable
+            public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+            cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            CloseAction := caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
         end
     else
         begin
@@ -282,7 +286,7 @@ begin
         Application.Terminate;
     end;
 
-    FreeAndNil(DataModule_Users);
+    DataModule_Users.Free;
 end;
 
 procedure Tform_users_000.Cerramos_Tablas_Ligadas;
@@ -416,7 +420,7 @@ begin
             var_msg := TStringList.Create;
             var_msg.Add('Sólo se puede visualizar.');
             UTI_GEN_Aviso(var_msg, 'SOLO PARA OBSERVAR', True, False);
-            FreeAndNil(var_msg);
+            var_msg.Free;
             Exit;
         end;
 
@@ -425,7 +429,7 @@ begin
         var_form_Informe.public_Menu_Worked      := public_Menu_Worked;
         var_form_Informe.public_informe          := 'informes/users.lrf';
         var_form_Informe.ShowModal;
-        FreeAndNil(var_form_Informe);
+        var_form_Informe.Free;
     end;
 end;
 
@@ -602,7 +606,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(Form_users_001);
+                    Form_users_001.Free;
                 end;
         end;
 
@@ -660,7 +664,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(Form_users_001);
+                    Form_users_001.Free;
                 end;
             end
         else
@@ -676,11 +680,6 @@ end;
 procedure TForm_users_000.Presentar_Datos;
 begin
      /// guardar por lo que pueda pasar
-end;
-
-procedure Tform_users_000.SQLQuery_Users_MenusAfterScroll(DataSet: TDataSet);
-begin
-     Filtrar_tablas_ligadas_Menus;
 end;
 
 procedure Tform_users_000.Filtrar_tablas_ligadas;
@@ -700,42 +699,8 @@ begin
     var_Lineas_OrderBy.Clear;
     Filtrar_users_menus( private_Last_Column, RadioGroup_Bajas.ItemIndex, false, var_Lineas_Filtro, var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
-end;
-
-procedure Tform_users_000.Filtrar_tablas_ligadas_Menus;
-var var_Lineas_Filtro  : TStrings;
-    var_Lineas_OrderBy : TStrings;
-begin
-    if SQLQuery_Users.RecordCount = 0 then Exit;
-
-    var_Lineas_Filtro  := TStringList.Create;
-    var_Lineas_OrderBy := TStringList.Create;
-
-    UTI_RGTRO_Pasar_Valor_Campo( true, var_Lineas_Filtro, SQLQuery_Users_Menus.FieldByName('Id_Users').AsString, 'upe.Id_Users', false );
-    UTI_RGTRO_Pasar_Valor_Campo( false, var_Lineas_Filtro, SQLQuery_Users_Menus.FieldByName('Id_Menus').AsString, 'upe.Id_Menus', false );
-    var_Lineas_OrderBy.Clear;
-
-    if UTI_GEN_Form_Abierto_Ya('Form_users_001') = true then
-         begin
-             Filtrar_users_menus_permisos( public_Last_Column_Menus_Permisos,
-                                           Form_users_001.RadioGroup_Bajas.ItemIndex,
-                                           false,
-                                           var_Lineas_Filtro,
-                                           var_Lineas_OrderBy );
-         end
-    else
-         begin
-             Filtrar_users_menus_permisos( private_Last_Column,
-                                           RadioGroup_Bajas.ItemIndex,
-                                           false,
-                                           var_Lineas_Filtro,
-                                           var_Lineas_OrderBy );
-         end;
-
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 end;
 
 function Tform_users_000.Filtrar_Principal( param_Cambiamos_Filtro : Boolean ) : ShortInt;
@@ -813,12 +778,6 @@ begin
     UTI_GEN_Borrar_Imagen_Orden_Grid(private_Last_Column);
 
     //Filtrar_tablas_ligadas;
-end;
-
-procedure Tform_users_000.SQLQuery_Users_Menus_PermisosAfterPost(DataSet: TDataSet);
-begin
-    UTI_RGTRO_Grabar( DataModule_Users.SQLTransaction_Users_Menus_Permisos, SQLQuery_Users_Menus_Permisos );
-    Refrescar_Registros_Menus_Permisos;
 end;
 
 function Tform_users_000.Filtrar_users_menus( param_Last_Column : TColumn;
@@ -1217,69 +1176,14 @@ begin
                              var_Lineas_Filtro,
                              var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 
     if Trim(var_Password) <> '' then
     begin
          SQLQuery_Users_Passwords.Locate( 'Password;Obligado_NICK_SN;Password_Expira_SN',
                                           VarArrayOf( [ var_Password, var_Obligado_NICK_SN, var_Password_Expira_SN ] ),
                                           [] );
-    end;
-end;
-
-procedure TForm_users_000.Refrescar_Registros_Menus_Permisos;
-var var_Lineas_Filtro  : TStrings;
-    var_Lineas_OrderBy : TStrings;
-    var_Buscar         : Boolean;
-    var_Id_Users       : Int64;
-    var_Id_Menus       : Int64;
-    var_Tipo_CRUD      : ShortString;
-    var_ver_Bajas      : ShortInt;
-begin
-    // ********************************************************************************************* //
-    // ** OJITO ... NO USAR CAMPOS AUTOINCREMENTABLES                                             ** //
-    // ********************************************************************************************* //
-    var_Buscar := false;
-
-    if SQLQuery_Users_Menus_Permisos.RecordCount > 0 then
-    begin
-        var_Buscar     := true;
-        var_Id_Users   := SQLQuery_Users_Menus_Permisos.FieldByName('Id_Users').Value;
-        var_Id_Menus   := SQLQuery_Users_Menus_Permisos.FieldByName('Id_Menus').Value;
-        var_Tipo_CRUD  := SQLQuery_Users_Menus_Permisos.FieldByName('Tipo_CRUD').Value;
-    end;
-
-    var_Lineas_Filtro  := TStringList.Create;
-    var_Lineas_OrderBy := TStringList.Create;
-
-    var_Lineas_Filtro.Clear;
-    var_Lineas_OrderBy.Clear;
-
-    if Trim(SQLQuery_Users.FieldByName('id').AsString) <> '' then
-         var_Lineas_Filtro.Add('Id_Users = ' + Trim(SQLQuery_Users.FieldByName('id').AsString))
-    else var_Lineas_Filtro.Add('Id_Users = Null');
-
-    var_ver_Bajas := RadioGroup_Bajas.ItemIndex;
-    if UTI_GEN_Form_Abierto_Ya('Form_users_001') = true then
-    begin
-        var_ver_Bajas := Form_users_001.RadioGroup_Bajas.ItemIndex;
-    end;
-
-    Filtrar_users_menus_permisos( public_Last_Column_Menus_Permisos,
-                                  var_ver_Bajas,
-                                  false,
-                                  var_Lineas_Filtro,
-                                  var_Lineas_OrderBy );
-
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
-
-    if var_Buscar = true then
-    begin
-         SQLQuery_Users_Menus_Permisos.Locate( 'Id_Users;Id_Menus;Tipo_CRUD',
-                                               VarArrayOf( [ var_Id_Users, var_Id_Menus, var_Tipo_CRUD ] ),
-                                               [] );
     end;
 end;
 
@@ -1321,14 +1225,119 @@ begin
                          var_Lineas_Filtro,
                          var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 
     if var_Buscar = true then
     begin
          SQLQuery_Users_Menus.Locate( 'Id_Users;Id_Menus',
                                       VarArrayOf( [ var_Id_Users, var_Id_Menus ] ),
                                       [] );
+    end;
+end;
+
+procedure Tform_users_000.SQLQuery_Users_MenusAfterScroll(DataSet: TDataSet);
+begin
+     Filtrar_tablas_ligadas_Menus;
+end;
+
+procedure Tform_users_000.SQLQuery_Users_Menus_PermisosAfterPost(DataSet: TDataSet);
+begin
+    UTI_RGTRO_Grabar( DataModule_Users.SQLTransaction_Users_Menus_Permisos, SQLQuery_Users_Menus_Permisos );
+    Refrescar_Registros_Menus_Permisos;
+end;
+
+procedure Tform_users_000.Filtrar_tablas_ligadas_Menus;
+var var_Lineas_Filtro  : TStrings;
+    var_Lineas_OrderBy : TStrings;
+begin
+    if SQLQuery_Users_Menus.RecordCount = 0 then Exit;
+
+    var_Lineas_Filtro  := TStringList.Create;
+    var_Lineas_OrderBy := TStringList.Create;
+
+    UTI_RGTRO_Pasar_Valor_Campo( true, var_Lineas_Filtro, SQLQuery_Users_Menus.FieldByName('Id_Users').AsString, 'upe.Id_Users', false );
+    UTI_RGTRO_Pasar_Valor_Campo( false, var_Lineas_Filtro, SQLQuery_Users_Menus.FieldByName('Id_Menus').AsString, 'upe.Id_Menus', false );
+    var_Lineas_OrderBy.Clear;
+
+    if UTI_GEN_Form_Abierto_Ya('Form_users_001') = true then
+         begin
+             Filtrar_users_menus_permisos( public_Last_Column_Menus_Permisos,
+                                           Form_users_001.RadioGroup_Bajas.ItemIndex,
+                                           false,
+                                           var_Lineas_Filtro,
+                                           var_Lineas_OrderBy );
+         end
+    else
+         begin
+             Filtrar_users_menus_permisos( private_Last_Column,
+                                           RadioGroup_Bajas.ItemIndex,
+                                           false,
+                                           var_Lineas_Filtro,
+                                           var_Lineas_OrderBy );
+         end;
+
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
+end;
+
+procedure TForm_users_000.Refrescar_Registros_Menus_Permisos;
+var var_Lineas_Filtro  : TStrings;
+    var_Lineas_OrderBy : TStrings;
+    var_Buscar         : Boolean;
+    var_Id_Users       : Int64;
+    var_Id_Menus       : Int64;
+    var_Tipo_CRUD      : ShortString;
+    var_ver_Bajas      : ShortInt;
+begin
+    // ********************************************************************************************* //
+    // ** OJITO ... NO USAR CAMPOS AUTOINCREMENTABLES                                             ** //
+    // ********************************************************************************************* //
+    var_Buscar := false;
+
+    if SQLQuery_Users_Menus_Permisos.RecordCount > 0 then
+    begin
+        var_Buscar     := true;
+        var_Id_Users   := SQLQuery_Users_Menus_Permisos.FieldByName('Id_Users').Value;
+        var_Id_Menus   := SQLQuery_Users_Menus_Permisos.FieldByName('Id_Menus').Value;
+        var_Tipo_CRUD  := SQLQuery_Users_Menus_Permisos.FieldByName('Tipo_CRUD').Value;
+    end;
+
+    var_Lineas_Filtro  := TStringList.Create;
+    var_Lineas_OrderBy := TStringList.Create;
+
+    var_Lineas_Filtro.Clear;
+    var_Lineas_OrderBy.Clear;
+
+    UTI_RGTRO_Pasar_Valor_Campo( true, var_Lineas_Filtro, SQLQuery_Users_Menus.FieldByName('Id_Users').AsString, 'upe.Id_Users', false );
+    UTI_RGTRO_Pasar_Valor_Campo( false, var_Lineas_Filtro, SQLQuery_Users_Menus.FieldByName('Id_Menus').AsString, 'upe.Id_Menus', false );
+    var_Lineas_OrderBy.Clear;
+
+{
+    if Trim(SQLQuery_Users.FieldByName('id').AsString) <> '' then
+         var_Lineas_Filtro.Add('Id_Users = ' + Trim(SQLQuery_Users.FieldByName('id').AsString))
+    else var_Lineas_Filtro.Add('Id_Users = Null');
+}
+    var_ver_Bajas := RadioGroup_Bajas.ItemIndex;
+    if UTI_GEN_Form_Abierto_Ya('Form_users_001') = true then
+    begin
+        var_ver_Bajas := Form_users_001.RadioGroup_Bajas.ItemIndex;
+    end;
+
+    Filtrar_users_menus_permisos( public_Last_Column_Menus_Permisos,
+                                  var_ver_Bajas,
+                                  false,
+                                  var_Lineas_Filtro,
+                                  var_Lineas_OrderBy );
+
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
+
+    if var_Buscar = true then
+    begin
+         SQLQuery_Users_Menus_Permisos.Locate( 'Id_Users;Id_Menus;Tipo_CRUD',
+                                               VarArrayOf( [ var_Id_Users, var_Id_Menus, var_Tipo_CRUD ] ),
+                                               [] );
     end;
 end;
 

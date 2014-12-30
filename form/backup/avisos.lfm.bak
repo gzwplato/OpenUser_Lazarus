@@ -1,7 +1,7 @@
 object Form_Avisos: TForm_Avisos
-  Left = 414
+  Left = 509
   Height = 297
-  Top = 180
+  Top = 246
   Width = 599
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False

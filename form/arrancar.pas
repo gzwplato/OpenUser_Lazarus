@@ -35,7 +35,7 @@ begin
     Application.CreateForm(TForm_Menu, Form_Menu);
     Form_Menu.ShowModal;
     try
-       FreeAndNil(Form_Menu);
+       Form_Menu.Free;
        Application.Terminate;
     Except
       on E: Exception do

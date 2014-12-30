@@ -3,7 +3,7 @@ object form_AskByPwd: Tform_AskByPwd
   Height = 658
   Top = 204
   Width = 846
-  Caption = 'form_AskByPwd'
+  Caption = 'INTRODUZCA LA CONTRASEÑA Y EL USUARIO.-'
   ClientHeight = 658
   ClientWidth = 846
   OnClose = FormClose

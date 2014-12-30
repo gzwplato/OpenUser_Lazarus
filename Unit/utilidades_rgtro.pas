@@ -132,8 +132,7 @@ begin
             end;
 
             FieldByName('Del_WHY').AsString := var_Form_Estado_Registro.Edit_Motivo_Baja.Text;
-            FreeAndNil(var_Form_Estado_Registro);
-            //var_Form_Estado_Registro.Destroy;
+            var_Form_Estado_Registro.Free;
 
             if var_OK = True then
                  //Grabar_Registro
@@ -383,8 +382,8 @@ begin
   { ****************************************************************************
     Destruimos la tabla y conexiones
     **************************************************************************** }
-    var_SQLQuery.Destroy;
-    var_SQL.Destroy;
+    var_SQLQuery.Free;
+    var_SQL.Free;
 
   { ****************************************************************************
     Cerramos La transacción y la conexión con la BD
@@ -392,8 +391,8 @@ begin
     if UTI_CN_Cerrar( var_SQLTransaction,
                       var_SQLConnector ) = False then Application.Terminate;
 
-    var_SQLTransaction.Destroy;
-    var_SQLConnector.Destroy;
+    var_SQLTransaction.Free;
+    var_SQLConnector.Free;
 end;
 
 procedure UTI_RGTRO_Ver_Estado_Registro( param_SQLQuery : TSQLQuery;
@@ -466,7 +465,7 @@ begin
 
         var_Form_Estado_Registro.ShowModal;
 
-        FreeAndNil(var_Form_Estado_Registro);
+        var_Form_Estado_Registro.Free;
     end;
 end;
 

@@ -361,7 +361,7 @@ object Form_peliculas_000: TForm_peliculas_000
     TitleFont.Pitch = fpVariable
     TitleFont.Quality = fqDraft
     TitleFont.Style = [fsBold]
-    TitleImageList = Form_Menu.ImageList_Grid_Sort
+    TitleImageList = form_Menu.ImageList_Grid_Sort
     OnCellClick = DBGrid_PrincipalCellClick
     OnDrawColumnCell = DBGrid_PrincipalDrawColumnCell
     OnDblClick = DBGrid_PrincipalDblClick

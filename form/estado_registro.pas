@@ -131,9 +131,13 @@ begin
   if private_Salir_OK = False then
       begin
         { ********************************************************************
-          Intento salir de la aplicación de un modo no permitido
+          Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+          ********************************************************************
+          Pero si desde el menu principal está a true la variable
+          public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+          cancelar al preguntar otra vez por la contraseña
           ******************************************************************** }
-          CloseAction := caNone;
+          if form_Menu.public_Salir_OK = False then CloseAction := caNone;
       end
   else
       begin
@@ -307,7 +311,7 @@ begin
         Application.Terminate;
     end;
 
-    FreeAndNil(DataModule_historico_registros);
+    DataModule_historico_registros.Free;
 end;
 
 procedure TForm_Estado_Registro.Cerramos_Tablas_Ligadas;
@@ -362,8 +366,8 @@ begin
                                       var_Lineas_Filtro,
                                       var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 end;
 
 function TForm_Estado_Registro.Filtrar_users_row_changes_fields( param_Last_Column : TColumn;

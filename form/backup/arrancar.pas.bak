@@ -36,6 +36,7 @@ begin
     Form_Menu.ShowModal;
     try
        FreeAndNil(Form_Menu);
+       Application.Terminate;
     Except
       on E: Exception do
       begin

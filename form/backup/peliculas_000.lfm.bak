@@ -614,7 +614,7 @@ object Form_peliculas_000: TForm_peliculas_000
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbRefresh]
   end
   object Memo_OrderBy: TMemo
-    Left = 90
+    Left = 88
     Height = 34
     Top = 60
     Width = 966

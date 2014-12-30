@@ -183,7 +183,9 @@ begin
 
     // var_SQL_ORDER_BY :=  'ORDER BY m.descripcion ASC';
 
-    Result := UTI_TB_Filtrar( var_DeleteSQL,
+    Result := UTI_TB_Filtrar( private_Order_By,
+
+                              var_DeleteSQL,
                               var_UpdateSQL,
                               var_InsertSQL,
 
@@ -373,7 +375,7 @@ begin
 
     // Filtrar_users_passwords( RadioGroup_Bajas.ItemIndex, false, var_Lineas );
 
-    FreeAndNil(var_Lineas);
+    var_Lineas.Free;
 end;
 
 procedure Tform_medios_000.SQLQuery_MediosBeforePost(DataSet: TDataSet);
@@ -560,9 +562,13 @@ begin
      if private_Salir_OK = False then
          begin
            { ********************************************************************
-             Intento BitBtn_SALIR de la aplicación de un modo no permitido
+             Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+             ********************************************************************
+             Pero si desde el menu principal está a true la variable
+             public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+             cancelar al preguntar otra vez por la contraseña
              ******************************************************************** }
-             CloseAction := caNone;
+             if form_Menu.public_Salir_OK = False then CloseAction := caNone;
          end
      else
          begin

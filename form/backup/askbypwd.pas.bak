@@ -91,9 +91,9 @@ begin
     private_Ctdad_Intentos_Tope := param_Ctdad_Intentos_Tope;
     private_Ctdad_Veces         := param_ctdad_veces;
 
-    Label_Intentos.Caption := 'Intento ... ' +
+    Label_Intentos.Caption := 'INTENTO ... ' +
                               Trim(IntToStr(private_Ctdad_Veces + 1)) +
-                              ' de ' + Trim(IntToStr(private_Ctdad_Intentos_Tope));
+                              ' DE ' + Trim(IntToStr(private_Ctdad_Intentos_Tope));
 end;
 
 procedure Tform_AskByPwd.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -105,10 +105,15 @@ begin
 
     if private_Salir_OK = False then
         begin
+            esto hay que hacerlo en todos los form
           { ********************************************************************
-            Intento salir de la aplicación de un modo no permitido
+            Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+            ********************************************************************
+            Pero si desde el menu principal está a true la variable
+            public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+            cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            CloseAction := CloseAction.caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
         end
     else
         begin

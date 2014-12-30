@@ -188,9 +188,9 @@ begin
 end;
 
 function UTI_Abrir_Form( param_Elegimos,
-                     param_Solo_Ver : Boolean;
-                     param_Campo : ShortString;
-                     param_Menu_Worked : Integer ) : TRecord_Rgtro_Comun;
+                         param_Solo_Ver : Boolean;
+                         param_Campo : ShortString;
+                         param_Menu_Worked : Integer ) : TRecord_Rgtro_Comun;
 var var_msg : TStrings;
 begin
      var_msg := TStringList.Create;
@@ -218,7 +218,7 @@ begin
                           Result := UTI_Asignar_Fields_Medios(Form_medios_000.SQLQuery_Medios);
                       end;
 
-                      FreeAndNil(Form_medios_000);
+                      Form_medios_000.Free;
                   end
               else var_msg.Add('Módulo ya abierto, no puedo abrirlo dos veces.');
           end;
@@ -244,7 +244,7 @@ begin
                           Result := UTI_Asignar_Fields_Pelis(Form_peliculas_000.SQLQuery_Pelis);
                       end;
 
-                      FreeAndNil(Form_peliculas_000);
+                      Form_peliculas_000.Free;
                   end
               else var_msg.Add('Módulo ya abierto, no puedo abrirlo dos veces.');
           end;
@@ -269,7 +269,7 @@ begin
                           Result := UTI_Asignar_Fields_Usuarios(Form_users_000.SQLQuery_Users);
                       end;
 
-                      FreeAndNil(Form_users_000);
+                      Form_users_000.Free;
                   end
               else var_msg.Add('Módulo ya abierto, no puedo abrirlo dos veces.');
           end;
@@ -302,7 +302,7 @@ begin
                           }
                      end;
 
-                      FreeAndNil(Form_menus_000);
+                      Form_menus_000.Free;
                   end
               else var_msg.Add('Módulo ya abierto, no puedo abrirlo dos veces.');
           end;

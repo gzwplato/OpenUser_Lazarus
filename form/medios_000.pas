@@ -375,7 +375,7 @@ begin
 
     // Filtrar_users_passwords( RadioGroup_Bajas.ItemIndex, false, var_Lineas );
 
-    FreeAndNil(var_Lineas);
+    var_Lineas.Free;
 end;
 
 procedure Tform_medios_000.SQLQuery_MediosBeforePost(DataSet: TDataSet);
@@ -434,7 +434,7 @@ begin
             var_msg := TStringList.Create;
             var_msg.Add('Sólo se puede visualizar.');
             UTI_GEN_Aviso(var_msg, 'SOLO PARA OBSERVAR', True, False);
-            FreeAndNil(var_msg);
+            var_msg.Free;
             Exit;
         end;
 
@@ -443,7 +443,7 @@ begin
         var_form_Informe.public_Menu_Worked      := public_Menu_Worked;
         var_form_Informe.public_informe          := 'informes/medios.lrf';
         var_form_Informe.ShowModal;
-        FreeAndNil(var_form_Informe);
+        var_form_Informe.Free;
     end;
 end;
 
@@ -493,7 +493,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(var_Form);
+                    var_Form.Free;
                 end;
             end
         else
@@ -535,7 +535,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(var_Form);
+                    var_Form.Free;
                 end;
         end;
 
@@ -562,9 +562,13 @@ begin
      if private_Salir_OK = False then
          begin
            { ********************************************************************
-             Intento BitBtn_SALIR de la aplicación de un modo no permitido
+             Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+             ********************************************************************
+             Pero si desde el menu principal está a true la variable
+             public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+             cancelar al preguntar otra vez por la contraseña
              ******************************************************************** }
-             CloseAction := caNone;
+             if form_Menu.public_Salir_OK = False then CloseAction := caNone;
          end
      else
          begin
@@ -583,7 +587,7 @@ begin
         Application.Terminate;
     end;
 
-    FreeAndNil(DataModule_Medios);
+    DataModule_Medios.Free;
 end;
 
 procedure Tform_medios_000.FormDestroy(Sender: TObject);

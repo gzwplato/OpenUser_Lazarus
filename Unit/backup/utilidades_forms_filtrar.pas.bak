@@ -188,11 +188,10 @@ begin
 end;
 
 function UTI_Abrir_Form( param_Elegimos,
-                     param_Solo_Ver : Boolean;
-                     param_Campo : ShortString;
-                     param_Menu_Worked : Integer ) : TRecord_Rgtro_Comun;
+                         param_Solo_Ver : Boolean;
+                         param_Campo : ShortString;
+                         param_Menu_Worked : Integer ) : TRecord_Rgtro_Comun;
 var var_msg : TStrings;
-var var_Form_peliculas_000 : TForm_peliculas_000;
 begin
      var_msg := TStringList.Create;
      var_msg.Clear;
@@ -233,19 +232,19 @@ begin
           begin
               if UTI_GEN_Form_Abierto_Ya('Form_peliculas_000') = false then
                   begin
-//                      Application.CreateForm(TForm_peliculas_000, Form_peliculas_000);
-                      var_Form_peliculas_000 := TForm_peliculas_000.Create(nil);
-                      var_Form_peliculas_000.public_Solo_Ver    := param_Solo_Ver;
-                      var_Form_peliculas_000.public_Elegimos    := param_Elegimos;
-                      var_Form_peliculas_000.public_Menu_Worked := param_Menu_Worked;
-                      var_Form_peliculas_000.ShowModal;
+                      Application.CreateForm(TForm_peliculas_000, Form_peliculas_000);
+                      //var_Form_peliculas_000 := TForm_peliculas_000.Create(nil);
+                      Form_peliculas_000.public_Solo_Ver    := param_Solo_Ver;
+                      Form_peliculas_000.public_Elegimos    := param_Elegimos;
+                      Form_peliculas_000.public_Menu_Worked := param_Menu_Worked;
+                      Form_peliculas_000.ShowModal;
 
-                      if var_Form_peliculas_000.public_Rgtro_Seleccionado = true then
+                      if Form_peliculas_000.public_Rgtro_Seleccionado = true then
                       begin
-                          Result := UTI_Asignar_Fields_Pelis(var_Form_peliculas_000.SQLQuery_Pelis);
+                          Result := UTI_Asignar_Fields_Pelis(Form_peliculas_000.SQLQuery_Pelis);
                       end;
 
-                      FreeAndNil(var_Form_peliculas_000);
+                      FreeAndNil(Form_peliculas_000);
                   end
               else var_msg.Add('Módulo ya abierto, no puedo abrirlo dos veces.');
           end;

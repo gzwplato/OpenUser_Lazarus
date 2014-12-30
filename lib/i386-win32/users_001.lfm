@@ -250,6 +250,16 @@ object Form_users_001: TForm_users_001
         Color = 7001047
         Columns = <        
           item
+            Title.Caption = 'Id_Users'
+            Visible = False
+            FieldName = 'Id_Users'
+          end        
+          item
+            Title.Caption = 'Id_Menus'
+            Visible = False
+            FieldName = 'Id_Menus'
+          end        
+          item
             Title.Alignment = taCenter
             Title.Caption = 'TIPO PERMISO / DESCRIPCIÓN'
             Width = 340

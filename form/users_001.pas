@@ -127,9 +127,13 @@ begin
     if private_Salir_OK = False then
         begin
           { ********************************************************************
-            Intento salir de la aplicación de un modo no permitido
+            Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+            ********************************************************************
+            Pero si desde el menu principal está a true la variable
+            public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+            cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            CloseAction := CloseAction.caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := CloseAction.caFree ;
         end
     else
         begin
@@ -578,37 +582,6 @@ begin
                                                                                 form_users_000.SQLQuery_Users_Menus );
 end;
 
-procedure TForm_users_001.DBNavigator_Menus_PermisosBeforeAction(Sender: TObject;
-    Button: TDBNavButtonType);
-begin
-    case Button of
-        nbInsert : begin
-            Insertar_Registro_Menus_Permisos;
-            Abort;
-        end;
-
-        nbEdit : begin
-            Editar_Registro_Menus_Permisos;
-            Abort;
-        end;
-
-        nbDelete : begin
-            if UTI_usr_Permiso_SN(public_Menu_Worked, 'B', True) = True then
-            begin
-                UTI_RGTRO_Borrar( form_users_000.SQLQuery_Users_Menus_Permisos,
-                                  public_Solo_Ver,
-                                  public_Menu_Worked );
-            end;
-            Abort;
-        end;
-
-        nbRefresh : begin
-            form_users_000.Refrescar_Registros_Menus_Permisos;
-            Abort;
-        end;
-    end;
-end;
-
 procedure TForm_users_001.BitBtn_Ver_Situacion_PermisosClick(Sender: TObject);
 begin
     if UTI_usr_Permiso_SN(public_Menu_Worked, '', True) = True then
@@ -666,7 +639,7 @@ begin
                     var_Form.ShowModal;
                     if var_Form.public_Pulso_Aceptar = true then
                         begin
-                            FreeAndNil(var_Form);
+                            var_Form.Free;
 
                             var_record_Existe := Existe_PWD_Ya( '', // Estoy insertando/creando y lo que tengo que comprobar es que no exista la pwd en cualquier otro usuario, por lo que el campo id_Users no lo paso
                                                                 FieldByName('Password').AsString );
@@ -694,7 +667,7 @@ begin
                         end
                     else
                         begin
-                            FreeAndNil(var_Form);
+                            var_Form.Free;
                             Cancel;
                         end;
                 end;
@@ -892,87 +865,6 @@ begin
     var_SQLConnector.Free;
 end;
 
-procedure TForm_users_001.Insertar_Registro_Menus_Permisos;
-var var_msg           : TStrings;
-    var_Form          : TForm_users_004;
-    var_record_Existe : Trecord_Existe;
-begin
-    with form_users_000.SQLQuery_Users_Menus_Permisos do
-    begin
-        var_msg := TStringList.Create;
-
-        if form_users_000.SQLQuery_Users_Menus.RecordCount > 0 then
-            begin
-                if UTI_usr_Permiso_SN(public_Menu_Worked, 'A', True) = True then
-                begin
-                    if public_Solo_Ver = True then
-                        begin
-                            var_msg.Clear;
-                            var_msg.Add('Sólo se puede visualizar.');
-                            UTI_GEN_Aviso(var_msg, 'SOLO PARA OBSERVAR', True, False);
-                        end
-                    else
-                        begin
-                            Insert;
-
-                            FieldByName('Id_Users').AsString  := form_users_000.SQLQuery_Users_Menus.FieldByName('Id_Users').AsString;
-                            FieldByName('Id_Menus').AsString  := form_users_000.SQLQuery_Users_Menus.FieldByName('Id_Menus').AsString;
-                            FieldByName('PermisoSN').AsString := 'S';
-
-                            var_Form := TForm_users_004.Create(nil);
-
-                            var_Form.ShowModal;
-                            if var_Form.public_Pulso_Aceptar = true then
-                                begin
-                                    FreeAndNil(var_Form);
-
-                                    var_record_Existe := Existe_Menus_Permisos_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
-                                                                                   FieldByName('Id_Users').AsString,
-                                                                                   FieldByName('Id_Menus').AsString,
-                                                                                   FieldByName('Tipo_CRUD').AsString );
-                                    if var_record_Existe.Existe = false then
-                                  { if Existe_Menus_Permisos_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
-                                                                 FieldByName('Id_Users').AsString,
-                                                                 FieldByName('Id_Menus').AsString,
-                                                                 FieldByName('Tipo_CRUD').AsString ) = false then }
-                                        begin
-                                            FieldByName('Insert_WHEN').Value    := UTI_CN_Fecha_Hora;
-                                            FieldByName('Insert_Id_User').Value := Form_Menu.public_User;
-                                            Post;
-                                        end
-                                    else
-                                        begin
-                                            Cancel;
-                                            var_msg.Clear;
-                                            var_msg.Add('Permiso repetido para el menú elegido.');
-
-                                            if UpperCase(var_record_Existe.deBaja) = 'S' then
-                                            begin
-                                                var_msg.Add('Y está dado de baja.');
-                                            end;
-
-                                            UTI_GEN_Aviso(var_msg, 'YA EXISTE.-', True, False);
-                                        end;
-                                end
-                            else
-                                begin
-                                    FreeAndNil(var_Form);
-                                    Cancel;
-                                end;
-                        end;
-                end;
-            end
-        else
-            begin
-                var_msg.Clear;
-                var_msg.Add('No tiene ninguna autorización.');
-                UTI_GEN_Aviso(var_msg, 'NO EXISTE.-', True, False);
-            end;
-
-        var_msg.Free;
-    end;
-end;
-
 function TForm_users_001.Existe_Menus_Permisos_Ya( param_Id,
                                                    param_Id_Users,
                                                    param_id_Menus,
@@ -1116,11 +1008,11 @@ begin
                                             Post;
                                        end
                                     else Cancel;
-                                    FreeAndNil(var_Form);
+                                    var_Form.Free;
                                 end
                             else
                                 begin
-                                    FreeAndNil(var_Form);
+                                    var_Form.Free;
                                     Cancel;
                                     var_msg.Clear;
                                     var_msg.Add( 'Contraseña repetida, pertenece al usuario ' +
@@ -1136,7 +1028,7 @@ begin
                         end
                     else
                         begin
-                            FreeAndNil(var_Form);
+                            var_Form.Free;
                             Cancel;
                         end;
                 end;
@@ -1198,11 +1090,11 @@ begin
                                        end
                                     else Cancel;
 
-                                    Form_users_003.Destroy;
+                                    Form_users_003.Free;
                                 end
                             else
                                 begin
-                                    Form_users_003.Destroy;
+                                    Form_users_003.Free;
                                     Cancel;
                                     var_msg.Clear;
                                     var_msg.Add('Menu repetido.');
@@ -1214,12 +1106,10 @@ begin
 
                                     UTI_GEN_Aviso(var_msg, 'YA EXISTE.-', True, False);
                                 end;
-
-                            // Form_users_003.Destroy; falla aqui
                         end
                     else
                         begin
-                            Form_users_003.Destroy;
+                            Form_users_003.Free;
                             Cancel;
                         end;
                 end;
@@ -1281,11 +1171,11 @@ begin
                                             Post;
                                        end
                                     else Cancel;
-                                    FreeAndNil(var_Form);
+                                    var_Form.Free;
                                 end
                             else
                                 begin
-                                    FreeAndNil(var_Form);
+                                    var_Form.Free;
                                     Cancel;
                                     var_msg.Clear;
                                     var_msg.Add('Permiso repetido para el menú elegido.');
@@ -1300,7 +1190,7 @@ begin
                         end
                     else
                         begin
-                            FreeAndNil(var_Form);
+                            var_Form.Free;
                             Cancel;
                         end;
                 end;
@@ -1343,7 +1233,7 @@ begin
                     var_Form.ShowModal;
                     if var_Form.public_Pulso_Aceptar = true then
                         begin
-                            FreeAndNil(var_Form);
+                            var_Form.Free;
 
                             var_record_Existe := Existe_Menu_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
                                                                  FieldByName('Id_Users').AsString,
@@ -1370,11 +1260,123 @@ begin
                         end
                     else
                         begin
-                            FreeAndNil(var_Form);
+                            var_Form.Free;
                             Cancel;
                         end;
                 end;
         end;
+
+        var_msg.Free;
+    end;
+end;
+
+procedure TForm_users_001.DBNavigator_Menus_PermisosBeforeAction(Sender: TObject;
+    Button: TDBNavButtonType);
+begin
+    case Button of
+        nbInsert : begin
+            Insertar_Registro_Menus_Permisos;
+            Abort;
+        end;
+
+        nbEdit : begin
+            Editar_Registro_Menus_Permisos;
+            Abort;
+        end;
+
+        nbDelete : begin
+            if UTI_usr_Permiso_SN(public_Menu_Worked, 'B', True) = True then
+            begin
+                UTI_RGTRO_Borrar( form_users_000.SQLQuery_Users_Menus_Permisos,
+                                  public_Solo_Ver,
+                                  public_Menu_Worked );
+            end;
+            Abort;
+        end;
+
+        nbRefresh : begin
+            form_users_000.Refrescar_Registros_Menus_Permisos;
+            Abort;
+        end;
+    end;
+end;
+
+procedure TForm_users_001.Insertar_Registro_Menus_Permisos;
+var var_msg           : TStrings;
+    var_Form          : TForm_users_004;
+    var_record_Existe : Trecord_Existe;
+begin
+    with form_users_000.SQLQuery_Users_Menus_Permisos do
+    begin
+        var_msg := TStringList.Create;
+
+        if form_users_000.SQLQuery_Users_Menus.RecordCount > 0 then
+            begin
+                if UTI_usr_Permiso_SN(public_Menu_Worked, 'A', True) = True then
+                begin
+                    if public_Solo_Ver = True then
+                        begin
+                            var_msg.Clear;
+                            var_msg.Add('Sólo se puede visualizar.');
+                            UTI_GEN_Aviso(var_msg, 'SOLO PARA OBSERVAR', True, False);
+                        end
+                    else
+                        begin
+                            Insert;
+
+                            FieldByName('Id_Users').AsString  := form_users_000.SQLQuery_Users_Menus.FieldByName('Id_Users').AsString;
+                            FieldByName('Id_Menus').AsString  := form_users_000.SQLQuery_Users_Menus.FieldByName('Id_Menus').AsString;
+                            FieldByName('PermisoSN').AsString := 'S';
+
+                            var_Form := TForm_users_004.Create(nil);
+
+                            var_Form.ShowModal;
+                            if var_Form.public_Pulso_Aceptar = true then
+                                begin
+                                    var_Form.Free;
+
+                                    var_record_Existe := Existe_Menus_Permisos_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
+                                                                                   FieldByName('Id_Users').AsString,
+                                                                                   FieldByName('Id_Menus').AsString,
+                                                                                   FieldByName('Tipo_CRUD').AsString );
+                                    if var_record_Existe.Existe = false then
+                                  { if Existe_Menus_Permisos_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
+                                                                 FieldByName('Id_Users').AsString,
+                                                                 FieldByName('Id_Menus').AsString,
+                                                                 FieldByName('Tipo_CRUD').AsString ) = false then }
+                                        begin
+                                            FieldByName('Insert_WHEN').Value    := UTI_CN_Fecha_Hora;
+                                            FieldByName('Insert_Id_User').Value := Form_Menu.public_User;
+                                            Post;
+                                        end
+                                    else
+                                        begin
+                                            Cancel;
+                                            var_msg.Clear;
+                                            var_msg.Add('Permiso repetido para el menú elegido.');
+
+                                            if UpperCase(var_record_Existe.deBaja) = 'S' then
+                                            begin
+                                                var_msg.Add('Y está dado de baja.');
+                                            end;
+
+                                            UTI_GEN_Aviso(var_msg, 'YA EXISTE.-', True, False);
+                                        end;
+                                end
+                            else
+                                begin
+                                    var_Form.Free;
+                                    Cancel;
+                                end;
+                        end;
+                end;
+            end
+        else
+            begin
+                var_msg.Clear;
+                var_msg.Add('No tiene ninguna autorización.');
+                UTI_GEN_Aviso(var_msg, 'NO EXISTE.-', True, False);
+            end;
 
         var_msg.Free;
     end;

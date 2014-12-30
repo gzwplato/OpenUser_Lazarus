@@ -23,6 +23,7 @@ type
         MenuItem_Peliculas: TMenuItem;
         Timer_Sin_Usar: TTimer;
 
+        procedure Que_Menus_Tiene_Permisos;
         procedure Preguntar_pwd;
         procedure Salir;
         procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -36,9 +37,9 @@ type
         procedure Timer_Sin_UsarTimer(Sender: TObject);
     private
       { private declarations }
-        private_Salir_OK : Boolean;
     public
       { public declarations }
+        public_Salir_OK : Boolean;
 
       { ************************************************************************
         Variables para la comprobación de la contraseña del usuario
@@ -94,11 +95,11 @@ begin
         Position    := poScreenCenter;
         BorderIcons := [biSystemMenu,biMinimize,biMaximize];
         BorderStyle := bsSingle;
+
+        WindowState := wsMaximized;
     end;
 
-    private_Salir_OK := false;
-    { **************************************************************************** }
-
+    public_Salir_OK := false;
 
   { ****************************************************************************
     Pasamos a activar el contador de tiempo para preguntar por la contraseña.
@@ -140,7 +141,6 @@ end;
 procedure Tform_Menu.MenuItem_PeliculasClick(Sender: TObject);
 begin
     UTI_Abrir_Form(false, false, '', 20);
-    close;
 end;
 
 procedure Tform_Menu.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -161,7 +161,7 @@ end;
 
 procedure Tform_Menu.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-    if private_Salir_OK = false then
+    if public_Salir_OK = false then
         CloseAction := caNone
     else
         begin
@@ -178,8 +178,9 @@ end;
 procedure Tform_Menu.Salir;
 begin
     try
-       private_Salir_OK := True;
-       Close;
+       Timer_Sin_Usar.Enabled := false;
+       public_Salir_OK := True;
+       Application.Terminate;  { No puedo poner Close, tiene que ser Application.Terminate }
     Except
       on E: Exception do
         raise;
@@ -250,6 +251,7 @@ begin
 
     var_Se_Sale               := True;
     var_Ctdad_Intentos_Tope   := 3;
+
     While var_ctdad_veces < var_Ctdad_Intentos_Tope do
     begin
         var_la_pwd := UTI_usr_AskByPwd( var_Ctdad_Intentos_Tope, var_ctdad_veces );
@@ -304,19 +306,35 @@ begin
 
     if var_Se_Sale = True then Salir;
 
+    Que_Menus_Tiene_Permisos;
+
+    form_Menu.Caption := 'OpenUser - Usuario : ' + Trim(public_User_Descripcion_Nick);
+
     Timer_Sin_Usar.Interval := 5000;
     Timer_Sin_Usar.Enabled  := true;
 
     public_When_Last_Permission := DateTimeToStr(Now);
 end;
 
+procedure Tform_Menu.Que_Menus_Tiene_Permisos;
+begin
+  { ****************************************************************************
+    Ahora dejaremos visibles aquellos menus a los que el usuario tenga permiso
+    **************************************************************************** }
+     MenuItem_Medios.Visible    := UTI_usr_Permiso_SN(10, '', false);
+     MenuItem_Peliculas.Visible := UTI_usr_Permiso_SN(20, '', false);
+     MenuItem_Usuarios.Visible  := UTI_usr_Permiso_SN(30, '', false);
+     MenuItem_Menus.Visible     := UTI_usr_Permiso_SN(40, '', false);
+end;
+
 end.
 
-JEROFA
+--------------------------
+  PARA VER SI SE ARREGLA
+--------------------------
+Que pasaria si permito salir con alt + f4 ?
 
-Despues de insertar un permiso a un usuario para un modulo, no filtra bien los permisos creados para
-ese modulo, pues me presenta más registros de los que tiene. Es como si no filtrara bien por el
-usuario o por el modulo.
+quitar todos los FilterRecord(
 
 tambien ver el codigo de errores para copiar y enviar por correo pues lleva un detalle de como ver
 el valor de cada campo
@@ -329,9 +347,32 @@ Las llamadas a los diferentes módulos deberían de construir diferentes record 
 un record tan sumamente grande como diferentes tablas se hubieran creado
 
 
-ARREGLADO
----------
+-------------
+  ARREGLADO
+-------------
+QUE CUANDO SE ACREDITE EL USUARIO (CONTRASEÑA) QUE EN EL MENU PRINCIPAL (EN EL CAPTION) APAREZCA
+COMO SE LLAMA EL USUARIO, SU NICK
+
+HAY QUE INTENTAR QUE SI UN USUARIO NO TIENE PERMISOS PARA TODOS LOS MODULOS, PUES QUE SOLO ENSEÑE
+EN EL MENU PRINCIPAL AQUELLOS A LOS QUE SI TENGA PERMISO
+
+ESTO DE ABJO SOLO OCURRRE CUANDO ESTAS DENTRO DE UN MODULO, NO DESDE EL MODULO PRINCIPAL.
+Despues de preguntar por la contraseña y volver al programa, cuando vuelve a preguntar por ella y
+pulsas por cancelar ... no se sale de la aplicación. Comprobar si despues de la tercera entrada mala
+de la contraseña pues también se sale o no se sale de la aplicación. Comprobar si se trata de la
+variable que controla si debe o no de salir (es una variable public)
 
 LA SEGUNDA VEZ QUE LE TOCA PREGUNTAR EL USUARIO SE SALE DE LA APLICACION
+
+Despues de insertar un permiso a un usuario para un modulo, no filtra bien los permisos creados para
+ese modulo, pues me presenta más registros de los que tiene. Es como si no filtrara bien por el
+usuario o por el modulo.
+
+var var_Modulo : ShortInt = 30;
+begin
+    if UTI_usr_Permiso_SN(var_Modulo, '', True) = true then
+         UTI_Abrir_Form(false, false, '', var_Modulo)
+    else MenuItem_Usuarios.Visible := False;
+end;
 
 

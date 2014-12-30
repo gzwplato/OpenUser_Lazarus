@@ -583,7 +583,6 @@ object form_menus_000: Tform_menus_000
     AfterPost = SQLQuery_MenusAfterPost
     AfterScroll = SQLQuery_MenusAfterScroll
     BeforePost = SQLQuery_MenusBeforePost
-    OnFilterRecord = SQLQuery_MenusFilterRecord
     Database = DataModule_Menus.SQLConnector
     Transaction = DataModule_Medios.SQLTransaction
     SQL.Strings = (

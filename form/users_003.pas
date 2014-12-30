@@ -52,7 +52,7 @@ implementation
 
 {$R *.lfm}
 
-uses users_000;
+uses menu, users_000;
 
 { TForm_users_003 }
 
@@ -72,9 +72,13 @@ begin
     if private_Salir_OK = False then
         begin
           { ********************************************************************
-            Intento salir de la aplicación de un modo no permitido
+            Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+            ********************************************************************
+            Pero si desde el menu principal está a true la variable
+            public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+            cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            CloseAction := caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
         end
     else
         begin
@@ -174,7 +178,7 @@ begin
          Form_Users_000.SQLQuery_Users_Menus.FieldByName('Id_Menus').Clear;
          Edit_Descripcion_Modulo.Text := '';
     end;
-    FreeAndNil(var_msg);
+    var_msg.Free;
 end;
 
 end.

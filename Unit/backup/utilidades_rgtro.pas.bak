@@ -132,7 +132,7 @@ begin
             end;
 
             FieldByName('Del_WHY').AsString := var_Form_Estado_Registro.Edit_Motivo_Baja.Text;
-            FreeAndNil(var_Form_Estado_Registro);
+            var_Form_Estado_Registro.Free;
             //var_Form_Estado_Registro.Destroy;
 
             if var_OK = True then
@@ -456,7 +456,7 @@ begin
         var_Form_Estado_Registro.public_Order_By[0].Titulo       := 'Por el registro a comprobar'; // El índice 0 siempre será por el que empezará la aplicación y los filtros
         var_Form_Estado_Registro.public_Order_By[0].Memo_OrderBy := 'r.tb ASC, r.id ASC, r.Momento ASC, r.Id_Users ASC';
 
-        var_Form_Estado_Registro.Memo_OrderBy.Lines.Text         := public_Order_By[0].Memo_OrderBy;
+        var_Form_Estado_Registro.Memo_OrderBy.Lines.Text         := var_Form_Estado_Registro.public_Order_By[0].Memo_OrderBy;
 
         var_Form_Estado_Registro.Filtrar_users_row_changes( var_Form_Estado_Registro.public_Last_Column,
                                                             0,
@@ -466,7 +466,7 @@ begin
 
         var_Form_Estado_Registro.ShowModal;
 
-        FreeAndNil(var_Form_Estado_Registro);
+        var_Form_Estado_Registro.Free;
     end;
 end;
 

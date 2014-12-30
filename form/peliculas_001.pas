@@ -50,7 +50,7 @@ implementation
 
 {$R *.lfm}
 
-uses peliculas_000;
+uses menu, peliculas_000;
 
 { TForm_peliculas_001 }
 
@@ -130,7 +130,7 @@ begin
          Form_peliculas_000.SQLQuery_Pelis.FieldByName('id_medio').Clear;
          Edit_Descripcion_Medio.Text := '';
     end;
-    FreeAndNil(var_msg);
+    var_msg.Free;
 end;
 
 procedure TForm_peliculas_001.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -161,9 +161,13 @@ begin
     if private_Salir_OK = False then
         begin
           { ********************************************************************
-            Intento salir de la aplicación de un modo no permitido
+            Intento BitBtn_SALIR de la aplicación de un modo no permitido.
+            ********************************************************************
+            Pero si desde el menu principal está a true la variable
+            public_Salir_Ok, significa que hay que salir si o si pues se pulsó
+            cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            CloseAction := caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
         end
     else
         begin
