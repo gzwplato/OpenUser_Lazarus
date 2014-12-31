@@ -5,19 +5,24 @@ unit utilidades_general;
 interface
 
 uses
-    Dialogs, Forms, Controls, Classes, SysUtils, ButtonPanel, DBGrids, sqldb, db;
+    sysutils, syncobjs, Dialogs, Forms, Controls, Classes, ButtonPanel, DBGrids, sqldb, db;
 
 function  UTI_GEN_Format_Fecha_Hora( param_Fecha_Str : ShortString ) : ShortString;
 function  UTI_GEN_Form_Abierto_Ya(param_Form : string) : boolean;
-function  UTI_GEN_Aviso( param_Mensaje : TStrings; param_Titulo : String; param_BitBtn_Aceptar, param_BitBtn_Cancelar : Boolean ) : Boolean;
+function  UTI_GEN_Aviso( param_msg : TStrings; param_Titulo : String; param_BitBtn_Aceptar, param_BitBtn_Cancelar : Boolean ) : Boolean;
 function  UTI_GEN_Ordenar_dbGrid( param_Last_Column : TColumn; param_Column : TColumn; param_SQLQuery : TSQLQuery ) : TColumn;
 procedure UTI_GEN_Borrar_Imagen_Orden_Grid( param_Last_Column : TColumn );
+procedure UTI_GEN_Salir;
+procedure UTI_GEN_Log(param_msg : String);
+
+var
+  var_Global_CriticalSection : TCriticalSection;
 
 implementation
 
-uses Avisos, utilidades_bd;
+uses menu, avisos, utilidades_bd;
 
-function UTI_GEN_Aviso( param_Mensaje : TStrings;
+function UTI_GEN_Aviso( param_msg : TStrings;
                         param_Titulo : String;
                         param_BitBtn_Aceptar,
                         param_BitBtn_Cancelar : Boolean ) : Boolean;
@@ -61,7 +66,7 @@ begin
     begin
         Memo_Aviso.Lines.Clear;
 
-        if Trim(Param_Mensaje.Text) <> '' then Memo_Aviso.Lines.AddStrings(Param_Mensaje);
+        if Trim(param_msg.Text) <> '' then Memo_Aviso.Lines.AddStrings(param_msg);
 
         with ButtonPanel_Avisos do
         begin
@@ -99,7 +104,7 @@ begin
              Result := True
         else Result := False;
 
-        Destroy;
+        Free;
     end;
 end;
 
@@ -122,11 +127,7 @@ var var_CN_Conexion : Trecord_CN_Conexion;
     var_Fecha_Hora  : TDateTime;
 begin
     var_CN_Conexion := UTI_CN_Traer_Configuracion;
-
-    if var_CN_Conexion.con_Exito = False then
-    begin
-        Application.Terminate;
-    end;
+    if var_CN_Conexion.con_Exito = False then UTI_GEN_Salir;
 
     if UpperCase(Copy(var_CN_Conexion.ConnectorType, 1, 5)) = UpperCase('MySQL') then
     begin
@@ -217,5 +218,89 @@ begin
      end;
 end;
 
+procedure UTI_GEN_Salir;
+begin
+    with form_Menu do
+    begin
+        try
+           Timer_Sin_Usar.Enabled := false;
+           public_Salir_OK := True;
+           Application.Terminate;  { No puedo poner Close, tiene que ser Application.Terminate }
+        Except
+           on E: Exception do
+           begin
+                ShowMessage('Error! ' + E.Message);
+                raise;
+           end;
+        end;
+    end;
+end;
+
+// Esta funcion nos permite guardar mensajes en un .log
+procedure UTI_GEN_Log(param_msg : String);
+var
+  var_F              : TextFile;
+  var_nombre_Fichero : String;
+  var_SearchRec      : TSearchRec;
+  var_Usuario        : ShortString;
+begin
+    if Trim(form_Menu.public_User_Descripcion_Nick) <> '' then
+         var_Usuario := ' - ' + Trim(form_Menu.public_User_Descripcion_Nick)
+    else var_Usuario := '';
+
+    // Damos formato al param_msg
+    param_msg          := FormatDateTime('[ddd dd mmm, hh:nn:ss]', Now) +
+                          Trim(var_Usuario) +
+                          ' ... ' +
+                          param_msg;
+
+    var_nombre_Fichero := ChangeFileExt(ParamStr(0), '.log');
+
+  { Comenzamos el bloqueo  . la variable global se crea para evitar que cuando se trabajen
+    con threads ... que dos partes del programa intenten trabajar con el fichero log }
+    var_Global_CriticalSection.Enter;
+
+    try
+        if FindFirst(var_nombre_Fichero, faArchive, var_SearchRec) = 0 then
+        begin
+             // Comprobamos el tamaño de .log
+             if var_SearchRec.Size > (1024*1024) then
+             begin
+                  // Y si es mayor de 1 MB lo renombramos
+                  RenameFile( var_nombre_Fichero,
+                              var_nombre_Fichero +
+                              FormatDateTime('_YYYY_MM_DD-hh_nn', Now) );
+            end;
+            FindClose(var_SearchRec);
+        end;
+
+        // Aqui abrimos el archivo si existe, o lo creamos sino existe
+        AssignFile(var_F, var_nombre_Fichero);
+        {$I-}
+             Append(var_F);
+             if IOResult <> 0 then Rewrite(var_F);
+        {$I+}
+
+        if IOResult = 0 then
+        begin
+          // Escribimos el param_msg
+          Writeln( var_F, param_msg );
+          CloseFile(var_F);
+        end;
+    finally
+        // Terminamos el bloqueo
+        var_Global_CriticalSection.Leave;
+    end;
+end;
+
+// En la seccion initialization y finalization de la unit
+initialization
+  var_Global_CriticalSection:= TCriticalSection.Create;
+finalization
+  var_Global_CriticalSection.Free;
 end.
+
+
+
+
 

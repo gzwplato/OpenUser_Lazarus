@@ -133,7 +133,6 @@ begin
 
             FieldByName('Del_WHY').AsString := var_Form_Estado_Registro.Edit_Motivo_Baja.Text;
             var_Form_Estado_Registro.Free;
-            //var_Form_Estado_Registro.Destroy;
 
             if var_OK = True then
                  //Grabar_Registro
@@ -299,7 +298,7 @@ begin
     var_SQLConnector   := TSQLConnector.Create(nil);
 
     if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
+                     var_SQLConnector ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     Creamos la SQL
@@ -383,24 +382,23 @@ begin
   { ****************************************************************************
     Destruimos la tabla y conexiones
     **************************************************************************** }
-    var_SQLQuery.Destroy;
-    var_SQL.Destroy;
+    var_SQLQuery.Free;
+    var_SQL.Free;
 
   { ****************************************************************************
     Cerramos La transacción y la conexión con la BD
     **************************************************************************** }
     if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
+                      var_SQLConnector ) = False then UTI_GEN_Salir;
 
-    var_SQLTransaction.Destroy;
-    var_SQLConnector.Destroy;
+    var_SQLTransaction.Free;
+    var_SQLConnector.Free;
 end;
 
 procedure UTI_RGTRO_Ver_Estado_Registro( param_SQLQuery : TSQLQuery;
                                          param_DataSource : TDataSource;
                                          param_DBGrid : TDBGrid );
 var var_Form_Estado_Registro : TForm_Estado_Registro;
-    var_Contador : ShortInt;
 begin
     with param_SQLQuery do
     begin
@@ -469,13 +467,6 @@ begin
         var_Form_Estado_Registro.Free;
     end;
 end;
-
-{
-    jerofa hay que llevar un control de errores, ver si vale el método GetLogEvent
-    de dm_Pelis para guardar en un fichero.log el control de los errores.
-    Ver de como arreglar todos los Application.Terminate porque puede ser que fallen
-    porque no necesite en ese momento cerrar la aplicación
-}
 
 end.
 

@@ -96,6 +96,18 @@ begin
                               ' DE ' + Trim(IntToStr(private_Ctdad_Intentos_Tope));
 end;
 
+procedure Tform_AskByPwd.AceptarClick(Sender: TObject);
+begin
+    private_Salir_OK     := True;
+    public_Pulso_Aceptar := true;
+end;
+
+procedure Tform_AskByPwd.CancelarClick(Sender: TObject);
+begin
+    private_Salir_OK     := True;
+    public_Pulso_Aceptar := false;
+end;
+
 procedure Tform_AskByPwd.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var var_msg : TStrings;
 begin
@@ -161,18 +173,6 @@ begin
         end;
 
     var_msg.Free;
-end;
-
-procedure Tform_AskByPwd.AceptarClick(Sender: TObject);
-begin
-    private_Salir_OK     := True;
-    public_Pulso_Aceptar := true;
-end;
-
-procedure Tform_AskByPwd.CancelarClick(Sender: TObject);
-begin
-    private_Salir_OK     := True;
-    public_Pulso_Aceptar := false;
 end;
 
 procedure Tform_AskByPwd.Comprobar_PWD( param_msg_Por_No_Encontrarla : String;

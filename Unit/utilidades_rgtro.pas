@@ -24,7 +24,7 @@ type
   end;
 
 function  UTI_RGTRO_Grabar( param_SQLTransaction : TSQLTransaction; param_SQLQuery : TSQLQuery ) : Boolean;
-function  UTI_RGTRO_Grabar_2( param_SQLTransaction : TSQLTransaction; param_SQLQuery : TSQLQuery ) : Boolean;
+procedure UTI_RGTRO_Grabar_2( param_SQLTransaction : TSQLTransaction; param_SQLQuery : TSQLQuery );
 procedure UTI_RGTRO_Ver_Estado_Registro( param_SQLQuery : TSQLQuery; param_DataSource : TDataSource; param_DBGrid : TDBGrid );
 procedure UTI_RGTRO_Borrar( param_SQLQuery : TSQLQuery; param_Solo_Ver : Boolean; param_Menu_Worked : Integer );
 procedure UTI_RGTRO_Borrar_BAJA( param_SQLQuery : TSQLQuery; param_msg : TStrings; param_Menu_Worked : Integer);
@@ -276,8 +276,81 @@ begin
     end;
 end;
 
-function UTI_RGTRO_Grabar_2( param_SQLTransaction : TSQLTransaction;
-                             param_SQLQuery : TSQLQuery ) : Boolean;
+procedure UTI_RGTRO_Ver_Estado_Registro( param_SQLQuery : TSQLQuery;
+                                         param_DataSource : TDataSource;
+                                         param_DBGrid : TDBGrid );
+var var_Form_Estado_Registro : TForm_Estado_Registro;
+begin
+    with param_SQLQuery do
+    begin
+        var_Form_Estado_Registro := TForm_Estado_Registro.Create(nil);
+        //Application.CreateForm(TForm_Estado_Registro, Form_Estado_Registro);
+
+        var_Form_Estado_Registro.ButtonPanel_Estado_Registro.ShowButtons := [pbOK];
+        var_Form_Estado_Registro.ButtonPanel_Estado_Registro.DefaultButton := pbOK;
+
+        var_Form_Estado_Registro.Edit_Motivo_Baja.Color           := $006AD3D7;
+        var_Form_Estado_Registro.Edit_Motivo_Baja.ReadOnly        := True;
+
+        var_Form_Estado_Registro.Edit_Motivo_Baja.Text            := FieldByName('Del_WHY').AsString;
+        var_Form_Estado_Registro.Edit_Fecha_Baja.Text             := FieldByName('Del_WHEN').AsString;
+        var_Form_Estado_Registro.Edit_Fecha_Ult_Modificacion.Text := FieldByName('Change_WHEN').AsString;
+        var_Form_Estado_Registro.Edit_Fecha_Alta.Text             := FieldByName('Insert_WHEN').AsString;
+
+        if not FieldByName('Del_Id_User').isNull then
+        begin
+            var_Form_Estado_Registro.Edit_Usuario_Baja.Text := UTI_usr_Traer_Nombre_Usuario(FieldByName('Del_Id_User').Value);
+        end;
+
+        if not FieldByName('Change_Id_User').isNull then
+        begin
+            var_Form_Estado_Registro.Edit_Usuario_Ult_Modificacion.Text := UTI_usr_Traer_Nombre_Usuario(FieldByName('Change_Id_User').Value);
+        end;
+
+        if not FieldByName('Insert_Id_User').isNull then
+        begin
+            var_Form_Estado_Registro.Edit_Usuario_Alta.Text := UTI_usr_Traer_Nombre_Usuario(FieldByName('Insert_Id_User').Value);
+        end;
+
+        var_Form_Estado_Registro.DBGrid_Principal.Columns.Assign(param_DBGrid.Columns);
+        var_Form_Estado_Registro.DBGrid_Principal.DataSource := param_DataSource;
+
+        UTI_RGTRO_Pasar_Valor_Campo( true,
+                                     var_Form_Estado_Registro.Memo_Filtros.Lines,
+                                     param_SQLQuery.Name,
+                                     'r.tb',
+                                     true );
+
+        UTI_RGTRO_Pasar_Valor_Campo( false,
+                                     var_Form_Estado_Registro.Memo_Filtros.Lines,
+                                     param_SQLQuery.FieldByName('id').AsString,
+                                     'r.id',
+                                     false );
+
+      { ****************************************************************************
+        Preparamos los diferentes tipos de orden preconfigurados
+        **************************************************************************** }
+        SetLength(var_Form_Estado_Registro.public_Order_By, 1);
+
+        var_Form_Estado_Registro.public_Order_By[0].Titulo       := 'Por el registro a comprobar'; // El índice 0 siempre será por el que empezará la aplicación y los filtros
+        var_Form_Estado_Registro.public_Order_By[0].Memo_OrderBy := 'r.tb ASC, r.id ASC, r.Momento ASC, r.Id_Users ASC';
+
+        var_Form_Estado_Registro.Memo_OrderBy.Lines.Text         := var_Form_Estado_Registro.public_Order_By[0].Memo_OrderBy;
+
+        var_Form_Estado_Registro.Filtrar_users_row_changes( var_Form_Estado_Registro.public_Last_Column,
+                                                            0,
+                                                            false,
+                                                            var_Form_Estado_Registro.Memo_Filtros.Lines,
+                                                            var_Form_Estado_Registro.Memo_OrderBy.Lines );
+
+        var_Form_Estado_Registro.ShowModal;
+
+        var_Form_Estado_Registro.Free;
+    end;
+end;
+
+procedure UTI_RGTRO_Grabar_2( param_SQLTransaction : TSQLTransaction;
+                              param_SQLQuery : TSQLQuery );
 { procedure Mensaje_No_Puedo_Grabar(Campos : tFields; Param_de_ande_viene: ShortString); }
 var var_SQL            : TStrings;
     var_SQLTransaction : TSQLTransaction;
@@ -298,7 +371,7 @@ begin
     var_SQLConnector   := TSQLConnector.Create(nil);
 
     if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
+                     var_SQLConnector ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     Creamos la SQL
@@ -389,92 +462,11 @@ begin
     Cerramos La transacción y la conexión con la BD
     **************************************************************************** }
     if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
+                      var_SQLConnector ) = False then UTI_GEN_Salir;
 
     var_SQLTransaction.Free;
     var_SQLConnector.Free;
 end;
-
-procedure UTI_RGTRO_Ver_Estado_Registro( param_SQLQuery : TSQLQuery;
-                                         param_DataSource : TDataSource;
-                                         param_DBGrid : TDBGrid );
-var var_Form_Estado_Registro : TForm_Estado_Registro;
-    var_Contador : ShortInt;
-begin
-    with param_SQLQuery do
-    begin
-        var_Form_Estado_Registro := TForm_Estado_Registro.Create(nil);
-        //Application.CreateForm(TForm_Estado_Registro, Form_Estado_Registro);
-
-        var_Form_Estado_Registro.ButtonPanel_Estado_Registro.ShowButtons := [pbOK];
-        var_Form_Estado_Registro.ButtonPanel_Estado_Registro.DefaultButton := pbOK;
-
-        var_Form_Estado_Registro.Edit_Motivo_Baja.Color           := $006AD3D7;
-        var_Form_Estado_Registro.Edit_Motivo_Baja.ReadOnly        := True;
-
-        var_Form_Estado_Registro.Edit_Motivo_Baja.Text            := FieldByName('Del_WHY').AsString;
-        var_Form_Estado_Registro.Edit_Fecha_Baja.Text             := FieldByName('Del_WHEN').AsString;
-        var_Form_Estado_Registro.Edit_Fecha_Ult_Modificacion.Text := FieldByName('Change_WHEN').AsString;
-        var_Form_Estado_Registro.Edit_Fecha_Alta.Text             := FieldByName('Insert_WHEN').AsString;
-
-        if not FieldByName('Del_Id_User').isNull then
-        begin
-            var_Form_Estado_Registro.Edit_Usuario_Baja.Text := UTI_usr_Traer_Nombre_Usuario(FieldByName('Del_Id_User').Value);
-        end;
-
-        if not FieldByName('Change_Id_User').isNull then
-        begin
-            var_Form_Estado_Registro.Edit_Usuario_Ult_Modificacion.Text := UTI_usr_Traer_Nombre_Usuario(FieldByName('Change_Id_User').Value);
-        end;
-
-        if not FieldByName('Insert_Id_User').isNull then
-        begin
-            var_Form_Estado_Registro.Edit_Usuario_Alta.Text := UTI_usr_Traer_Nombre_Usuario(FieldByName('Insert_Id_User').Value);
-        end;
-
-        var_Form_Estado_Registro.DBGrid_Principal.Columns.Assign(param_DBGrid.Columns);
-        var_Form_Estado_Registro.DBGrid_Principal.DataSource := param_DataSource;
-
-        UTI_RGTRO_Pasar_Valor_Campo( true,
-                                     var_Form_Estado_Registro.Memo_Filtros.Lines,
-                                     param_SQLQuery.Name,
-                                     'r.tb',
-                                     true );
-
-        UTI_RGTRO_Pasar_Valor_Campo( false,
-                                     var_Form_Estado_Registro.Memo_Filtros.Lines,
-                                     param_SQLQuery.FieldByName('id').AsString,
-                                     'r.id',
-                                     false );
-
-      { ****************************************************************************
-        Preparamos los diferentes tipos de orden preconfigurados
-        **************************************************************************** }
-        SetLength(var_Form_Estado_Registro.public_Order_By, 1);
-
-        var_Form_Estado_Registro.public_Order_By[0].Titulo       := 'Por el registro a comprobar'; // El índice 0 siempre será por el que empezará la aplicación y los filtros
-        var_Form_Estado_Registro.public_Order_By[0].Memo_OrderBy := 'r.tb ASC, r.id ASC, r.Momento ASC, r.Id_Users ASC';
-
-        var_Form_Estado_Registro.Memo_OrderBy.Lines.Text         := var_Form_Estado_Registro.public_Order_By[0].Memo_OrderBy;
-
-        var_Form_Estado_Registro.Filtrar_users_row_changes( var_Form_Estado_Registro.public_Last_Column,
-                                                            0,
-                                                            false,
-                                                            var_Form_Estado_Registro.Memo_Filtros.Lines,
-                                                            var_Form_Estado_Registro.Memo_OrderBy.Lines );
-
-        var_Form_Estado_Registro.ShowModal;
-
-        var_Form_Estado_Registro.Free;
-    end;
-end;
-
-{
-    jerofa hay que llevar un control de errores, ver si vale el método GetLogEvent
-    de dm_Pelis para guardar en un fichero.log el control de los errores.
-    Ver de como arreglar todos los Application.Terminate porque puede ser que fallen
-    porque no necesite en ese momento cerrar la aplicación
-}
 
 end.
 

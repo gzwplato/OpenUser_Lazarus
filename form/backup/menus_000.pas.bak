@@ -161,7 +161,7 @@ begin
 
     // Filtrar_users_passwords( RadioGroup_Bajas.ItemIndex, false, var_Lineas );
 
-    FreeAndNil(var_Lineas);
+    var_Lineas.Free;
 end;
 
 procedure Tform_menus_000.SQLQuery_MenusBeforePost(DataSet: TDataSet);
@@ -371,7 +371,7 @@ begin
             var_msg := TStringList.Create;
             var_msg.Add('Sólo se puede visualizar.');
             UTI_GEN_Aviso(var_msg, 'SOLO PARA OBSERVAR', True, False);
-            FreeAndNil(var_msg);
+            var_msg.Free;
             Exit;
         end;
 
@@ -380,7 +380,7 @@ begin
         var_form_Informe.public_Menu_Worked      := public_Menu_Worked;
         var_form_Informe.public_informe          := 'informes/menus.lrf';
         var_form_Informe.ShowModal;
-        FreeAndNil(var_form_Informe);
+        var_form_Informe.Free;
     end;
 end;
 
@@ -437,7 +437,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(var_Form);
+                    var_Form.Free;
                 end;
             end
         else
@@ -479,7 +479,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(var_Form);
+                    var_Form.Free;
                 end;
         end;
 
@@ -531,7 +531,7 @@ begin
         Application.Terminate;
     end;
 
-    FreeAndNil(DataModule_Menus);
+    DataModule_Menus.Free;
 end;
 
 procedure Tform_menus_000.FormDestroy(Sender: TObject);

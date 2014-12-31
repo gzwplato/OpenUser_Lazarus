@@ -171,7 +171,7 @@ begin
             public_Salir_Ok, significa que hay que salir si o si pues se pulsó
             cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := CloseAction.caNone;
         end
     else
         begin
@@ -185,10 +185,7 @@ procedure TForm_peliculas_000.Cerramos_Tablas;
 begin
     if UTI_TB_Cerrar( DataModule_Pelis.SQLConnector,
                       DataModule_Pelis.SQLTransaction,
-                      SQLQuery_Pelis ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Pelis ) = false then UTI_GEN_Salir;
 
     DataModule_Pelis.Free;
 end;
@@ -462,7 +459,6 @@ begin
         var_form_Informe.public_informe          := 'informes/peliculas.lrf';
         var_form_Informe.ShowModal;
         var_form_Informe.Free;
-        //var_form_Informe.Destroy;
     end;
 end;
 

@@ -709,8 +709,6 @@ object Form_peliculas_000: TForm_peliculas_000
     AfterPost = SQLQuery_PelisAfterPost
     AfterScroll = SQLQuery_PelisAfterScroll
     BeforePost = SQLQuery_PelisBeforePost
-    Database = DataModule_Pelis.SQLConnector
-    Transaction = DataModule_Pelis.SQLTransaction
     SQL.Strings = (
       'SELECT p.*,'
       'm.descripcion AS OT_descripcion_medio'

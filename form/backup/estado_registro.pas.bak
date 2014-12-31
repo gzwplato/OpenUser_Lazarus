@@ -306,22 +306,16 @@ begin
 
     if UTI_TB_Cerrar( DataModule_historico_registros.SQLConnector,
                       DataModule_historico_registros.SQLTransaction,
-                      SQLQuery_users_row_changes ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_users_row_changes ) = false then UTI_GEN_Salir;
 
-    FreeAndNil(DataModule_historico_registros);
+    DataModule_historico_registros.Free;
 end;
 
 procedure TForm_Estado_Registro.Cerramos_Tablas_Ligadas;
 begin
     if UTI_TB_Cerrar( DataModule_historico_registros.SQLConnector1,
                       DataModule_historico_registros.SQLTransaction1,
-                      SQLQuery_users_row_changes_fields ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_users_row_changes_fields ) = false then UTI_GEN_Salir;
 end;
 
 procedure TForm_Estado_Registro.DBGrid_Principal1TitleClick(Column: TColumn);
@@ -366,8 +360,8 @@ begin
                                       var_Lineas_Filtro,
                                       var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 end;
 
 function TForm_Estado_Registro.Filtrar_users_row_changes_fields( param_Last_Column : TColumn;

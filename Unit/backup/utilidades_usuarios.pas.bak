@@ -7,6 +7,16 @@ interface
 uses
   utilidades_bd, Forms, utilidades_general, sqldb, Classes, SysUtils;
 
+type
+
+  Trecord_Existe = record
+      Existe              : Boolean;
+      deBaja              : ShortString;
+      id_Users            : ShortString;
+      OT_Descripcion_Nick : ShortString;
+      id_Menus            : ShortString;
+  end;
+
 function  UTI_usr_Permiso_SN( param_Menu : shortint; param_Tipo_CRUD : ShortString; param_Ver_Error : boolean ) : Boolean;
 function  UTI_usr_Permiso_SN_conPermisoTotal_SN( param_Id : Integer ) : Boolean;
 function  UTI_usr_Permiso_SN_Permisos( param_Menu : shortint; param_Tipo_CRUD : ShortString; param_Ver_Error : boolean ) : Boolean;
@@ -20,6 +30,9 @@ function  UTI_usr_Obligado_WHY_Delete_SN_2( param_Menu : ShortInt ) : Boolean;
 
 function  UTI_usr_AskByPwd( param_Ctdad_Intentos_Tope, param_ctdad_veces : ShortInt ) : ShortInt;
 function  UTI_usr_WhoIs( param_password : String ) : ShortString;
+
+function  UTI_usr_Existe_PWD_Ya( param_Id_Users, param_Password : String ) : Trecord_Existe;
+function  UTI_usr_Existe_Menu_Ya( param_Id, param_Id_Users, param_id_Menus : String ) : Trecord_Existe;
 
 implementation
 
@@ -39,7 +52,7 @@ begin
     var_SQLConnector   := TSQLConnector.Create(nil);
 
     if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
+                     var_SQLConnector ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     Creamos la SQL Según el motor de BD
@@ -55,14 +68,15 @@ begin
   { ****************************************************************************
     Abrimos la tabla
     **************************************************************************** }
-    var_SQLQuery := TSQLQuery.Create(nil);
+    var_SQLQuery      := TSQLQuery.Create(nil);
+    var_SQLQuery.Name := 'SQLQuery_UTI_usr_Traer_Nombre_Usuario_2';
 
     if UTI_TB_Abrir( '', '', '',
                      var_SQLConnector,
                      var_SQLTransaction,
                      var_SQLQuery,
                      -1, // asi me trae todos los registros de golpe
-                     var_SQL.Text ) = False then Application.Terminate;
+                     var_SQL.Text ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     TRABAJAMOS CON LOS REGISTROS DEVUELTOS
@@ -76,17 +90,11 @@ begin
     **************************************************************************** }
     if UTI_TB_Cerrar( var_SQLConnector,
                       var_SQLTransaction,
-                      var_SQLQuery ) = false then Application.Terminate;
+                      var_SQLQuery ) = false then UTI_GEN_Salir;
 
     var_SQLQuery.Free;
 
     var_SQL.Free;
-
-  { ****************************************************************************
-    Cerramos La transacción y la conexión con la BD
-    **************************************************************************** }
-    if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
 
     var_SQLTransaction.Free;
     var_SQLConnector.Free;
@@ -119,7 +127,7 @@ begin
     var_SQLConnector   := TSQLConnector.Create(nil);
 
     if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
+                     var_SQLConnector ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     Creamos la SQL Según el motor de BD
@@ -136,14 +144,15 @@ begin
   { ****************************************************************************
     Abrimos la tabla
     **************************************************************************** }
-    var_SQLQuery := TSQLQuery.Create(nil);
+    var_SQLQuery      := TSQLQuery.Create(nil);
+    var_SQLQuery.Name := 'SQLQuery_UTI_usr_Obligado_WHY_Delete_SN_2';
 
     if UTI_TB_Abrir( '', '', '',
                      var_SQLConnector,
                      var_SQLTransaction,
                      var_SQLQuery,
                      -1, // asi me trae todos los registros de golpe
-                     var_SQL.Text ) = False then Application.Terminate;
+                     var_SQL.Text ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     TRABAJAMOS CON LOS REGISTROS DEVUELTOS
@@ -161,17 +170,11 @@ begin
     **************************************************************************** }
     if UTI_TB_Cerrar( var_SQLConnector,
                       var_SQLTransaction,
-                      var_SQLQuery ) = false then Application.Terminate;
+                      var_SQLQuery ) = false then UTI_GEN_Salir;
 
     var_SQLQuery.Free;
 
     var_SQL.Free;
-
-  { ****************************************************************************
-    Cerramos La transacción y la conexión con la BD
-    **************************************************************************** }
-    if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
 
     var_SQLTransaction.Free;
     var_SQLConnector.Free;
@@ -253,7 +256,7 @@ begin
     var_SQLConnector   := TSQLConnector.Create(nil);
 
     if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
+                     var_SQLConnector ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     Creamos la SQL Según el motor de BD
@@ -269,14 +272,15 @@ begin
   { ****************************************************************************
     Abrimos la tabla
     **************************************************************************** }
-    var_SQLQuery := TSQLQuery.Create(nil);
+    var_SQLQuery      := TSQLQuery.Create(nil);
+    var_SQLQuery.Name := 'SQLQuery_UTI_usr_Permiso_SN_conPermisoTotal_SN';
 
     if UTI_TB_Abrir( '', '', '',
                      var_SQLConnector,
                      var_SQLTransaction,
                      var_SQLQuery,
                      -1, // asi me trae todos los registros de golpe
-                     var_SQL.Text ) = False then Application.Terminate;
+                     var_SQL.Text ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     TRABAJAMOS CON LOS REGISTROS DEVUELTOS
@@ -321,17 +325,11 @@ begin
     **************************************************************************** }
     if UTI_TB_Cerrar( var_SQLConnector,
                       var_SQLTransaction,
-                      var_SQLQuery ) = false then Application.Terminate;
+                      var_SQLQuery ) = false then UTI_GEN_Salir;
 
     var_SQLQuery.Free;
 
     var_SQL.Free;
-
-  { ****************************************************************************
-    Cerramos La transacción y la conexión con la BD
-    **************************************************************************** }
-    if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
 
     var_SQLTransaction.Free;
     var_SQLConnector.Free;
@@ -352,7 +350,7 @@ begin
     var_SQLConnector   := TSQLConnector.Create(nil);
 
     if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
+                     var_SQLConnector ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     Creamos la SQL Según el motor de BD
@@ -374,14 +372,15 @@ begin
   { ****************************************************************************
     Abrimos la tabla
     **************************************************************************** }
-    var_SQLQuery := TSQLQuery.Create(nil);
+    var_SQLQuery      := TSQLQuery.Create(nil);
+    var_SQLQuery.Name := 'SQLQuery_UTI_usr_Permiso_SN_Permisos';
 
     if UTI_TB_Abrir( '', '', '',
                      var_SQLConnector,
                      var_SQLTransaction,
                      var_SQLQuery,
                      -1, // asi me trae todos los registros de golpe
-                     var_SQL.Text ) = False then Application.Terminate;
+                     var_SQL.Text ) = False then UTI_GEN_Salir;
 
   { ****************************************************************************
     TRABAJAMOS CON LOS REGISTROS DEVUELTOS
@@ -398,17 +397,11 @@ begin
     **************************************************************************** }
     if UTI_TB_Cerrar( var_SQLConnector,
                       var_SQLTransaction,
-                      var_SQLQuery ) = false then Application.Terminate;
+                      var_SQLQuery ) = false then UTI_GEN_Salir;
 
     var_SQLQuery.Free;
 
     var_SQL.Free;
-
-  { ****************************************************************************
-    Cerramos La transacción y la conexión con la BD
-    **************************************************************************** }
-    if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
 
     var_SQLTransaction.Free;
     var_SQLConnector.Free;
@@ -510,7 +503,7 @@ begin
             else Result := 2; // CONTRASEÑA INCORRECTA
         end;
 
-        form_AskByPwd.Destroy;
+        form_AskByPwd.Free;
     end;
 end;
 
@@ -536,7 +529,10 @@ begin
     var_SQLConnector   := TSQLConnector.Create(nil);
 
     if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
+                     var_SQLConnector ) = False then
+    begin
+         UTI_GEN_Salir;
+    end;
 
   { ****************************************************************************
     Creamos la SQL Según el motor de BD
@@ -568,13 +564,17 @@ begin
     Abrimos la tabla
     **************************************************************************** }
     var_SQLQuery := TSQLQuery.Create(nil);
+    var_SQLQuery.Name := 'SQLQuery_UTI_usr_WhoIs';
 
     if UTI_TB_Abrir( '', '', '',
                      var_SQLConnector,
                      var_SQLTransaction,
                      var_SQLQuery,
                      -1, // asi me trae todos los registros de golpe
-                     var_SQL.Text ) = False then Application.Terminate;
+                     var_SQL.Text ) = False then
+    begin
+         UTI_GEN_Salir;
+    end;
 
   { ****************************************************************************
     TRABAJAMOS CON LOS REGISTROS DEVUELTOS
@@ -632,17 +632,189 @@ begin
     **************************************************************************** }
     if UTI_TB_Cerrar( var_SQLConnector,
                       var_SQLTransaction,
-                      var_SQLQuery ) = false then Application.Terminate;
+                      var_SQLQuery ) = false then UTI_GEN_Salir;
 
     var_SQLQuery.Free;
 
     var_SQL.Free;
 
+    var_SQLTransaction.Free;
+    var_SQLConnector.Free;
+end;
+
+function UTI_usr_Existe_PWD_Ya( param_Id_Users,
+                                param_Password : String ) : Trecord_Existe;
+var var_SQL            : TStrings;
+    var_SQLTransaction : TSQLTransaction;
+    var_SQLConnector   : TSQLConnector;
+    var_SQLQuery       : TSQLQuery;
+begin
   { ****************************************************************************
-    Cerramos La transacción y la conexión con la BD
+    Creamos la Transaccion y la conexión con el motor BD, y la abrimos
     **************************************************************************** }
-    if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
+    var_SQLTransaction := TSQLTransaction.Create(nil);
+    var_SQLConnector   := TSQLConnector.Create(nil);
+
+    if UTI_CN_Abrir( var_SQLTransaction,
+                     var_SQLConnector ) = False then UTI_GEN_Salir;
+
+  { ****************************************************************************
+    Creamos la SQL Según el motor de BD
+    **************************************************************************** }
+    var_SQL := TStringList.Create;
+
+    var_SQL.Add('SELECT up.*,' );
+    var_SQL.Add(       'u.Descripcion_Nick AS OT_Descripcion_Nick' );
+
+    var_SQL.Add(  'FROM users_passwords as up' );
+
+    var_SQL.Add(  'LEFT JOIN users AS u' );
+    var_SQL.Add(    'ON up.Id_Users = u.id' );
+
+    var_SQL.Add(' WHERE up.Password = ' +  QuotedStr(Trim(param_Password)) );
+
+    if Trim(param_Id_Users) <> '' then
+    begin
+         var_SQL.Add(  ' AND NOT up.Id_Users = ' + Trim(param_Id_Users) );
+    end;
+
+    var_SQL.Add(' ORDER BY up.Password ' );
+
+  { ****************************************************************************
+    Abrimos la tabla
+    **************************************************************************** }
+    var_SQLQuery      := TSQLQuery.Create(nil);
+    var_SQLQuery.Name := 'SQLQuery_UTI_usr_Existe_PWD_Ya';
+
+    if UTI_TB_Abrir( '', '', '',
+                     var_SQLConnector,
+                     var_SQLTransaction,
+                     var_SQLQuery,
+                     -1, // asi me trae todos los registros de golpe
+                     var_SQL.Text ) = False then UTI_GEN_Salir;
+
+  { ****************************************************************************
+    TRABAJAMOS CON LOS REGISTROS DEVUELTOS
+    ****************************************************************************
+    Si el módulo no se creó, no se permite entrar en él ... Result := False
+    **************************************************************************** }
+    Result.Existe              := false;
+    Result.deBaja              := 'N';
+    Result.id_Users            := '';
+    Result.id_Menus            := '';
+    Result.OT_Descripcion_Nick := '';
+
+    if var_SQLQuery.RecordCount > 0 then
+    begin
+        Result.Existe              := true;
+        Result.id_Users            := var_SQLQuery.FieldByName('Id_Users').AsString;
+        Result.OT_Descripcion_Nick := var_SQLQuery.FieldByName('OT_Descripcion_Nick').AsString;;
+
+        if not var_SQLQuery.FieldByName('Del_WHEN').IsNull then Result.deBaja := 'S';
+    end;
+
+    //if var_SQLQuery.FieldByName('Ctdad').Value > 0 then Result := True;
+
+  { ****************************************************************************
+    Cerramos la tabla
+    **************************************************************************** }
+    if UTI_TB_Cerrar( var_SQLConnector,
+                      var_SQLTransaction,
+                      var_SQLQuery ) = false then UTI_GEN_Salir;
+
+    var_SQLQuery.Free;
+
+    var_SQL.Free;
+
+    var_SQLTransaction.Free;
+    var_SQLConnector.Free;
+end;
+
+function UTI_usr_Existe_Menu_Ya( param_Id,
+                                 param_Id_Users,
+                                 param_id_Menus : String ) : Trecord_Existe;
+var var_SQL            : TStrings;
+    var_SQLTransaction : TSQLTransaction;
+    var_SQLConnector   : TSQLConnector;
+    var_SQLQuery       : TSQLQuery;
+begin
+  { ****************************************************************************
+    Creamos la Transaccion y la conexión con el motor BD, y la abrimos
+    **************************************************************************** }
+    var_SQLTransaction := TSQLTransaction.Create(nil);
+    var_SQLConnector   := TSQLConnector.Create(nil);
+
+    if UTI_CN_Abrir( var_SQLTransaction,
+                     var_SQLConnector ) = False then UTI_GEN_Salir;
+
+  { ****************************************************************************
+    Creamos la SQL Según el motor de BD
+    **************************************************************************** }
+    var_SQL := TStringList.Create;
+
+    var_SQL.Add('SELECT um.*,' );
+    var_SQL.Add(        'u.Descripcion_Nick AS OT_Descripcion_Nick,' );
+    var_SQL.Add(        'm.Descripcion AS OT_Descripcion_Menu' );
+
+    var_SQL.Add(  'FROM users_menus AS um' );
+
+    var_SQL.Add(  'LEFT JOIN users AS u' );
+    var_SQL.Add(    'ON um.Id_Users = u.id' );
+
+    var_SQL.Add(  'LEFT JOIN menus AS m' );
+    var_SQL.Add(    'ON um.Id_Menus = m.id' );
+
+    var_SQL.Add(' WHERE um.id_Menus = ' +  Trim(param_id_Menus) );
+    var_SQL.Add(  ' AND um.Id_Users = ' +  Trim(param_Id_Users) );
+
+    if Trim(param_Id) <> '' then
+    begin
+         var_SQL.Add(  ' AND NOT um.Id = ' + Trim(param_Id) );
+    end;
+
+    var_SQL.Add(' ORDER BY um.Id_Users, um.id_Menus' );
+
+  { ****************************************************************************
+    Abrimos la tabla
+    **************************************************************************** }
+    var_SQLQuery      := TSQLQuery.Create(nil);
+    var_SQLQuery.Name := 'SQLQuery_UTI_usr_Existe_Menu_Ya';
+
+    if UTI_TB_Abrir( '', '', '',
+                     var_SQLConnector,
+                     var_SQLTransaction,
+                     var_SQLQuery,
+                     -1, // asi me trae todos los registros de golpe
+                     var_SQL.Text ) = False then UTI_GEN_Salir;
+
+  { ****************************************************************************
+    TRABAJAMOS CON LOS REGISTROS DEVUELTOS
+    ****************************************************************************
+    Si el módulo no se creó, no se permite entrar en él ... Result := False
+    **************************************************************************** }
+    Result.Existe              := false;
+    Result.deBaja              := 'N';
+    Result.id_Users            := '';
+    Result.id_Menus            := '';
+    Result.OT_Descripcion_Nick := '';
+
+    // if var_SQLQuery.FieldByName('Ctdad').Value > 0 then Result := True;
+    if var_SQLQuery.RecordCount > 0 then
+    begin
+        Result.Existe              := true;
+        if not var_SQLQuery.FieldByName('Del_WHEN').IsNull then Result.deBaja := 'S';
+    end;
+
+  { ****************************************************************************
+    Cerramos la tabla
+    **************************************************************************** }
+    if UTI_TB_Cerrar( var_SQLConnector,
+                      var_SQLTransaction,
+                      var_SQLQuery ) = false then UTI_GEN_Salir;
+
+    var_SQLQuery.Free;
+
+    var_SQL.Free;
 
     var_SQLTransaction.Free;
     var_SQLConnector.Free;

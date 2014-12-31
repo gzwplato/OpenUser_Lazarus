@@ -526,10 +526,7 @@ procedure Tform_menus_000.Cerramos_Tablas;
 begin
     if UTI_TB_Cerrar( DataModule_Menus.SQLConnector,
                       DataModule_Menus.SQLTransaction,
-                      SQLQuery_Menus ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Menus ) = false then UTI_GEN_Salir;
 
     DataModule_Menus.Free;
 end;

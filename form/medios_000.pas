@@ -582,10 +582,7 @@ procedure Tform_medios_000.Cerramos_Tablas;
 begin
     if UTI_TB_Cerrar( DataModule_Medios.SQLConnector,
                       DataModule_Medios.SQLTransaction,
-                      SQLQuery_Medios ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Medios ) = false then UTI_GEN_Salir;
 
     DataModule_Medios.Free;
 end;

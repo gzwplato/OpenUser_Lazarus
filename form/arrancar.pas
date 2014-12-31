@@ -40,7 +40,7 @@ begin
     Except
       on E: Exception do
       begin
-         ShowMessage('Error! '+E.Message);
+         ShowMessage('Error! ' + E.Message);
          raise;
       end;
     end;

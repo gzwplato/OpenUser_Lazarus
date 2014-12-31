@@ -232,7 +232,6 @@ begin
     // ********************************************************************************************* //
     var_tb       := '';
     var_id       := 0;
-    // var_Momento  := nil;
     var_Id_Users := 0;
 
     if SQLQuery_users_row_changes.RecordCount > 0 then
@@ -306,10 +305,7 @@ begin
 
     if UTI_TB_Cerrar( DataModule_historico_registros.SQLConnector,
                       DataModule_historico_registros.SQLTransaction,
-                      SQLQuery_users_row_changes ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_users_row_changes ) = false then UTI_GEN_Salir;
 
     DataModule_historico_registros.Free;
 end;
@@ -318,10 +314,7 @@ procedure TForm_Estado_Registro.Cerramos_Tablas_Ligadas;
 begin
     if UTI_TB_Cerrar( DataModule_historico_registros.SQLConnector1,
                       DataModule_historico_registros.SQLTransaction1,
-                      SQLQuery_users_row_changes_fields ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_users_row_changes_fields ) = false then UTI_GEN_Salir;
 end;
 
 procedure TForm_Estado_Registro.DBGrid_Principal1TitleClick(Column: TColumn);

@@ -131,7 +131,7 @@ begin
 
     public_Rgtro_Seleccionado       := false;
 
-    if DataModule_Pelis = Nil then
+    if UTI_GEN_Form_Abierto_Ya('DataModule_Pelis') = False then
     begin
         DataModule_Pelis := TDataModule_Pelis.Create(Application);
     end;
@@ -171,7 +171,7 @@ begin
             public_Salir_Ok, significa que hay que salir si o si pues se pulsó
             cancelar al preguntar otra vez por la contraseña
             ******************************************************************** }
-            if form_Menu.public_Salir_OK = False then CloseAction := caNone;
+            if form_Menu.public_Salir_OK = False then CloseAction := CloseAction.caNone;
         end
     else
         begin
@@ -185,10 +185,7 @@ procedure TForm_peliculas_000.Cerramos_Tablas;
 begin
     if UTI_TB_Cerrar( DataModule_Pelis.SQLConnector,
                       DataModule_Pelis.SQLTransaction,
-                      SQLQuery_Pelis ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Pelis ) = false then UTI_GEN_Salir;
 
     DataModule_Pelis.Free;
 end;

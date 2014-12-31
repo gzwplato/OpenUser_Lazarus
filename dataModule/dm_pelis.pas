@@ -17,7 +17,6 @@ type
     SQLTransaction: TSQLTransaction;
 
     procedure GetLogEvent( Sender: TSQLConnection; EventType: TDBEventType; const Msg: String );
-    procedure SQLConnectorLog(Sender: TSQLConnection; EventType: TDBEventType; const Msg: String);
 
   private
     { private declarations }
@@ -59,12 +58,6 @@ begin
         var_msg.Add(var_Source + ' ' + Msg);
         UTI_GEN_Aviso(var_msg, 'LOG', True, False);
     var_msg.Free;
-end;
-
-procedure TDataModule_Pelis.SQLConnectorLog(Sender: TSQLConnection; EventType: TDBEventType;
-    const Msg: String);
-begin
-
 end;
 
 end.

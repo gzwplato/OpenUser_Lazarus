@@ -281,36 +281,23 @@ begin
 
     if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users,
                       DataModule_Users.SQLTransaction_Users,
-                      SQLQuery_Users ) = false then
-    begin
-        Application.Terminate;
-    end;
-
-    FreeAndNil(DataModule_Users);
+                      SQLQuery_Users ) = false then UTI_GEN_Salir;
+    DataModule_Users.Free;
 end;
 
 procedure Tform_users_000.Cerramos_Tablas_Ligadas;
 begin
     if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Passwords,
                       DataModule_Users.SQLTransaction_Users_Passwords,
-                      SQLQuery_Users_Passwords ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Users_Passwords ) = false then UTI_GEN_Salir;
 
     if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Menus,
                       DataModule_Users.SQLTransaction_Users_Menus,
-                      SQLQuery_Users_Menus ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Users_Menus ) = false then UTI_GEN_Salir;
 
     if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Menus_Permisos,
                       DataModule_Users.SQLTransaction_Users_Menus_Permisos,
-                      SQLQuery_Users_Menus_Permisos ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Users_Menus_Permisos ) = false then UTI_GEN_Salir;
 end;
 
 procedure Tform_users_000.FormDestroy(Sender: TObject);
@@ -420,7 +407,7 @@ begin
             var_msg := TStringList.Create;
             var_msg.Add('Sólo se puede visualizar.');
             UTI_GEN_Aviso(var_msg, 'SOLO PARA OBSERVAR', True, False);
-            FreeAndNil(var_msg);
+            var_msg.Free;
             Exit;
         end;
 
@@ -429,7 +416,7 @@ begin
         var_form_Informe.public_Menu_Worked      := public_Menu_Worked;
         var_form_Informe.public_informe          := 'informes/users.lrf';
         var_form_Informe.ShowModal;
-        FreeAndNil(var_form_Informe);
+        var_form_Informe.Free;
     end;
 end;
 
@@ -606,7 +593,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(Form_users_001);
+                    Form_users_001.Free;
                 end;
         end;
 
@@ -664,7 +651,7 @@ begin
                         end
                     else Cancel;
 
-                    FreeAndNil(Form_users_001);
+                    Form_users_001.Free;
                 end;
             end
         else
@@ -699,8 +686,8 @@ begin
     var_Lineas_OrderBy.Clear;
     Filtrar_users_menus( private_Last_Column, RadioGroup_Bajas.ItemIndex, false, var_Lineas_Filtro, var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 end;
 
 function Tform_users_000.Filtrar_Principal( param_Cambiamos_Filtro : Boolean ) : ShortInt;
@@ -1176,8 +1163,8 @@ begin
                              var_Lineas_Filtro,
                              var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 
     if Trim(var_Password) <> '' then
     begin
@@ -1225,8 +1212,8 @@ begin
                          var_Lineas_Filtro,
                          var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 
     if var_Buscar = true then
     begin
@@ -1277,8 +1264,8 @@ begin
                                            var_Lineas_OrderBy );
          end;
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 end;
 
 procedure TForm_users_000.Refrescar_Registros_Menus_Permisos;
@@ -1330,8 +1317,8 @@ begin
                                   var_Lineas_Filtro,
                                   var_Lineas_OrderBy );
 
-    FreeAndNil(var_Lineas_Filtro);
-    FreeAndNil(var_Lineas_OrderBy);
+    var_Lineas_Filtro.Free;
+    var_Lineas_OrderBy.Free;
 
     if var_Buscar = true then
     begin

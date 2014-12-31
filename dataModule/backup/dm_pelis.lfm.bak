@@ -1,29 +1,28 @@
-object DataModule_historico_registros: TDataModule_historico_registros
+object DataModule_Pelis: TDataModule_Pelis
   OldCreateOrder = False
   Height = 307
-  HorizontalOffset = 535
-  VerticalOffset = 321
+  HorizontalOffset = 806
+  VerticalOffset = 226
   Width = 648
-  object SQLConnector: TSQLConnector
+  object SQLTransaction1: TSQLTransaction
+    Active = False
+    Action = caCommit
+    Database = SQLConnector1
+    left = 368
+    top = 48
+  end
+  object SQLConnector1: TSQLConnector
     Connected = False
     LoginPrompt = False
     DatabaseName = 'socger'
     KeepConnection = False
-    Transaction = SQLTransaction
+    Transaction = SQLTransaction1
     UserName = 'root'
     CharSet = 'utf8'
     HostName = '127.0.0.1'
-    OnLog = SQLConnectorLog
     LogEvents = [detCustom, detCommit]
     ConnectorType = 'MySQL 5.5'
-    left = 104
-    top = 112
-  end
-  object SQLTransaction: TSQLTransaction
-    Active = False
-    Action = caCommit
-    Database = SQLConnector
-    left = 104
-    top = 40
+    left = 368
+    top = 120
   end
 end

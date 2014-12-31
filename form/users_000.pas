@@ -281,10 +281,7 @@ begin
 
     if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users,
                       DataModule_Users.SQLTransaction_Users,
-                      SQLQuery_Users ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Users ) = false then UTI_GEN_Salir;
 
     DataModule_Users.Free;
 end;
@@ -293,24 +290,15 @@ procedure Tform_users_000.Cerramos_Tablas_Ligadas;
 begin
     if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Passwords,
                       DataModule_Users.SQLTransaction_Users_Passwords,
-                      SQLQuery_Users_Passwords ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Users_Passwords ) = false then UTI_GEN_Salir;
 
     if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Menus,
                       DataModule_Users.SQLTransaction_Users_Menus,
-                      SQLQuery_Users_Menus ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Users_Menus ) = false then UTI_GEN_Salir;
 
     if UTI_TB_Cerrar( DataModule_Users.SQLConnector_Users_Menus_Permisos,
                       DataModule_Users.SQLTransaction_Users_Menus_Permisos,
-                      SQLQuery_Users_Menus_Permisos ) = false then
-    begin
-        Application.Terminate;
-    end;
+                      SQLQuery_Users_Menus_Permisos ) = false then UTI_GEN_Salir;
 end;
 
 procedure Tform_users_000.FormDestroy(Sender: TObject);

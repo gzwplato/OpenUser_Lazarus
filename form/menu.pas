@@ -25,7 +25,6 @@ type
 
         procedure Que_Menus_Tiene_Permisos;
         procedure Preguntar_pwd;
-        procedure Salir;
         procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
         procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
         procedure FormCreate(Sender: TObject);
@@ -115,7 +114,7 @@ begin
 
   { Traemos el tiempo que se necesita para volver a preguntar por la contraseña }
     var_CN_Conexion := UTI_CN_Traer_Configuracion;
-    if var_CN_Conexion.con_Exito = False then Salir;
+    if var_CN_Conexion.con_Exito = False then UTI_GEN_Salir;
 
     var_Valor_Minuto            := StrToTime('00:02:00') - StrToTime('00:01:00');
     public_When_Last_Permission := DateTimeToStr(  Now -
@@ -172,19 +171,7 @@ end;
 
 procedure Tform_Menu.MenuItem1Click(Sender: TObject);
 begin
-    Salir;
-end;
-
-procedure Tform_Menu.Salir;
-begin
-    try
-       Timer_Sin_Usar.Enabled := false;
-       public_Salir_OK := True;
-       Application.Terminate;  { No puedo poner Close, tiene que ser Application.Terminate }
-    Except
-      on E: Exception do
-        raise;
-    end;
+    UTI_GEN_Salir;
 end;
 
 procedure Tform_Menu.Timer_Sin_UsarTimer(Sender: TObject);
@@ -200,7 +187,7 @@ begin
     end;
 
     var_CN_Conexion := UTI_CN_Traer_Configuracion;
-    if var_CN_Conexion.con_Exito = False then Salir;
+    if var_CN_Conexion.con_Exito = False then UTI_GEN_Salir;
 
     var_Valor_Minuto := StrToTime('00:02:00') - StrToTime('00:01:00');
 
@@ -226,7 +213,7 @@ begin
             end;
 
             if var_Se_Sale = True then
-                 Salir { Mucho tiempo sin usar el programa }
+                 UTI_GEN_Salir { Mucho tiempo sin usar el programa }
             else Preguntar_pwd;
         end;
     end;
@@ -304,7 +291,7 @@ begin
         end;
     end;
 
-    if var_Se_Sale = True then Salir;
+    if var_Se_Sale = True then UTI_GEN_Salir;
 
     Que_Menus_Tiene_Permisos;
 
@@ -334,8 +321,6 @@ end.
 --------------------------
 Que pasaria si permito salir con alt + f4 ?
 
-quitar todos los FilterRecord(
-
 tambien ver el codigo de errores para copiar y enviar por correo pues lleva un detalle de como ver
 el valor de cada campo
 
@@ -343,9 +328,20 @@ Las llamadas a los diferentes módulos deberían de construir diferentes record 
 un record tan sumamente grande como diferentes tablas se hubieran creado
 
 
--------------
-  ARREGLADO
--------------
+--------------------
+  ARREGLOS ULTIMOS
+--------------------
+En peliculas si entramos y luego salimos y luego volvemos a entrar ... da un error
+
+Controlar todos los errores, creando un fichero con extension .log en el mismo emplazamiento del
+ejecutable.
+Si el fichero es superior a 1 mega lo renombra poniendole la extension .log + dia/hora sistema
+
+Hemos modificado todos los Application.Terminate por la función UTI_GEN_Salir.
+
+-----------------------
+  ARREGLOS ANTERIORES
+-----------------------
 Viendo los manuales recomendados en varios foros, consideran que no es una buena practica el uso
 de FreeAndNil y Destroy. Todos recomiendan el uso de Free. Asi que los he cambiado.
 

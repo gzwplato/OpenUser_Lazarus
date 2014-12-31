@@ -13,14 +13,6 @@ type
 
     { TForm_users_001 }
 
-    Trecord_Existe = record
-        Existe              : Boolean;
-        deBaja              : ShortString;
-        id_Users            : ShortString;
-        OT_Descripcion_Nick : ShortString;
-        id_Menus            : ShortString;
-    end;
-
     TForm_users_001 = class(TForm)
         BitBtn_Filtrar: TBitBtn;
         BitBtn_Ver_Situacion_Permisos: TBitBtn;
@@ -64,9 +56,6 @@ type
         procedure DBGrid_Menus_PermisosTitleClick(Column: TColumn);
         procedure DBNavigator_MenusBeforeAction(Sender: TObject; Button: TDBNavButtonType);
         procedure DBNavigator_Menus_PermisosBeforeAction(Sender: TObject; Button: TDBNavButtonType);
-        function  Existe_PWD_Ya( param_Id_Users, param_Password : String ) : Trecord_Existe;
-        function  Existe_Menu_Ya( param_Id, param_Id_Users, param_id_Menus : String ) : Trecord_Existe;
-        function  Existe_Menus_Permisos_Ya( param_Id, param_Id_Users, param_id_Menus, param_Tipo_CRUD : String ) : Trecord_Existe;
         procedure Presentar_Datos;
         procedure DBGrid_PasswordsTitleClick(Column: TColumn);
         procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -641,11 +630,9 @@ begin
                         begin
                             var_Form.Free;
 
-                            var_record_Existe := Existe_PWD_Ya( '', // Estoy insertando/creando y lo que tengo que comprobar es que no exista la pwd en cualquier otro usuario, por lo que el campo id_Users no lo paso
-                                                                FieldByName('Password').AsString );
+                            var_record_Existe := UTI_usr_Existe_PWD_Ya( '', // Estoy insertando/creando y lo que tengo que comprobar es que no exista la pwd en cualquier otro usuario, por lo que el campo id_Users no lo paso
+                                                                        FieldByName('Password').AsString );
                             if var_record_Existe.Existe = false then
-                          { if Existe_PWD_Ya( '', // Estoy insertando/creando y lo que tengo que comprobar es que no exista la pwd en cualquier otro usuario, por lo que el campo id_Users no lo paso
-                                              FieldByName('Password').AsString ) = false then }
                                 begin
                                     FieldByName('Insert_WHEN').Value    := UTI_CN_Fecha_Hora;
                                     FieldByName('Insert_Id_User').Value := Form_Menu.public_User;
@@ -675,290 +662,6 @@ begin
 
         var_msg.Free;
     end;
-end;
-
-function TForm_users_001.Existe_PWD_Ya( param_Id_Users,
-                                        param_Password : String ) : Trecord_Existe;
-var var_SQL            : TStrings;
-    var_SQLTransaction : TSQLTransaction;
-    var_SQLConnector   : TSQLConnector;
-    var_SQLQuery       : TSQLQuery;
-begin
-  { ****************************************************************************
-    Creamos la Transaccion y la conexión con el motor BD, y la abrimos
-    **************************************************************************** }
-    var_SQLTransaction := TSQLTransaction.Create(nil);
-    var_SQLConnector   := TSQLConnector.Create(nil);
-
-    if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
-
-  { ****************************************************************************
-    Creamos la SQL Según el motor de BD
-    **************************************************************************** }
-    var_SQL := TStringList.Create;
-
-    var_SQL.Add('SELECT up.*,' );
-    var_SQL.Add(       'u.Descripcion_Nick AS OT_Descripcion_Nick' );
-
-    var_SQL.Add(  'FROM users_passwords as up' );
-
-    var_SQL.Add(  'LEFT JOIN users AS u' );
-    var_SQL.Add(    'ON up.Id_Users = u.id' );
-
-    var_SQL.Add(' WHERE up.Password = ' +  QuotedStr(Trim(param_Password)) );
-
-    if Trim(param_Id_Users) <> '' then
-    begin
-         var_SQL.Add(  ' AND NOT up.Id_Users = ' + Trim(param_Id_Users) );
-    end;
-
-    var_SQL.Add(' ORDER BY up.Password ' );
-
-  { ****************************************************************************
-    Abrimos la tabla
-    **************************************************************************** }
-    var_SQLQuery := TSQLQuery.Create(nil);
-
-    if UTI_TB_Abrir( '', '', '',
-                     var_SQLConnector,
-                     var_SQLTransaction,
-                     var_SQLQuery,
-                     -1, // asi me trae todos los registros de golpe
-                     var_SQL.Text ) = False then Application.Terminate;
-
-  { ****************************************************************************
-    TRABAJAMOS CON LOS REGISTROS DEVUELTOS
-    ****************************************************************************
-    Si el módulo no se creó, no se permite entrar en él ... Result := False
-    **************************************************************************** }
-    Result.Existe              := false;
-    Result.deBaja              := 'N';
-    Result.id_Users            := '';
-    Result.id_Menus            := '';
-    Result.OT_Descripcion_Nick := '';
-
-    if var_SQLQuery.RecordCount > 0 then
-    begin
-        Result.Existe              := true;
-        Result.id_Users            := var_SQLQuery.FieldByName('Id_Users').AsString;
-        Result.OT_Descripcion_Nick := var_SQLQuery.FieldByName('OT_Descripcion_Nick').AsString;;
-
-        if not var_SQLQuery.FieldByName('Del_WHEN').IsNull then Result.deBaja := 'S';
-    end;
-
-    //if var_SQLQuery.FieldByName('Ctdad').Value > 0 then Result := True;
-
-  { ****************************************************************************
-    Cerramos la tabla
-    **************************************************************************** }
-    if UTI_TB_Cerrar( var_SQLConnector,
-                      var_SQLTransaction,
-                      var_SQLQuery ) = false then Application.Terminate;
-
-    var_SQLQuery.Free;
-
-    var_SQL.Free;
-
-  { ****************************************************************************
-    Cerramos La transacción y la conexión con la BD
-    **************************************************************************** }
-    if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
-
-    var_SQLTransaction.Free;
-    var_SQLConnector.Free;
-end;
-
-function TForm_users_001.Existe_Menu_Ya( param_Id,
-                                         param_Id_Users,
-                                         param_id_Menus : String ) : Trecord_Existe;
-var var_SQL            : TStrings;
-    var_SQLTransaction : TSQLTransaction;
-    var_SQLConnector   : TSQLConnector;
-    var_SQLQuery       : TSQLQuery;
-begin
-  { ****************************************************************************
-    Creamos la Transaccion y la conexión con el motor BD, y la abrimos
-    **************************************************************************** }
-    var_SQLTransaction := TSQLTransaction.Create(nil);
-    var_SQLConnector   := TSQLConnector.Create(nil);
-
-    if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
-
-  { ****************************************************************************
-    Creamos la SQL Según el motor de BD
-    **************************************************************************** }
-    var_SQL := TStringList.Create;
-
-    var_SQL.Add('SELECT um.*,' );
-    var_SQL.Add(        'u.Descripcion_Nick AS OT_Descripcion_Nick,' );
-    var_SQL.Add(        'm.Descripcion AS OT_Descripcion_Menu' );
-
-    var_SQL.Add(  'FROM users_menus AS um' );
-
-    var_SQL.Add(  'LEFT JOIN users AS u' );
-    var_SQL.Add(    'ON um.Id_Users = u.id' );
-
-    var_SQL.Add(  'LEFT JOIN menus AS m' );
-    var_SQL.Add(    'ON um.Id_Menus = m.id' );
-
-    var_SQL.Add(' WHERE um.id_Menus = ' +  Trim(param_id_Menus) );
-    var_SQL.Add(  ' AND um.Id_Users = ' +  Trim(param_Id_Users) );
-
-    if Trim(param_Id) <> '' then
-    begin
-         var_SQL.Add(  ' AND NOT um.Id = ' + Trim(param_Id) );
-    end;
-
-    var_SQL.Add(' ORDER BY um.Id_Users, um.id_Menus' );
-
-  { ****************************************************************************
-    Abrimos la tabla
-    **************************************************************************** }
-    var_SQLQuery := TSQLQuery.Create(nil);
-
-    if UTI_TB_Abrir( '', '', '',
-                     var_SQLConnector,
-                     var_SQLTransaction,
-                     var_SQLQuery,
-                     -1, // asi me trae todos los registros de golpe
-                     var_SQL.Text ) = False then Application.Terminate;
-
-  { ****************************************************************************
-    TRABAJAMOS CON LOS REGISTROS DEVUELTOS
-    ****************************************************************************
-    Si el módulo no se creó, no se permite entrar en él ... Result := False
-    **************************************************************************** }
-    Result.Existe              := false;
-    Result.deBaja              := 'N';
-    Result.id_Users            := '';
-    Result.id_Menus            := '';
-    Result.OT_Descripcion_Nick := '';
-
-    // if var_SQLQuery.FieldByName('Ctdad').Value > 0 then Result := True;
-    if var_SQLQuery.RecordCount > 0 then
-    begin
-        Result.Existe              := true;
-        if not var_SQLQuery.FieldByName('Del_WHEN').IsNull then Result.deBaja := 'S';
-    end;
-
-  { ****************************************************************************
-    Cerramos la tabla
-    **************************************************************************** }
-    if UTI_TB_Cerrar( var_SQLConnector,
-                      var_SQLTransaction,
-                      var_SQLQuery ) = false then Application.Terminate;
-
-    var_SQLQuery.Free;
-
-    var_SQL.Free;
-
-  { ****************************************************************************
-    Cerramos La transacción y la conexión con la BD
-    **************************************************************************** }
-    if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
-
-    var_SQLTransaction.Free;
-    var_SQLConnector.Free;
-end;
-
-function TForm_users_001.Existe_Menus_Permisos_Ya( param_Id,
-                                                   param_Id_Users,
-                                                   param_id_Menus,
-                                                   param_Tipo_CRUD : String ) : Trecord_Existe;
-var var_SQL            : TStrings;
-    var_SQLTransaction : TSQLTransaction;
-    var_SQLConnector   : TSQLConnector;
-    var_SQLQuery       : TSQLQuery;
-begin
-  { ****************************************************************************
-    Creamos la Transaccion y la conexión con el motor BD, y la abrimos
-    **************************************************************************** }
-    var_SQLTransaction := TSQLTransaction.Create(nil);
-    var_SQLConnector   := TSQLConnector.Create(nil);
-
-    if UTI_CN_Abrir( var_SQLTransaction,
-                     var_SQLConnector ) = False then Application.Terminate;
-
-  { ****************************************************************************
-    Creamos la SQL Según el motor de BD
-    **************************************************************************** }
-    var_SQL := TStringList.Create;
-
-    var_SQL.Add('SELECT upe.*,' );
-    var_SQL.Add(       'u.Descripcion_Nick AS OT_Descripcion_Nick,' );
-    var_SQL.Add(       'm.Descripcion AS OT_Descripcion_Menu' );
-
-    var_SQL.Add(  'FROM users_menus_permissions AS upe' );
-
-    var_SQL.Add(  'LEFT JOIN users AS u' );
-    var_SQL.Add(    'ON upe.Id_Users = u.id' );
-
-    var_SQL.Add(  'LEFT JOIN menus AS m' );
-    var_SQL.Add(    'ON upe.Id_Menus = m.id' );
-
-    var_SQL.Add(' WHERE upe.Tipo_CRUD = ' +  QuotedStr(Trim(param_Tipo_CRUD)) );
-    var_SQL.Add(  ' AND upe.id_Menus = ' +  Trim(param_id_Menus) );
-    var_SQL.Add(  ' AND upe.Id_Users = ' +  Trim(param_Id_Users) );
-
-    if Trim(param_Id) <> '' then
-    begin
-         var_SQL.Add(  ' AND NOT upe.Id = ' + Trim(param_Id) );
-    end;
-
-    var_SQL.Add(' ORDER BY upe.Id_Users, upe.id_Menus, upe.Tipo_CRUD' );
-
-  { ****************************************************************************
-    Abrimos la tabla
-    **************************************************************************** }
-    var_SQLQuery := TSQLQuery.Create(nil);
-
-    if UTI_TB_Abrir( '', '', '',
-                     var_SQLConnector,
-                     var_SQLTransaction,
-                     var_SQLQuery,
-                     -1, // asi me trae todos los registros de golpe
-                     var_SQL.Text ) = False then Application.Terminate;
-
-  { ****************************************************************************
-    TRABAJAMOS CON LOS REGISTROS DEVUELTOS
-    ****************************************************************************
-    Si el módulo no se creó, no se permite entrar en él ... Result := False
-    **************************************************************************** }
-    Result.Existe              := false;
-    Result.deBaja              := 'N';
-    Result.id_Users            := '';
-    Result.id_Menus            := '';
-    Result.OT_Descripcion_Nick := '';
-
-    if var_SQLQuery.RecordCount > 0 then
-    begin
-        Result.Existe              := true;
-        if not var_SQLQuery.FieldByName('Del_WHEN').IsNull then Result.deBaja := 'S';
-    end;
-
-  { ****************************************************************************
-    Cerramos la tabla
-    **************************************************************************** }
-    if UTI_TB_Cerrar( var_SQLConnector,
-                      var_SQLTransaction,
-                      var_SQLQuery ) = false then Application.Terminate;
-
-    var_SQLQuery.Free;
-
-    var_SQL.Free;
-
-  { ****************************************************************************
-    Cerramos La transacción y la conexión con la BD
-    **************************************************************************** }
-    if UTI_CN_Cerrar( var_SQLTransaction,
-                      var_SQLConnector ) = False then Application.Terminate;
-
-    var_SQLTransaction.Free;
-    var_SQLConnector.Free;
 end;
 
 procedure Tform_users_001.Editar_Registro_Passwords;
@@ -992,8 +695,8 @@ begin
                     var_Form.ShowModal;
                     if var_Form.public_Pulso_Aceptar = true then
                         begin
-                            var_record_Existe := Existe_PWD_Ya( FieldByName('Id_Users').AsString,
-                                                                FieldByName('Password').AsString );
+                            var_record_Existe := UTI_usr_Existe_PWD_Ya( FieldByName('Id_Users').AsString,
+                                                                        FieldByName('Password').AsString );
                             if var_record_Existe.Existe = false then
                                 begin
                                     if ( Trim(var_Form.public_Record_Rgtro.USERS_PASSWORDS_Id_Users)               <> Trim(FieldByName('Id_Users').AsString) )               or
@@ -1075,9 +778,9 @@ begin
                     Form_users_003.ShowModal;
                     if Form_users_003.public_Pulso_Aceptar = true then
                         begin
-                            var_record_Existe := Existe_Menu_Ya( FieldByName('Id').AsString, // estoy en modificacion por lo que le paso el campo id para que compruebe que no existe ya fuera de él mismo
-                                                                 FieldByName('Id_Users').AsString,
-                                                                 FieldByName('Id_Menus').AsString );
+                            var_record_Existe := UTI_usr_Existe_Menu_Ya( FieldByName('Id').AsString, // estoy en modificacion por lo que le paso el campo id para que compruebe que no existe ya fuera de él mismo
+                                                                         FieldByName('Id_Users').AsString,
+                                                                         FieldByName('Id_Menus').AsString );
                             if var_record_Existe.Existe = false then
                                 begin
                                     if ( Trim(Form_users_003.public_Record_Rgtro.USERS_MENUS_Id_Users)           <> Trim(FieldByName('Id_Users').AsString) )           or
@@ -1154,10 +857,10 @@ begin
                     var_Form.ShowModal;
                     if var_Form.public_Pulso_Aceptar = true then
                         begin
-                            var_record_Existe := Existe_Menus_Permisos_Ya( FieldByName('Id').AsString, // estoy en modificacion por lo que le paso el campo id para que compruebe que no existe ya fuera de él mismo
-                                                                           FieldByName('Id_Users').AsString,
-                                                                           FieldByName('Id_Menus').AsString,
-                                                                           FieldByName('Tipo_CRUD').AsString );
+                            var_record_Existe := UTI_usr_Existe_Menus_Permisos_Ya( FieldByName('Id').AsString, // estoy en modificacion por lo que le paso el campo id para que compruebe que no existe ya fuera de él mismo
+                                                                                   FieldByName('Id_Users').AsString,
+                                                                                   FieldByName('Id_Menus').AsString,
+                                                                                   FieldByName('Tipo_CRUD').AsString );
                             if var_record_Existe.Existe = false then
                                 begin
                                     if ( Trim(var_Form.public_Record_Rgtro.USERS_MENUS_PERMISSIONS_Id_Users)    <> Trim(FieldByName('Id_Users').AsString) )    or
@@ -1235,9 +938,9 @@ begin
                         begin
                             var_Form.Free;
 
-                            var_record_Existe := Existe_Menu_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
-                                                                 FieldByName('Id_Users').AsString,
-                                                                 FieldByName('Id_Menus').AsString );
+                            var_record_Existe := UTI_usr_Existe_Menu_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
+                                                                         FieldByName('Id_Users').AsString,
+                                                                         FieldByName('Id_Menus').AsString );
                             if var_record_Existe.Existe = false then
                                 begin
                                     FieldByName('Insert_WHEN').Value    := UTI_CN_Fecha_Hora;
@@ -1335,15 +1038,11 @@ begin
                                 begin
                                     var_Form.Free;
 
-                                    var_record_Existe := Existe_Menus_Permisos_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
-                                                                                   FieldByName('Id_Users').AsString,
-                                                                                   FieldByName('Id_Menus').AsString,
-                                                                                   FieldByName('Tipo_CRUD').AsString );
+                                    var_record_Existe := UTI_usr_Existe_Menus_Permisos_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
+                                                                                           FieldByName('Id_Users').AsString,
+                                                                                           FieldByName('Id_Menus').AsString,
+                                                                                           FieldByName('Tipo_CRUD').AsString );
                                     if var_record_Existe.Existe = false then
-                                  { if Existe_Menus_Permisos_Ya( '', // estoy en creación por lo que le paso el campo id vacío para que compruebe que no existe
-                                                                 FieldByName('Id_Users').AsString,
-                                                                 FieldByName('Id_Menus').AsString,
-                                                                 FieldByName('Tipo_CRUD').AsString ) = false then }
                                         begin
                                             FieldByName('Insert_WHEN').Value    := UTI_CN_Fecha_Hora;
                                             FieldByName('Insert_Id_User').Value := Form_Menu.public_User;

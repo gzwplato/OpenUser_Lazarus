@@ -10,14 +10,13 @@ uses
 
 type
 
-  { TDataModule_historico_registros }
+  { TDataModule_Pelis }
 
-  TDataModule_historico_registros = class(TDataModule)
-    SQLConnector: TSQLConnector;
-    SQLTransaction: TSQLTransaction;
+  TDataModule_Pelis = class(TDataModule)
+    SQLConnector1: TSQLConnector;
+    SQLTransaction1: TSQLTransaction;
 
     procedure GetLogEvent( Sender: TSQLConnection; EventType: TDBEventType; const Msg: String );
-    procedure SQLConnectorLog(Sender: TSQLConnection; EventType: TDBEventType; const Msg: String);
 
   private
     { private declarations }
@@ -26,15 +25,15 @@ type
   end;
 
 var
-  DataModule_historico_registros: TDataModule_historico_registros;
+  DataModule_Pelis: TDataModule_Pelis;
 
 implementation
 
 {$R *.lfm}
 
-{ TDataModule_historico_registros }
+{ TDataModule_Pelis }
 
-procedure TDataModule_historico_registros.GetLogEvent( Sender : TSQLConnection;
+procedure TDataModule_Pelis.GetLogEvent( Sender : TSQLConnection;
                                          EventType : TDBEventType;
                                          const Msg : String );
   // The procedure is called by TSQLConnection and saves the received log messages
@@ -59,12 +58,6 @@ begin
         var_msg.Add(var_Source + ' ' + Msg);
         UTI_GEN_Aviso(var_msg, 'LOG', True, False);
     var_msg.Free;
-end;
-
-procedure TDataModule_historico_registros.SQLConnectorLog(Sender: TSQLConnection; EventType: TDBEventType;
-    const Msg: String);
-begin
-
 end;
 
 end.

@@ -63,8 +63,9 @@ begin
           BorderIcons := [];
           BorderStyle := bsSingle;
 
-          FormStyle   := fsStayOnTop;
-          WindowState := wsMaximized;
+          // jerofa quita los entrecomillados
+          // FormStyle   := fsStayOnTop;
+          // WindowState := wsMaximized;
       end;
 
       private_Salir_OK := false;
@@ -96,6 +97,18 @@ begin
                               ' DE ' + Trim(IntToStr(private_Ctdad_Intentos_Tope));
 end;
 
+procedure Tform_AskByPwd.AceptarClick(Sender: TObject);
+begin
+    private_Salir_OK     := True;
+    public_Pulso_Aceptar := true;
+end;
+
+procedure Tform_AskByPwd.CancelarClick(Sender: TObject);
+begin
+    private_Salir_OK     := True;
+    public_Pulso_Aceptar := false;
+end;
+
 procedure Tform_AskByPwd.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var var_msg : TStrings;
 begin
@@ -105,7 +118,6 @@ begin
 
     if private_Salir_OK = False then
         begin
-            esto hay que hacerlo en todos los form
           { ********************************************************************
             Intento BitBtn_SALIR de la aplicación de un modo no permitido.
             ********************************************************************
@@ -162,18 +174,6 @@ begin
         end;
 
     var_msg.Free;
-end;
-
-procedure Tform_AskByPwd.AceptarClick(Sender: TObject);
-begin
-    private_Salir_OK     := True;
-    public_Pulso_Aceptar := true;
-end;
-
-procedure Tform_AskByPwd.CancelarClick(Sender: TObject);
-begin
-    private_Salir_OK     := True;
-    public_Pulso_Aceptar := false;
 end;
 
 procedure Tform_AskByPwd.Comprobar_PWD( param_msg_Por_No_Encontrarla : String;
